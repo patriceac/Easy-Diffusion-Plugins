@@ -4,7 +4,7 @@
     "icon": "fa-computer-mouse",
     "name": "Accessibility Improvements",
     "description": "by Patrice\n\nAdds a system setting to allow the user to change the action to display the buttons on an image (rather than just hovering over it). Default is set to hover (current UI behavior), can be changed to use mouse buttons in the system settings.\nAlso adds an option to disable the right-click contextual menu on most elements of the page (still allowed in input and text boxes)",
-    "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/accessibility-improvements.plugin.js",
+    "url": "/main/plugins/accessibility-improvements.plugin.js",
     "version": "1.2",
     "minEDVersion": "2.0"
   },
@@ -13,7 +13,7 @@
     "icon": "fa-magnifying-glass-minus",
     "name": "Disable Source Image Zoom",
     "description": "by Patrice\n\nAdds a system setting to disable the source image zoom on hover in the task list.",
-    "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/disable-source-image-zoom.plugin.js",
+    "url": "/main/plugins/disable-source-image-zoom.plugin.js",
     "version": "1.1",
     "minEDVersion": "2.0"
   },
@@ -22,7 +22,7 @@
     "icon": "fa-pen-to-square",
     "name": "Image Editor Improvements",
     "description": "by Patrice\n\nFeatures:\n- Shows the actual brush in the image editor for increased precision.\n- Add img2img source image via drag & drop from external file or browser image (incl. rendered image). Just drop the image in the editor pane.\n- Add img2img source image by pasting an image from the clipboard\n- Integrates seamlessly with Scrolling Panes 1.8+\n- Adds support for reloading task from metadata embedded in PNG and JPEG images (use Ctrl+Drop image in the editor pane)\n- Automatically sets the size of the output image to the size of the image used for img2img if its dimensions are both valid options (works with both copy/paste and drag & drop).\n- makes the brushes more visible in the image/inpainting editor.",
-    "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/image-editor-improvements.plugin.js",
+    "url": "/main/plugins/image-editor-improvements.plugin.js",
     "version": "1.8",
     "minEDVersion": "2.0"
   },
@@ -31,7 +31,7 @@
     "icon": "fa-image",
     "name": "Image Modifier Improvements",
     "description": "by Patrice\n\nFeatures:\n- Allows for multiple custom modifier categories (use # to name your categories)\n- Restores the image modifier cards upon reloading the page.\n- Adds a Clear All button on top of the task's image modifiers.\n- Drop images on the modifier cards to set a custom visual (square pictures work best, e.g. 512x512).\n- Adds import/export capabilities to the custom category editor (also exports/imports custom visuals).\n- Collapses other categories when selecting a new one.\n- Search box for quick search through custom and predefined modifiers.",
-    "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/image-modifier-improvements.plugin.js",
+    "url": "/main/plugins/image-modifier-improvements.plugin.js",
     "version": "1.8",
     "minEDVersion": "2.0"
   },
@@ -40,7 +40,7 @@
     "icon": "fa-language",
     "name": "Prompt Translator",
     "description": "by Patrice\n\nPLEASE NOTE YOUR PROMPTS WILL BE TRANSMITTED TO GOOGLE TRANSLATE.\n\nEnter prompts in your native language, e.g. in French, "une mystérieuse porte dans la forêt". Prompts are seamlessly translated to English before being rendered.\nDefault language is set to English (no translation), can be changed in the dropdown in the Settings pane.",
-    "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/image-modifier-improvements.plugin.js",
+    "url": "/main/plugins/image-modifier-improvements.plugin.js",
     "version": "1.2",
     "minEDVersion": "2.0"
   },
@@ -49,7 +49,7 @@
     "icon": "fa-images",
     "name": "Make Image Always Visible",
     "description": "by Patrice\n\nMakes the Make Image button always visible.",
-    "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/make-image-button-always-visible.plugin.js",
+    "url": "/main/plugins/make-image-button-always-visible.plugin.js",
     "version": "1.2",
     "minEDVersion": "2.0"
   },
@@ -58,7 +58,7 @@
     "icon": "fa-arrow-down-short-wide",
     "name": "Processing Order Quick Toggle",
     "description": "by Patrice\n\nAdds a toggle to the preview toolbar to quickly switch the queue processing order. Also fixes the display of the autoscroll toggle.",
-    "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/processing-order-quick-toggle.plugin.js",
+    "url": "/main/plugins/processing-order-quick-toggle.plugin.js",
     "version": "1.1",
     "minEDVersion": "2.0"
   },
@@ -67,7 +67,7 @@
     "icon": "fa-code-compare",
     "name": "Prompt Diff",
     "description": "by Patrice\n\nShows what text was added/removed between two consecutive prompts.",
-    "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/prompt-diff.plugin.js",
+    "url": "/main/plugins/prompt-diff.plugin.js",
     "version": "1.1",
     "minEDVersion": "2.0"
   },
@@ -76,7 +76,7 @@
     "icon": "fa-arrow-down-9-1",
     "name": "Queue Size",
     "description": "by Patrice\n\nShows the count of active tasks and outstanding images in the Easy Diffusion status.",
-    "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/queue-size.plugin.js",
+    "url": "/main/plugins/queue-size.plugin.js",
     "version": "1.0",
     "minEDVersion": "2.0"
   },
@@ -85,7 +85,7 @@
     "icon": "fa-scroll",
     "name": "Scrolling Panes",
     "description": "by Patrice\n\nAllows editor and preview panes to scroll independently and adds a toggle to hide the editor pane.",
-    "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/scrolling-panes.plugin.js",
+    "url": "/main/plugins/scrolling-panes.plugin.js",
     "version": "2.4",
     "minEDVersion": "2.0"
   },
@@ -94,7 +94,7 @@
     "icon": "fa-dice",
     "name": "Seed Randomizer",
     "description": "by Patrice\n\nAdds a new system setting to randomize, thus increasing the variability of images ran in batches. E.g. can run \"A pug wearing a {red, blue, green} hat\" as 3 tasks with different seeds, thus yielding more variety in the results.",
-    "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/seed-randomizer.plugin.js",
+    "url": "/main/plugins/seed-randomizer.plugin.js",
     "version": "1.2",
     "minEDVersion": "2.0"
   },
@@ -103,7 +103,7 @@
     "icon": "fa-rectangle-list",
     "name": "Template Manager",
     "description": "by Patrice\n\nA simple template library manager. Save/restore metadata as templates without having to mess with .txt or .json files. If you found a prompt/model/sampler/etc. combination that you really like, this is an easy way to save it so you can create more of the same later.\n\nFeatures:\n- Save/reload task *templates*\n- Search box for easy access\n- Supports template renaming and deletion\n- Export/import function to back up and restore your templates\n- Can restore seeds (optional)",
-    "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/template-manager.plugin.js",
+    "url": "/main/plugins/template-manager.plugin.js",
     "version": "1.7",
     "minEDVersion": "2.0"
   },
