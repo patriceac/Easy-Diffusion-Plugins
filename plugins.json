@@ -39,7 +39,7 @@
     "id": "localized-prompts",
     "icon": "fa-language",
     "name": "Prompt Translator",
-    "description": "by Patrice\n\nPLEASE NOTE YOUR PROMPTS WILL BE TRANSMITTED TO GOOGLE TRANSLATE.\n\nEnter prompts in your native language, e.g. in French, \"une mystérieuse porte dans la forêt\". Prompts are seamlessly translated to English before being rendered.\nDefault language is set to English (no translation), can be changed in the dropdown in the Settings pane.",
+    "description": "by Patrice\n\nPLEASE NOTE YOUR PROMPTS WILL BE TRANSMITTED TO GOOGLE TRANSLATE.\n\nEnter prompts in your native language, e.g. in French, <i>une mystérieuse porte dans la forêt</i>. Prompts are seamlessly translated to English before being rendered.\nDefault language is set to English (no translation), can be changed in the dropdown in the Settings pane.",
     "url": "/main/plugins/image-modifier-improvements.plugin.js",
     "version": "1.2",
     "minEDVersion": "2.0"
