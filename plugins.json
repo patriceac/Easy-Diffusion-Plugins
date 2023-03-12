@@ -36,15 +36,6 @@
     "minEDVersion": "2.0"
   },
   {
-    "id": "prompt-translator",
-    "icon": "fa-language",
-    "name": "Prompt Translator",
-    "description": "by Patrice\n\nPLEASE NOTE YOUR PROMPTS WILL BE TRANSMITTED TO GOOGLE TRANSLATE.\n\nEnter prompts in your native language, e.g. in French, <i>une mystérieuse porte dans la forêt</i>. Prompts are seamlessly translated to English before being rendered.\nDefault language is set to English (no translation), can be changed in the dropdown in the Settings pane.",
-    "url": "/main/plugins/prompt-translator.plugin.js",
-    "version": "1.2",
-    "minEDVersion": "2.0"
-  },
-  {
     "id": "make-image-always-visible",
     "icon": "fa-images",
     "name": "Make Image Always Visible",
@@ -69,6 +60,15 @@
     "description": "by Patrice\n\nShows what text was added/removed between two consecutive prompts.",
     "url": "/main/plugins/prompt-diff.plugin.js",
     "version": "1.1",
+    "minEDVersion": "2.0"
+  },
+  {
+    "id": "prompt-translator",
+    "icon": "fa-language",
+    "name": "Prompt Translator",
+    "description": "by Patrice\n\nPLEASE NOTE YOUR PROMPTS WILL BE TRANSMITTED TO GOOGLE TRANSLATE.\n\nEnter prompts in your native language, e.g. in French, <i>une mystérieuse porte dans la forêt</i>. Prompts are seamlessly translated to English before being rendered.\nDefault language is set to English (no translation), can be changed in the dropdown in the Settings pane.",
+    "url": "/main/plugins/prompt-translator.plugin.js",
+    "version": "1.2",
     "minEDVersion": "2.0"
   },
   {
