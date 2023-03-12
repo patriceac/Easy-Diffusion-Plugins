@@ -36,7 +36,7 @@
     "author": "Patrice",
     "description": "Features:\n- Allows for multiple custom modifier categories (use # to name your categories)\n- Restores the image modifier cards upon reloading the page.\n- Adds a Clear All button on top of the task's image modifiers.\n- Drop images on the modifier cards to set a custom visual (square pictures work best, e.g. 512x512).\n- Adds import/export capabilities to the custom category editor (also exports/imports custom visuals).\n- Collapses other categories when selecting a new one.\n- Search box for quick search through custom and predefined modifiers.",
     "url": "Patrice/image-modifier-improvements.plugin.js",
-    "version": "1.8",
+    "version": "1.7",
     "minEDVersion": "2.0"
   },
   {
