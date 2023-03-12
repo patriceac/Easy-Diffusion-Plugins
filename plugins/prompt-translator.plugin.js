@@ -1,5 +1,5 @@
 /*
-    Localized Prompts
+    Prompt Translator
     by Patrice
     
     PLEASE NOTE YOUR PROMPTS WILL BE TRANSMITTED TO GOOGLE TRANSLATE.
