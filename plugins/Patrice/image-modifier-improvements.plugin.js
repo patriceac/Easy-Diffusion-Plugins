@@ -209,7 +209,7 @@
 
                 // empty the searchbox on escape                
                 imageModifierFilter.addEventListener('keydown', function(event) {
-                  if (event.key === 'Escape') {
+                  if (event.keyCode === 'Escape') {
                     imageModifierFilter.value = '';
                     filterImageModifierList();
                   }
@@ -371,7 +371,6 @@
                     });
                     overlay.addEventListener('drop', e => {
                         e.preventDefault();
-e.dataTransfer.setData('text/html', 'anything')
                         const image = e.dataTransfer.files[0];
                         const imageContainer = modifierCard.querySelector('.modifier-card-image-container');
                         if (imageContainer.querySelector('.modifier-card-image') === null) {
@@ -517,7 +516,7 @@ e.dataTransfer.setData('text/html', 'anything')
         }
     })
 
-    PLUGINS['MODIFIERS_LOAD'].forEach(fn=>fn.loader.call())
+    //PLUGINS['MODIFIERS_LOAD'].forEach(fn=>fn.loader.call())
 
     /* RESTORE IMAGE MODIFIERS */
     document.addEventListener("refreshImageModifiers", function(e) {
@@ -600,6 +599,18 @@ e.dataTransfer.setData('text/html', 'anything')
         })
         activeTags = []
         document.dispatchEvent(new Event('refreshImageModifiers')) // notify image modifiers have changed
+    })
+    
+    document.addEventListener("refreshImageModifiers", function(e) {
+        // Get all div elements with class modifier-card-tiny
+        const tinyCards = document.querySelectorAll('.modifier-card-tiny');
+        
+        // Remove class 'hide' from all the selected div elements
+        tinyCards.forEach(card => {
+            card.classList.remove('hide');
+        });
+        
+        return true
     })
 
     /* STORAGE MANAGEMENT */
