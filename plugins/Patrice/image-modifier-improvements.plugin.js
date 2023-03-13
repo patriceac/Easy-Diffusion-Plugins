@@ -116,13 +116,25 @@
             if (imageModifierDialog.querySelector('#modifierBackupLinks') === null) {
                 imageModifierDialog.insertAdjacentHTML('beforeend', `<p><small>Use the below links to export and import custom image modifiers.<br />
                                                                     (if you have set any visuals, these will be saved/restored too)</small></p><p id="modifierBackupLinks">
-                                                                    <small><a id="exportModifiers">Export modifers</a> - <a id="importModifiers">Import modifiers</a></small></p>`)
+                                                                    <small><a id="exportModifiers">Export modifiers</a> - <a id="importModifiers">Import modifiers</a></small></p>`)
             
                 // export link
                 let downloadLink = document.getElementById("exportModifiers")
                 downloadLink.addEventListener("click", function(event) {
+                    // export exactly what's shown in the textbox even if it hasn't been saved yet
                     event.preventDefault()
-                    downloadJSON(customModifiers, "Image Modifiers.json")
+                    let inputCustomModifiers = customModifiersTextBox.value
+                    let tempModifiers = JSON.parse(JSON.stringify(customModifiers)); // create a deep copy of customModifiers
+                    inputCustomModifiers = inputCustomModifiers.replace(/^\s*$(?:\r\n?|\n)/gm, "") // remove empty lines
+                    if (inputCustomModifiers !== '') {
+                        inputCustomModifiers = importCustomModifiers(inputCustomModifiers)
+                        updateEntries(inputCustomModifiers, tempModifiers)
+                        downloadJSON(tempModifiers, "Image Modifiers.json")
+                    }
+                    else
+                    {
+                        downloadJSON(customModifiers, "Image Modifiers.json")
+                    }
                 })
                                               
                 function downloadJSON(jsonData, fileName) {
