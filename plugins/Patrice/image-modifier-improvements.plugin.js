@@ -360,7 +360,26 @@
                 
                 return updated
             }
+
+            async function handleImage(img, imageElement) {
+                try {
+                    const resizedBase64Img = await resizeImage(img, 128, 128);
+                    imageElement.src = resizedBase64Img;
             
+                    // update the active tags if needed
+                    updateActiveTags()
+            
+                    // save the customer modifiers
+                    const category = imageElement.closest('.modifier-category').querySelector('h5').innerText.slice(1)
+                    const modifier = imageElement.closest('.modifier-card').querySelector('.modifier-card-label > p').dataset.fullName
+                    setPortraitImage(category, modifier, resizedBase64Img)
+                    saveCustomCategories()
+                } catch (error) {
+                    // Log the error message to the console
+                    console.log(error);
+                }
+            }
+
             function makeModifierCardDropAreas(elem) {
                 const modifierCards = elem.querySelectorAll('.modifier-card');
                 modifierCards.forEach(modifierCard => {
@@ -370,41 +389,54 @@
                         e.dataTransfer.dropEffect = 'copy';
                     });
                     overlay.addEventListener('drop', e => {
+                        e.stopPropagation();
                         e.preventDefault();
-                        const image = e.dataTransfer.files[0];
-                        const imageContainer = modifierCard.querySelector('.modifier-card-image-container');
-                        if (imageContainer.querySelector('.modifier-card-image') === null) {
-                            imageContainer.insertAdjacentHTML('beforeend', `<img onerror="this.remove()" alt="Modifier Image" class="modifier-card-image">`)
+                        
+                        // Find the first image file, uri, or moz-url in the items list
+                        let imageItem = null;
+                        for (let i = 0; i < e.dataTransfer.items.length; i++) {
+                            let item = e.dataTransfer.items[i];
+                            if ((item.kind === 'file' && item.type.startsWith('image/')) || item.type === 'text/uri-list') {
+                                imageItem = item;
+                                break;
+                            } else if (item.type === 'text/x-moz-url') {
+                                // If there are no image files or uris, fallback to moz-url
+                                if (!imageItem) {
+                                    imageItem = item;
+                                }
+                            }
                         }
-                        const imageElement = imageContainer.querySelector('img');
-                        const errorLabel = imageContainer.querySelector('.modifier-card-error-label');
-                        if (image && image.type.startsWith('image/')) {
-                            const reader = new FileReader();
-                            reader.onload = () => {
-                                // set the modifier card image
-                                resizeImage(reader.result, 128, 128)
-                                  .then(function(resizedBase64Img) {
-                                    imageElement.src = resizedBase64Img
-                                    errorLabel.style.display = 'none';
-        
-                                    // update the active tags if needed
-                                    updateActiveTags()
-                                    
-                                    // save the customer modifiers
-                                    const category = imageElement.closest('.modifier-category').querySelector('h5').innerText.slice(1)
-                                    const modifier = imageElement.closest('.modifier-card').querySelector('.modifier-card-label > p').dataset.fullName
-                                    setPortraitImage(category, modifier, resizedBase64Img)
-                                    saveCustomCategories()
-                                  })
-                                  .catch(function(error) {
-                                    // Log the error message to the console
-                                    console.log(error);
-                                  });
+                    
+                        if (imageItem) {
+                            const imageContainer = modifierCard.querySelector('.modifier-card-image-container');
+                            if (imageContainer.querySelector('.modifier-card-image') === null) {
+                                imageContainer.insertAdjacentHTML('beforeend', `<img onerror="this.remove()" alt="Modifier Image" class="modifier-card-image">`)
+                            }
+                            const imageElement = imageContainer.querySelector('img');
+                            
+                            // Create an img element for the dropped image file
+                            let img = new Image();
+                    
+                            if (imageItem.kind === 'file') {
+                                // If the item is an image file, handle it as before
+                                let file = imageItem.getAsFile();
+                    
+                                // Create a FileReader object to read the dropped file as a data URL
+                                let reader = new FileReader();
+                                reader.onload = function(e) {
+                                    // Set the src attribute of the img element to the data URL
+                                    img.src = e.target.result;
+                                    handleImage(img.src, imageElement)
                                 };
-                            reader.readAsDataURL(image);
-                        } else {
-                            imageElement.remove();
-                            errorLabel.style.display = 'block';
+                                reader.readAsDataURL(file);
+                            } else {
+                                // If the item is a URL, retrieve it and use it to load the image
+                                imageItem.getAsString(function(url) {
+                                    // Set the src attribute of the img element to the URL
+                                    img.src = url;
+                                    handleImage(img.src, imageElement)
+                                });
+                            }
                         }
                     });
                 });
@@ -607,7 +639,7 @@
         
         // Remove class 'hide' from all the selected div elements
         tinyCards.forEach(card => {
-            card.classList.remove('hide');
+          card.classList.remove('hide');
         });
         
         return true
