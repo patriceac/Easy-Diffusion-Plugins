@@ -32,7 +32,7 @@
         switch(event.type) {
             case 'online':
                 serverStatusMsg2.style.color = 'green'
-                serverStatusMsg2.innerText = 'Stable Diffusion is ' + event.message
+                serverStatusMsg2.innerText = 'Easy Diffusion is ' + event.message
                 break
             case 'busy':
                 serverStatusMsg2.style.color = 'rgb(200, 139, 0)'
@@ -48,16 +48,16 @@
                             imageCount += imageCountTotal -  imageCountDone
                         }
                     }
-                    serverStatusMsg2.innerText = `Stable Diffusion is ${event.message} (${taskCount} active task${taskCount > 1 ? 's' : ''}, ${imageCount} image${imageCount > 1 ? 's' : ''} left)`
+                    serverStatusMsg2.innerText = `Easy Diffusion is ${event.message} (${taskCount} active task${taskCount > 1 ? 's' : ''}, ${imageCount} image${imageCount > 1 ? 's' : ''} left)`
                 }
                 else
                 {
-                    serverStatusMsg2.innerText = 'Stable Diffusion is ' + event.message
+                    serverStatusMsg2.innerText = 'Easy Diffusion is ' + event.message
                 }
                 break
             case 'error':
                 serverStatusMsg2.style.color = 'red'
-                serverStatusMsg2.innerText = 'Stable Diffusion has stopped'
+                serverStatusMsg2.innerText = 'Easy Diffusion has stopped'
                 break
         }
     }
