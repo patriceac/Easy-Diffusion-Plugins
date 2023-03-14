@@ -26,7 +26,7 @@
     "author": "Patrice",
     "description": "Features:\n- Shows the actual brush in the image editor for increased precision.\n- Add img2img source image via drag & drop from external file or browser image (incl. rendered image). Just drop the image in the editor pane.\n- Add img2img source image by pasting an image from the clipboard\n- Integrates seamlessly with Scrolling Panes 1.8+\n- Adds support for reloading task from metadata embedded in PNG and JPEG images (use Ctrl+Drop image in the editor pane)\n- Automatically sets the size of the output image to the size of the image used for img2img if its dimensions are both valid options (works with both copy/paste and drag & drop).\n- makes the brushes more visible in the image/inpainting editor.",
     "url": "Patrice/image-editor-improvements.plugin.js",
-    "version": "1.8",
+    "version": "1.9",
     "minEDVersion": "2.0"
   },
   {
