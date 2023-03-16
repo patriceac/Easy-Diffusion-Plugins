@@ -118,5 +118,15 @@
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/template-manager.plugin.js",
         "version": "1.7",
         "minEDVersion": "2.0"
+    },
+    {
+        "id": "new_ui",
+        "icon": "",
+        "name": "Rabbit Hole UI",
+        "author": "AssassinJN",
+        "description": "",
+        "url": "https://raw.githubusercontent.com/AssassinJN/Rabbit-Hole-UI/master/new_ui.plugin.js",
+        "version": "",
+        "minEDVersion": "2.0"
     }
 ]
