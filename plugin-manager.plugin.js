@@ -10,9 +10,7 @@
     */
     "use strict"
 
-    const PLUGIN_ROOT = 'https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/'
     const PLUGIN_CATALOG = 'https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins.json'
-    const PLUGIN_CHECK_UPDATE = 'https://api.github.com/repos/patriceac/Easy-Diffusion-Plugins/contents/plugins/'
 
     var styleSheet = document.createElement("style")
     styleSheet.textContent = `
@@ -378,7 +376,7 @@
     /* PLUGIN MANAGEMENT */
     let plugins
     let localPlugins
-    
+
     async function initPlugins(refreshPlugins = false) {
         let pluginsLoaded
         
@@ -408,7 +406,7 @@
                 pluginsLoaded = false
             }
         }
-    
+
         // update plugins asynchronously (updated versions will be available next time the UI is loaded)
         let pluginCatalog = await getDocument(PLUGIN_CATALOG)
         if (pluginCatalog !== null) {
@@ -441,7 +439,7 @@
         }
     }
     initPlugins()
-    
+
     async function loadPlugins(plugins) {
         plugins.forEach((plugin) => {
             if (plugin.enabled === true) {
@@ -461,7 +459,19 @@
     }
 
     async function getFileHash(url) {
-        const response = await fetch(PLUGIN_CHECK_UPDATE + url);
+        const regex = /^https:\/\/raw\.githubusercontent\.com\/(?<owner>[^/]+)\/(?<repo>[^/]+)\/(?<branch>[^/]+)\/(?<filePath>.+)$/;
+        const match = url.match(regex);
+        if (!match) {
+            console.error('Invalid GitHub repository URL.');
+            return Promise.resolve(null);
+        }
+        const owner = match.groups.owner;
+        const repo = match.groups.repo;
+        const branch = match.groups.branch;
+        const filePath = match.groups.filePath;
+        const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
+        
+        const response = await fetch(apiUrl);
         const data = await response.json();
         
         // Store the new sha value for future reference
@@ -528,7 +538,10 @@
 
     async function getDocument(url) {
         try {
-            let response = await fetch(url === PLUGIN_CATALOG ? PLUGIN_CATALOG : PLUGIN_ROOT + url, {cache: "no-cache"});
+            let response = await fetch(url === PLUGIN_CATALOG ? PLUGIN_CATALOG : url, { cache: "no-cache" });
+            if (!response.ok) {
+                throw new Error(`Response error: ${response.status} ${response.statusText}`);
+            }
             let document = await response.text();
             return document;
         } catch (error) {
