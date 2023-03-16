@@ -134,7 +134,7 @@
         "icon": "",
         "name": "OutpaintUp, OutpaintLeft...",
         "author": "Avidgamefan",
-        "description": "Plugins that do a simple "outpaint" operation, where it just adds-on to your image with one click.  For example, OutpaintUp will add to the top and paint in more of the scene.\n\nCurrently, it will limit itself to the maximum capacity of an 8GB VRAM video card.  If you need to change the limits higher or lower, you will need to edit the files.",
+        "description": "Plugins that do a simple \"outpaint\" operation, where it just adds-on to your image with one click.  For example, OutpaintUp will add to the top and paint in more of the scene.\n\nCurrently, it will limit itself to the maximum capacity of an 8GB VRAM video card.  If you need to change the limits higher or lower, you will need to edit the files.",
         "url": "https://raw.githubusercontent.com/AvidGameFan/ed-plugins/master/OutpaintIt.plugin.js",
         "version": "",
         "minEDVersion": "2.0"
@@ -224,7 +224,7 @@
         "icon": "",
         "name": "autoscroll_rename",
         "author": "Schorny",
-        "description": "this changes the text from "Scroll to generated images" which is pretty long to "autoscroll" to save space",
+        "description": "this changes the text from \"Scroll to generated images\" which is pretty long to \"autoscroll\" to save space",
         "url": "https://raw.githubusercontent.com/Schorny/easy-diffusion-ui-plugins/main/autoscroll_renamer.plugin.js",
         "version": "",
         "minEDVersion": "2.0"
