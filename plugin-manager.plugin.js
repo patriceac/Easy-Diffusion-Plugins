@@ -5,7 +5,7 @@
 
         A simple plugin manager with a search box, that installs and auto updates plugins from GitHub.
 
-        Devs, please add your plugins to this repo: https://github.com/patriceac/Easy-Diffusion-Plugins
+        Devs, please feel free to add your plugins to the catalog at: https://github.com/patriceac/Easy-Diffusion-Plugins
         Mandatory fields to add a plugin to the plugin catalog are: id, name, url. All other fields are optional.
     */
     "use strict"
