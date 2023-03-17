@@ -175,7 +175,7 @@
         "name": "Grid Renders (Beta)",
         "author": "Madrang",
         "description": "First ever version, if anyone want's to try it.\nWork only on the Beta version of the UI for now.\n\nStart with low amount of steps and guidance as the plugin will increase it.",
-        "url": "https://github.com/madrang/sd-ui-plugins/raw/beta/mads-grid.plugin.js",
+        "url": "https://raw.githubusercontent.com/madrang/sd-ui-plugins/beta/mads-grid.plugin.js",
         "version": "",
         "minEDVersion": "2.0"
     },
