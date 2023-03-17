@@ -1,13 +1,16 @@
-name: JSON Syntax Check
+name: JSON Lint
 
 on: [push]
 
 jobs:
-  build:
+  jsonlint:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Validate JSON
-      run: |
-        jsonlint -q plugins.json
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install jsonlint -g
+
+      - name: Check JSON files
+        run: jsonlint -q *.json
