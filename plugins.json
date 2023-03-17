@@ -252,7 +252,7 @@
     {
         "id": "spell-tokenizer",
         "icon": "",
-        "name": "Spell Tokenizer <span style="color: red;">(Not yet supported)</span>",
+        "name": "Spell Tokenizer <span style='color: red;'>(Not yet supported)</span>",
         "author": "Solid Dissipation",
         "description": "Script to help with spell (prompt) building\n-create individual spell tokens to rearrange and modulate by using commas\n-drag and drop tokens to rearrange order\n-hold ALT+scroll over a token to emphasize or de-emphasize\n-right click to delete a token\n-see a rough estimate for token count\n-enter link to a booru page to extract all tags from it, precede link with _ to replaces spaces with underscores in tags\n-recognize duplicate tags.",
         "url": "https://gitlab.com/SoliDissipation/sd-ui-plugins/-/raw/main/spell-tokenizer.plugin.js",
