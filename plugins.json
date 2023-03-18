@@ -126,7 +126,7 @@
         "author": "AssassinJN",
         "description": "Generates a grid of prompts to run against. Can be used to step through Inference Steps, samplers, Guidance Scales or all modifiers.",
         "url": "https://raw.githubusercontent.com/AssassinJN/Rabbit-Hole-UI/master/new_ui.plugin.js",
-        "local": "true",
+        "localInstallOnly": "true",
         "version": "",
         "minEDVersion": "2.0"
     },
