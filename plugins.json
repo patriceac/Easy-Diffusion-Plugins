@@ -259,5 +259,16 @@
         "url": "https://gitlab.com/SoliDissipation/sd-ui-plugins/-/raw/main/spell-tokenizer.plugin.js",
         "version": "",
         "minEDVersion": "2.0"
+    },
+    {
+        "id": "new_ui-test",
+        "icon": "",
+        "name": "Rabbit Hole UI (TEST - DO NOT INSTALL)",
+        "author": "Patrice",
+        "description": "DO NOT USE.",
+        "url": "https://raw.githubusercontent.com/AssassinJN/Rabbit-Hole-UI/master/new_ui.plugin.js",
+        "localInstallOnly": false,
+        "version": "",
+        "minEDVersion": "2.0"
     }
 ]
