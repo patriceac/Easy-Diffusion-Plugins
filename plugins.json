@@ -265,7 +265,7 @@
         "name": "Rabbit Hole UI - TEST - DO NOT INSTALL",
         "author": "Patrice doing a test",
         "description": "Generates a grid of prompts to run against. Can be used to step through Inference Steps, samplers, Guidance Scales or all modifiers.",
-        "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/new_ui.plugin.js",
+        "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/new_ui-test.plugin.js",
         "version": "",
         "minEDVersion": "2.0"
     }
