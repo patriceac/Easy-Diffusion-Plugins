@@ -1,3 +1,4 @@
+(function () {
 const style = document.createElement('style');
 
 style.textContent = `
@@ -1386,3 +1387,4 @@ function addSettingsTabInfo(){
 	
 	
 setup();
+})()
