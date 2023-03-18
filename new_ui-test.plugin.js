@@ -1,4 +1,7 @@
 (function () {
+	
+"use strict"
+
 const style = document.createElement('style');
 
 style.textContent = `
