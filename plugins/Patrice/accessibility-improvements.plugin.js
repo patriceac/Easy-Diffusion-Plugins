@@ -113,6 +113,8 @@
     let deleteImageButton = undefined
     let prevContextMenu = undefined
     let prevDeleteImageButton = undefined
+    let imgBottomLabel = undefined
+    let prevImgBottomLabel = undefined
     window.addEventListener('mouseup', (event) => {
         let clickedImage = undefined
         
@@ -121,6 +123,7 @@
             event.preventDefault()
             contextMenu = clickedImage.parentNode.querySelector('.imgItemInfo')
             deleteImageButton = clickedImage.parentNode.querySelector('.imgPreviewItemClearBtn')
+            imgBottomLabel =  clickedImage.parentNode.querySelector('.img_bottom_label')
             if (contextMenu !==  null) {
                 if (contextMenu.style.display === 'flex') {
                     hideImageContextMenu()
@@ -130,8 +133,10 @@
                     hideImageContextMenu()
                     contextMenu.style.display = 'flex'
                     deleteImageButton.style.display = 'flex'
+                    imgBottomLabel.style.display = 'flex'
                     prevContextMenu = contextMenu
                     prevDeleteImageButton = deleteImageButton
+                    prevImgBottomLabel = imgBottomLabel
                 }
             }
         } else if (contextualMenuInvocation.value !== 'hover') {
@@ -160,6 +165,7 @@
         if (prevContextMenu !== undefined) {
             prevContextMenu.style.display = 'none'
             prevDeleteImageButton.style.display = 'none'
+            prevImgBottomLabel.style.display = 'none'
         }
     }
 
@@ -211,5 +217,6 @@
     function updateContextualMenuOnHover() {
         updateCSS('.imgItemInfo')
         updateCSS('.imgPreviewItemClearBtn')
+        updateCSS('.img_bottom_label')
     }
 })()
