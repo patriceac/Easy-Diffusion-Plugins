@@ -1,6 +1,6 @@
 [
     {
-        "id": "acessibility-improvements",
+        "id": "accessibility-improvements",
         "icon": "fa-computer-mouse",
         "name": "Accessibility Improvements",
         "author": "Patrice",
@@ -8,8 +8,7 @@
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/accessibility-improvements.plugin.js",
         "localInstallOnly": false,
         "version": "1.3",
-        "minEDVersion": "2.0",
-        "compatIssueIds": ["new_ui", "scrolling-panes"]
+        "minEDVersion": "2.0"
     },
     {
         "id": "disable-source-image-zoom",
@@ -31,7 +30,8 @@
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/image-editor-improvements.plugin.js",
         "localInstallOnly": false,
         "version": "1.9",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": ["accessibility-improvements", "scrolling-panes"]
     },
     {
         "id": "image-modifier-improvements",
