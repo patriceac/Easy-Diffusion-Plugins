@@ -8,7 +8,8 @@
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/accessibility-improvements.plugin.js",
         "localInstallOnly": false,
         "version": "1.3",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": ["new_ui", "scrolling-panes"]
     },
     {
         "id": "disable-source-image-zoom",
