@@ -126,7 +126,7 @@
         "author": "AssassinJN",
         "description": "Generates a grid of prompts to run against. Can be used to step through Inference Steps, samplers, Guidance Scales or all modifiers.",
         "url": "https://raw.githubusercontent.com/AssassinJN/Rabbit-Hole-UI/master/new_ui.plugin.js",
-        "localInstallOnly": true,
+        "localInstallOnly": false,
         "version": "",
         "minEDVersion": "2.0"
     },
@@ -221,39 +221,42 @@
         "minEDVersion": "2.0"
     },
     {
-        "id": "",
+        "id": "mads-gifs",
         "icon": "",
         "name": "GIFs Plugin (Beta)",
         "author": "Madrang",
         "description": "Here's the first test version for making GIFs\nUsing the Beta version of the UI is required for now.\n\nAfter installing, you will have new Output Format\nWhile stepAnim display in the normal place, gif needs popup permissions as it will create a new tab/window when completing a render.\n\nMaking a popup UI with more options is still on the To-Do list...\nTo edit the options the code has to be changed until the UI part is done.\n\nGoing above 100 inferences steps with stepAnim is risky on SD1.# as some of those values will fail but it works perfectly with SD2.# models.",
-        "url": "",
+        "url": "https://discord.com/channels/1014774730907209781/1051459256769073193/1051459256769073193",
+        "localInstallOnly": true,
         "version": "",
         "minEDVersion": "2.0"
     },
     {
-        "id": "",
+        "id": "animate",
         "icon": "",
-        "name": "Animate Plugin",
+        "name": "Animate",
         "author": "FairytaleArtist",
         "description": "Allows you to upload a series of images and render them in SD UI. Basically, you can create animations with it or apply the same effect to multiple images.\n*To use click browse and select a sequence of images. Then click the Animate button (under Make Images button) and the plugin will output a modified version of each frame.\nFor example: load a sequence of images of a wolf walking->write in the prompt area \"tiger walking\"-> click Animate butto->watch the magic happen",
-        "url": "",
+        "url": "https://discord.com/channels/1014774730907209781/1053138781684891708/1053138781684891708",
+        "localInstallOnly": true,
         "version": "1.1",
         "minEDVersion": "2.0"
     },
     {
-        "id": "",
+        "id": "queue-counter",
         "icon": "",
-        "name": "Queue-Counter plugin",
+        "name": "Queue-Counter",
         "author": "FairytaleArtist",
         "description": "Shows in the tab title how many tasks are left to process.\nThis is useful if you render a lot of images and want to browse the internet without needing to check the tab if it's finished.",
-        "url": "",
+        "url": "https://discord.com/channels/1014774730907209781/1053139194396020826/1053139194396020826",
+        "localInstallOnly": true,
         "version": "1.0",
         "minEDVersion": "2.0"
     },
     {
         "id": "spell-tokenizer",
         "icon": "",
-        "name": "Spell Tokenizer</span>",
+        "name": "Spell Tokenizer",
         "author": "Solid Dissipation",
         "description": "Script to help with spell (prompt) building\n-create individual spell tokens to rearrange and modulate by using commas\n-drag and drop tokens to rearrange order\n-hold ALT+scroll over a token to emphasize or de-emphasize\n-right click to delete a token\n-see a rough estimate for token count\n-enter link to a booru page to extract all tags from it, precede link with _ to replaces spaces with underscores in tags\n-recognize duplicate tags.",
         "url": "https://gitlab.com/SoliDissipation/sd-ui-plugins/-/raw/main/spell-tokenizer.plugin.js",
@@ -261,13 +264,12 @@
         "minEDVersion": "2.0"
     },
     {
-        "id": "new_ui-test",
+        "id": "EasyDiffusion-parser",
         "icon": "",
-        "name": "Rabbit Hole UI (TEST - DO NOT INSTALL)",
-        "author": "Patrice",
-        "description": "DO NOT USE.",
-        "url": "https://raw.githubusercontent.com/AssassinJN/Rabbit-Hole-UI/master/new_ui.plugin.js",
-        "localInstallOnly": false,
+        "name": "Easy Diffusion Parser",
+        "author": "Madrang",
+        "description": "An advanced parser for Easy Diffusion with support for blending and weights.\n\nYou'll need to start your prompts with an exclamation mark, e.g. !photo of an (astronaut) to use the advanced syntax. Without ! it will send the text literally to the model.",
+        "url": "https://discord.com/channels/1014774730907209781/1079856801304023061/1079856801304023061",
         "version": "",
         "minEDVersion": "2.0"
     }
