@@ -443,8 +443,8 @@
                         const pluginSource = await getDocument(plugin.url);
                         if (pluginSource !== null) {
                             plugin.code = pluginSource
-                            console.log(`Plugin ${plugin.name} downloaded`);
-                            showToast("¨Plugin " + plugin.name + " downloaded");
+                            console.log(`Plugin ${plugin.name} installed`);
+                            showToast("¨Plugin " + plugin.name + " installed");
                         }
                         else
                         {
