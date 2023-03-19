@@ -8,7 +8,8 @@
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/accessibility-improvements.plugin.js",
         "localInstallOnly": false,
         "version": "1.3",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "disable-source-image-zoom",
@@ -19,7 +20,8 @@
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/disable-source-image-zoom.plugin.js",
         "localInstallOnly": false,
         "version": "1.1",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "image-editor-improvements",
@@ -31,7 +33,7 @@
         "localInstallOnly": false,
         "version": "1.9",
         "minEDVersion": "2.0",
-        "compatIssueIds": ["accessibility-improvements", "scrolling-panes"]
+        "compatIssueIds": []
     },
     {
         "id": "image-modifier-improvements",
@@ -42,7 +44,8 @@
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/image-modifier-improvements.plugin.js",
         "localInstallOnly": false,
         "version": "1.8",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "make-image-always-visible",
@@ -53,7 +56,8 @@
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/make-image-button-always-visible.plugin.js",
         "localInstallOnly": false,
         "version": "1.2",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "processing-order-quick-toggle",
@@ -64,7 +68,8 @@
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/processing-order-quick-toggle.plugin.js",
         "localInstallOnly": false,
         "version": "1.1",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "prompt-diff",
@@ -75,7 +80,8 @@
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/prompt-diff.plugin.js",
         "localInstallOnly": false,
         "version": "1.1",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "prompt-translator",
@@ -86,7 +92,8 @@
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/prompt-translator.plugin.js",
         "localInstallOnly": false,
         "version": "1.2",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "queue-size",
@@ -97,7 +104,8 @@
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/queue-size.plugin.js",
         "localInstallOnly": false,
         "version": "1.0",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "scrolling-panes",
@@ -108,7 +116,8 @@
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/scrolling-panes.plugin.js",
         "localInstallOnly": false,
         "version": "2.4",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": ["new_ui"]
     },
     {
         "id": "seed-randomizer",
@@ -119,7 +128,8 @@
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/seed-randomizer.plugin.js",
         "localInstallOnly": false,
         "version": "1.2",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "template-manager",
@@ -130,7 +140,8 @@
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/template-manager.plugin.js",
         "localInstallOnly": false,
         "version": "1.7",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "new_ui",
@@ -141,7 +152,8 @@
         "url": "https://raw.githubusercontent.com/AssassinJN/Rabbit-Hole-UI/master/new_ui.plugin.js",
         "localInstallOnly": false,
         "version": "",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "OutpaintIt",
@@ -152,7 +164,8 @@
         "url": "https://raw.githubusercontent.com/AvidGameFan/ed-plugins/master/OutpaintIt.plugin.js",
         "localInstallOnly": false,
         "version": "",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "history",
@@ -163,7 +176,8 @@
         "url": "https://raw.githubusercontent.com/rbertus2000/sd-ui-plugins/main/history.plugin.js",
         "localInstallOnly": false,
         "version": "",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "switch-height-width",
@@ -174,7 +188,8 @@
         "url": "https://raw.githubusercontent.com/ogmaresca/easydiffusion-plugins/main/ui/switch-height-width.plugin.js",
         "localInstallOnly": false,
         "version": "",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "AdvancedPrompt",
@@ -185,7 +200,8 @@
         "url": "https://raw.githubusercontent.com/3V1LXD/sd-ui-plugin-advanced-prompt/main/AdvancedPrompt.plugin.js",
         "localInstallOnly": false,
         "version": "",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "mads-grid",
@@ -196,7 +212,8 @@
         "url": "https://raw.githubusercontent.com/madrang/sd-ui-plugins/beta/mads-grid.plugin.js",
         "localInstallOnly": false,
         "version": "",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "clearAllEmpty",
@@ -207,7 +224,8 @@
         "url": "https://raw.githubusercontent.com/Schorny/easy-diffusion-ui-plugins/main/clearAllEmpty.plugin.js",
         "localInstallOnly": false,
         "version": "",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "CopySeed",
@@ -218,7 +236,8 @@
         "url": "https://raw.githubusercontent.com/Schorny/easy-diffusion-ui-plugins/main/copyseed.plugin.js",
         "localInstallOnly": false,
         "version": "",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "rename_session",
@@ -229,7 +248,8 @@
         "url": "https://raw.githubusercontent.com/Schorny/easy-diffusion-ui-plugins/main/rename_session.plugin.js",
         "localInstallOnly": false,
         "version": "",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "autoscroll_rename",
@@ -240,7 +260,8 @@
         "url": "https://raw.githubusercontent.com/Schorny/easy-diffusion-ui-plugins/main/autoscroll_renamer.plugin.js",
         "localInstallOnly": false,
         "version": "",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "mads-gifs",
@@ -251,7 +272,8 @@
         "url": "https://discord.com/channels/1014774730907209781/1051459256769073193/1051459256769073193",
         "localInstallOnly": true,
         "version": "",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "animate",
@@ -262,7 +284,8 @@
         "url": "https://discord.com/channels/1014774730907209781/1053138781684891708/1053138781684891708",
         "localInstallOnly": true,
         "version": "1.1",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "queue-counter",
@@ -273,7 +296,8 @@
         "url": "https://discord.com/channels/1014774730907209781/1053139194396020826/1053139194396020826",
         "localInstallOnly": true,
         "version": "1.0",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "spell-tokenizer",
@@ -284,7 +308,8 @@
         "url": "https://gitlab.com/SoliDissipation/sd-ui-plugins/-/raw/main/spell-tokenizer.plugin.js",
         "localInstallOnly": false,
         "version": "",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     },
     {
         "id": "EasyDiffusion-parser",
@@ -295,6 +320,7 @@
         "url": "https://discord.com/channels/1014774730907209781/1079856801304023061/1079856801304023061",
         "localInstallOnly": true,
         "version": "",
-        "minEDVersion": "2.0"
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     }
 ]
