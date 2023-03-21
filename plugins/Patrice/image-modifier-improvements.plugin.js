@@ -221,7 +221,7 @@
 
                 // empty the searchbox on escape                
                 imageModifierFilter.addEventListener('keydown', function(event) {
-                  if (event.keyCode === 'Escape') {
+                  if (event.key === 'Escape') {
                     imageModifierFilter.value = '';
                     filterImageModifierList();
                   }
