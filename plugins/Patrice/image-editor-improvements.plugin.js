@@ -35,7 +35,7 @@
         }
 
         .image_editor_opacity .editor-options-container > * > *:not(.active):not(.button) {
-          border: 1px dotted slategray;
+            border: 1px dotted slategray;
         }
     `;
     document.head.appendChild(styleSheet);
@@ -186,13 +186,30 @@
             let imageItem = null;
             for (let i = 0; i < event.dataTransfer.items.length; i++) {
                 let item = event.dataTransfer.items[i];
-                if ((item.kind === 'file' && item.type.startsWith('image/')) || item.type === 'text/uri-list') {
+                if (item.kind === 'file' && item.type.startsWith('image/')) {
                     imageItem = item;
                     break;
-                } else if (item.type === 'text/x-moz-url') {
-                    // If there are no image files or uris, fallback to moz-url
-                    if (!imageItem) {
+                }
+            }
+            
+            if (!imageItem) {
+                // If no file matches, try to find a text/uri-list item
+                for (let i = 0; i < event.dataTransfer.items.length; i++) {
+                    let item = event.dataTransfer.items[i];
+                    if (item.type === 'text/uri-list') {
                         imageItem = item;
+                        break;
+                    }
+                }
+            }
+            
+            if (!imageItem) {
+                // If there are no image files or uris, fallback to moz-url
+                for (let i = 0; i < event.dataTransfer.items.length; i++) {
+                    let item = event.dataTransfer.items[i];
+                    if (item.type === 'text/x-moz-url') {
+                        imageItem = item;
+                        break;
                     }
                 }
             }
