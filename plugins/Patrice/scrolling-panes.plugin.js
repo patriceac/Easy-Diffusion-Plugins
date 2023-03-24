@@ -136,6 +136,10 @@
                 -ms-transform: translateY(-50%);
                 transform: translateY(-50%);
             }
+            
+            .popup {
+                position: fixed;
+            }
         }
 
         @media (max-width: 700px) {
