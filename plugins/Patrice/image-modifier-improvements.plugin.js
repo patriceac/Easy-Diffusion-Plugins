@@ -560,7 +560,7 @@
         }
     })
 
-    PLUGINS['MODIFIERS_LOAD'].forEach(fn=>fn.loader.call())
+    //PLUGINS['MODIFIERS_LOAD'].forEach(fn=>fn.loader.call())
 
     /* RESTORE IMAGE MODIFIERS */
     document.addEventListener("refreshImageModifiers", function(e) {
@@ -572,16 +572,13 @@
     document.addEventListener("loadImageModifiers", function(e) {
         let savedTags = JSON.parse(localStorage.getItem('image_modifiers'))
         let active_tags = savedTags == null ? [] : savedTags.map(x => x.name)
+
+        // restore inactive tags in memory
+        const inactiveTags = savedTags?.filter(tag => tag.inactive === true).map(x => x.name)
         
         // reload image modifiers
-        refreshModifiersState(active_tags)
-        
-        // update inactive tags
-        if (savedTags !== null) {
-            const inactiveTags = savedTags.filter(tag => tag.inactive === true).map(x => x.name)
-            refreshInactiveTags(inactiveTags)
-        }
-        
+        refreshModifiersState(active_tags, inactiveTags)
+             
         // update the active tags if needed
         updateActiveTags()
         
