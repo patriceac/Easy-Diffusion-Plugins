@@ -41,7 +41,7 @@
     document.head.appendChild(styleSheet);
 
     // add the random seed quick toggle button
-    autoscrollBtn.insertAdjacentHTML('beforebegin', `
+    autoscrollBtn.insertAdjacentHTML('afterend', `
         <button id="random_seed_btn" class="tertiaryButton">
             <i class="fa fa-dice icon"></i>
         </button>
