@@ -1,8 +1,8 @@
 /*
-    Processing Order Quick Toggle
+    Random Seed Quick Toggle
     by Patrice
 
-    Adds a toggle to the preview toolbar to quickly switch the queue processing order. Also fixes the display of the autoscroll toggle.
+    Adds a toggle to the preview toolbar to quickly toggle the random seed setting.
 */
 (function () {
     "use strict"
@@ -40,27 +40,27 @@
     `;
     document.head.appendChild(styleSheet);
 
-    // add the processing order quick toggle button
+    // add the random seed quick toggle button
     autoscrollBtn.insertAdjacentHTML('beforebegin', `
-        <button id="process_order_btn" class="tertiaryButton">
-            <i class="fa fa-arrow-down-short-wide icon"></i>
+        <button id="random_seed_btn" class="tertiaryButton">
+            <i class="fa fa-dice icon"></i>
         </button>
     `);
-    let processOrderBtn = previewTools.querySelector('#process_order_btn')
+    let randomSeedBtn = previewTools.querySelector('#random_seed_btn')
 
-    function onProcessOrderUpdate() {
-        if (processOrder.checked) {
-            processOrderBtn.classList.add('pressed')
+    function onRandomSeedUpdate() {
+        if (randomSeedField.checked) {
+            randomSeedBtn.classList.add('pressed')
         } else {
-            processOrderBtn.classList.remove('pressed')
+            randomSeedBtn.classList.remove('pressed')
         }
     }
-    onProcessOrderUpdate() // set initial value
+    onRandomSeedUpdate() // set initial value
     
-    processOrderBtn.addEventListener('click', function() {
-        processOrder.checked = !processOrder.checked
-        processOrder.dispatchEvent(new Event("change"))
-        onProcessOrderUpdate()
+    randomSeedBtn.addEventListener('click', function() {
+        randomSeedField.checked = !randomSeedField.checked
+        randomSeedField.dispatchEvent(new Event("change"))
+        onRandomSeedUpdate()
     })
-    processOrder.addEventListener('change', onProcessOrderUpdate)
+    randomSeedField.addEventListener('change', onRandomSeedUpdate)
 })()
