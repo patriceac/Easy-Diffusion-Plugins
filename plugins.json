@@ -72,6 +72,18 @@
         "compatIssueIds": []
     },
     {
+        "id": "random-seed-quick-toggle",
+        "icon": "fa-dice",
+        "name": "Random Seed Quick Toggle",
+        "author": "Patrice",
+        "description": "Adds a toggle to the preview toolbar to quickly switch the random seed setting. Also fixes the display of the autoscroll toggle.",
+        "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/random-seed-quick-toggle.plugin.js",
+        "localInstallOnly": false,
+        "version": "1.0",
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
+    },
+    {
         "id": "prompt-diff",
         "icon": "fa-code-compare",
         "name": "Prompt Diff",
