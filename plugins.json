@@ -181,14 +181,14 @@
     },
     {
         "id": "switch-height-width",
-        "icon": "",
+        "icon": "fa-right-left",
         "name": "Switch Width & Height Settings",
         "author": "ogmaresca",
         "description": "Adds a button to switch the width and height values.",
         "url": "https://raw.githubusercontent.com/ogmaresca/easydiffusion-plugins/main/ui/switch-height-width.plugin.js",
         "localInstallOnly": false,
         "version": "",
-        "minEDVersion": "2.0",
+        "minEDVersion": "2.5.26",
         "compatIssueIds": []
     },
     {
@@ -321,6 +321,18 @@
         "localInstallOnly": true,
         "version": "",
         "minEDVersion": "2.0",
+        "compatIssueIds": []
+    },
+    {
+        "id": "prompt-help-button",
+        "icon": "fa-circle-question",
+        "name": "Prompt Help Button",
+        "author": "ogmaresca",
+        "description": "Adds a help button for the prompt.\n\nThis is only for the diffusers engine.",
+        "url": "https://raw.githubusercontent.com/ogmaresca/easydiffusion-plugins/main/ui/prompt-help-button.plugin.js",
+        "localInstallOnly": false,
+        "version": "",
+        "minEDVersion": "2.5.27",
         "compatIssueIds": []
     }
 ]
