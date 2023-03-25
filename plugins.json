@@ -1,5 +1,17 @@
 [
     {
+        "id": "accessibility-improvements-test",
+        "icon": "fa-computer-mouse",
+        "name": "Accessibility Improvements",
+        "author": "Patrice",
+        "description": "Adds a system setting to allow the user to change the action to display the buttons on an image (rather than just hovering over it). Default is set to hover (current UI behavior), can be changed to use mouse buttons in the system settings.\nAlso adds an option to disable the right-click contextual menu on most elements of the page (still allowed in input and text boxes)",
+        "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/accessibility-improvements.plugin.js",
+        "localInstallOnly": false,
+        "version": "1.3",
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
+    },
+    {
         "id": "accessibility-improvements",
         "icon": "fa-computer-mouse",
         "name": "Accessibility Improvements",
