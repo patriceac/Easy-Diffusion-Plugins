@@ -119,7 +119,7 @@
         transition: none !important;
       }
       .${ID_PREFIX}-post-count {
-        float: right;
+        /*float: right;*/
         margin-left: 5px;
         font-family: monospace;
         animation: none !important;
@@ -249,7 +249,7 @@
         items[currentSuggestionSelection].classList.add("active");
         list.scrollTop = items[currentSuggestionSelection].offsetTop - list.offsetHeight / 2 + items[currentSuggestionSelection].offsetHeight / 2;
       }
-      if (e.key == "Enter") {
+      if (e.key == "Enter" || e.key == "Tab") {
         e.preventDefault();
         items[currentSuggestionSelection].dispatchEvent(new MouseEvent("click"));
       }
