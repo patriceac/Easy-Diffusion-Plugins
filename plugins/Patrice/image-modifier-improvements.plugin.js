@@ -560,8 +560,11 @@
         }
     })
 
-    PLUGINS['MODIFIERS_LOAD'].forEach(fn=>fn.loader.call())
-
+    // only run the image modifiers plugin if needed
+    if (document.querySelector("#image-modifier-filter") === null) {
+        PLUGINS['MODIFIERS_LOAD'].forEach(fn=>fn.loader.call())
+    }
+    
     /* RESTORE IMAGE MODIFIERS */
     document.addEventListener("refreshImageModifiers", function(e) {
         localStorage.setItem('image_modifiers', JSON.stringify(activeTags))
