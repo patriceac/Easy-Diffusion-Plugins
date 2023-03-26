@@ -560,7 +560,7 @@
         }
     })
 
-    //PLUGINS['MODIFIERS_LOAD'].forEach(fn=>fn.loader.call())
+    PLUGINS['MODIFIERS_LOAD'].forEach(fn=>fn.loader.call())
 
     /* RESTORE IMAGE MODIFIERS */
     document.addEventListener("refreshImageModifiers", function(e) {
