@@ -20,6 +20,7 @@
     }
     setupDropdown()
 
+    // fix the toggle color's behavior
     var styleSheet = document.createElement("style");
     styleSheet.textContent = `
         .tertiaryButton:hover {
@@ -40,6 +41,10 @@
     `;
     document.head.appendChild(styleSheet);
 
+    // fix the undo button theming
+    undoButton.classList.remove('primaryButton')
+    undoButton.classList.add('tertiaryButton')
+    
     // add the processing order quick toggle button
     autoscrollBtn.insertAdjacentHTML('beforebegin', `
         <button id="process_order_btn" class="tertiaryButton">
