@@ -267,7 +267,7 @@
             token.addEventListener('click', function (e) {
               let start = textarea.selectionStart - word.length;
               let end = textarea.selectionStart;
-              textarea.value = textarea.value.substring(0, start) + token_word + ", " + textarea.value.substring(end);
+              textarea.value = textarea.value.substring(0, start) + token_word.replace("_"," ") + ", " + textarea.value.substring(end);
               textarea.focus();
               list.remove();
               textarea.dispatchEvent(new Event('input', { bubbles: true }));
@@ -386,7 +386,7 @@
   const modToken = (e) => {
     if (e.altKey) {
       e.preventDefault();
-      if (testDiffusers === undefined || !testDiffusers.checked) {
+      if (typeof testDiffusers == "undefined" || !testDiffusers.checked) {
         if (e.deltaY > 0) {
           if (e.target.innerText.startsWith('(')) e.target.innerText = e.target.innerText.slice(1, -1);
           else e.target.innerText = '[' + e.target.innerText + ']';
