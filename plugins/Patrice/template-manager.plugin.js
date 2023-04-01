@@ -207,6 +207,13 @@
             margin-left: 8px;
         }
 
+        .runAllTemplates {
+            float: right;
+            font-size: 9pt;
+            height: 24px;
+            transition: none;
+        }
+
         .slideshowImageCount {
             float: right;
             margin-right: 8px;
@@ -236,6 +243,7 @@
     let lastGeneration
     let lastTemplateName
     let slideshowImagecount
+    let runAllTemplatesBtn
 
     async function loadTemplateList(newTemplateName) {
         // load templates
@@ -270,8 +278,11 @@
                                 <input id="restore_seeds" name="restore_seeds" type="checkbox">
                                 <label for="restore_seeds">Restore seeds</label>
                             </div>
+                            <div class="runAllTemplates">
+                                <button id="run_all_templates" class="tertiaryButton">Run all</button>
+                            </div>
                             <div class="slideshowImageCount">
-                                <label>Image count for <i class='fa-solid fa-images'></i> <input id="slideshow_image_count" name="slideshow_image_count" type="input" size="4" onkeypress="preventNonNumericalInput(event)"></label>
+                                <label>Image count for <i class='fa-solid fa-images'></i> and 'Run all' <input id="slideshow_image_count" name="slideshow_image_count" type="input" size="4" onkeypress="preventNonNumericalInput(event)"></label>
                             </div>
                             <p class="footerTemplateManager"><small>Click a template to load it. You can also edit existing template names or delete them.</small></p>
                             <p id="templateBackupLinks"><small><a id="exportTemplates">Export templates</a> - <a id="importTemplates">Import templates</a></small></p>
@@ -285,7 +296,28 @@
             templateEditorBtn = document.getElementById("editAllTemplates")
             templateEditorOverlay = document.getElementById("task-templates-editor")
             templateList = document.getElementById("template-list")
+            runAllTemplatesBtn = document.getElementById("run_all_templates")
 
+            // run all templates
+            function processTemplates(templateArray) {
+                const templateCopy = [...templateArray]; // Make a copy of the array
+                while (templateCopy.length > 0) {
+                    const index = Math.floor(Math.random() * templateCopy.length);
+                    const selectedTemplate = templateCopy[index];
+                    templateCopy.splice(index, 1);
+                    // render template
+                    restoreTask(selectedTemplate.task)
+                    numOutputsTotalField.value = slideshowImagecount.value > 0 ? slideshowImagecount.value : 256
+                    makeImage()
+                }
+            }
+            runAllTemplatesBtn.addEventListener("click", function() {
+                processTemplates(taskTemplates);
+                document.querySelector('#task-templates-editor.popup').classList.remove("active");
+                event.stopPropagation()
+            });
+
+            
             // save/restore the restore seeds toggle state
             restoreSeeds = document.querySelector("#restore_seeds")
             restoreSeeds.addEventListener('click', (e) => {
