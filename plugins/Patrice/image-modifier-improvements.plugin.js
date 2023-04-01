@@ -679,7 +679,6 @@
                 e.stopPropagation()
             }
         })
-        console.log('yo')
     }
     initPlugin()
 
