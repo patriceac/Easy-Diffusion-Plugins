@@ -42,8 +42,10 @@
     document.head.appendChild(styleSheet);
 
     // fix the undo button theming
-    undoButton.classList.remove('primaryButton')
-    undoButton.classList.add('tertiaryButton')
+    if (typeof undoButton !== 'undefined') {
+        undoButton.classList.remove('primaryButton')
+        undoButton.classList.add('tertiaryButton')
+    }
     
     // add the processing order quick toggle button
     autoscrollBtn.insertAdjacentHTML('beforebegin', `
