@@ -611,74 +611,78 @@
         `
         document.head.appendChild(styleSheet)
 
-        editorModifierTagsList?.insertAdjacentHTML('beforeBegin', `
-            <div id="imageTagCommands"><button class="secondaryButton clearAllImageTags">Clear all</button><button id='addImageTag' class="secondaryButton">Add modifiers</button></div>
-        `)
-
-        const editorModifiers = document.getElementById("editor-modifiers");
-        editorModifiers?.insertAdjacentHTML('beforeBegin', `
-            <div id="imageTagPopupContainer" tabindex="0"></div>
-        `)
-        const editorModifiersPopup = document.getElementById("imageTagPopupContainer");
-        editorModifiersPopup.appendChild(editorModifiers);
-
-        document.querySelector('.clearAllImageTags').addEventListener('click', function(e) {
-            e.stopPropagation()
+        let editorModifiers
+        let editorModifiersPopup
+        if (document.querySelector('#imageTagCommands') === null) {
+            editorModifierTagsList?.insertAdjacentHTML('beforeBegin', `
+                <div id="imageTagCommands"><button class="secondaryButton clearAllImageTags">Clear all</button><button id='addImageTag' class="secondaryButton">Add modifiers</button></div>
+            `)
             
-            // clear existing image tag cards
-            editorTagsContainer.style.display = 'none'
-            editorModifierTagsList.querySelectorAll('.modifier-card').forEach(modifierCard => {
-                modifierCard.remove()
-            })
-    
-            // reset modifier cards state
-            document.querySelector('#editor-modifiers').querySelectorAll('.modifier-card').forEach(modifierCard => {
-                const modifierName = modifierCard.querySelector('.modifier-card-label').innerText
-                if (activeTags.map(x => x.name).includes(modifierName)) {
-                    modifierCard.classList.remove(activeCardClass)
-                    modifierCard.querySelector('.modifier-card-image-overlay').innerText = '+'
-                }
-            })
-            activeTags = []
-            document.dispatchEvent(new Event('refreshImageModifiers')) // notify image modifiers have changed
-        })
+            editorModifiers = document.getElementById("editor-modifiers");
+            editorModifiers?.insertAdjacentHTML('beforeBegin', `
+                <div id="imageTagPopupContainer" tabindex="0"></div>
+            `)
+            editorModifiersPopup = document.getElementById("imageTagPopupContainer");
+            editorModifiersPopup.appendChild(editorModifiers);
 
-        document.querySelector('#addImageTag').addEventListener('click', function(e) {
-            e.stopPropagation()
+            document.querySelector('.clearAllImageTags').addEventListener('click', function(e) {
+                e.stopPropagation()
+                
+                // clear existing image tag cards
+                editorTagsContainer.style.display = 'none'
+                editorModifierTagsList.querySelectorAll('.modifier-card').forEach(modifierCard => {
+                    modifierCard.remove()
+                })
         
-            editorModifiers.classList.add("active");
-            editorModifiersPopup.classList.add("popup", "active");
-            imageModifierFilter.focus()
-            imageModifierFilter.select()
-        })
-        
-        editorModifiersPopup.addEventListener('keydown', function(e) {   
-            if (e.key === "Escape") {
-                /*
-                if (imageModifierFilter.value !== '') {
-                    imageModifierFilter.value = ''
-                    filterImageModifierList()
-                }
-                else
-                {
+                // reset modifier cards state
+                document.querySelector('#editor-modifiers').querySelectorAll('.modifier-card').forEach(modifierCard => {
+                    const modifierName = modifierCard.querySelector('.modifier-card-label').innerText
+                    if (activeTags.map(x => x.name).includes(modifierName)) {
+                        modifierCard.classList.remove(activeCardClass)
+                        modifierCard.querySelector('.modifier-card-image-overlay').innerText = '+'
+                    }
+                })
+                activeTags = []
+                document.dispatchEvent(new Event('refreshImageModifiers')) // notify image modifiers have changed
+            })
+
+            document.querySelector('#addImageTag').addEventListener('click', function(e) {
+                e.stopPropagation()
+            
+                editorModifiers.classList.add("active");
+                editorModifiersPopup.classList.add("popup", "active");
+                imageModifierFilter.focus()
+                imageModifierFilter.select()
+            })
+            
+            editorModifiersPopup.addEventListener('keydown', function(e) {   
+                if (e.key === "Escape") {
+                    /*
+                    if (imageModifierFilter.value !== '') {
+                        imageModifierFilter.value = ''
+                        filterImageModifierList()
+                    }
+                    else
+                    {
+                        editorModifiers.classList.remove("active");
+                        editorModifiersPopup.classList.remove("popup", "active");
+                    }
+                    e.stopPropagation()
+                    */
                     editorModifiers.classList.remove("active");
                     editorModifiersPopup.classList.remove("popup", "active");
+                    e.stopPropagation()
                 }
-                e.stopPropagation()
-                */
-                editorModifiers.classList.remove("active");
-                editorModifiersPopup.classList.remove("popup", "active");
-                e.stopPropagation()
-            }
-        })
+            })
 
-        editorModifiersPopup.addEventListener('click', function(e) {
-            if (event.target === editorModifiersPopup) {
-                editorModifiers.classList.remove("active");
-                editorModifiersPopup.classList.remove("popup", "active");
-                e.stopPropagation()
-            }
-        })
+            editorModifiersPopup.addEventListener('click', function(e) {
+                if (event.target === editorModifiersPopup) {
+                    editorModifiers.classList.remove("active");
+                    editorModifiersPopup.classList.remove("popup", "active");
+                    e.stopPropagation()
+                }
+            })
+        }
     }
     initPlugin()
 
