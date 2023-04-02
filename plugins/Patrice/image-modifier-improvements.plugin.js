@@ -682,6 +682,14 @@
     }
     initPlugin()
 
+    PLUGINS['MODIFIERS_LOAD'] = []
+
+    PLUGINS['MODIFIERS_LOAD'].push({
+        loader: async function() {
+            initPlugin()
+        }
+    })
+
     
     /* RESTORE IMAGE MODIFIERS */
     document.addEventListener("refreshImageModifiers", function(e) {
