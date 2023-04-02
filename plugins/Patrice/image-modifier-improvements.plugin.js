@@ -22,50 +22,50 @@
 (function() {
     "use strict"
     
+    var styleSheet = document.createElement("style")
+    styleSheet.textContent = `
+        .modifier-separator {
+            border-bottom: 1px solid var(--background-color3);
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            margin-right: 15px;
+        }
+
+        #modifierBackupLinks {
+            margin: 4px 0 0 0;
+        }
+        
+        #modifierBackupLinks a {
+            cursor: pointer;
+        }
+        
+        #modifier-settings-config textarea {
+            width: 100%;
+            height: 40vh;
+        }
+
+        #modifier-settings-config {
+            transition: none;
+        }
+
+        #image-modifier-filter {
+            box-sizing: border-box;
+            width: 98%;
+            margin-top: 4px;
+            padding: 10px;
+        }
+
+        div.modifier-card.hide {
+            display: none;
+        }
+
+        div.modifier-category.hide {
+            display: none;
+        }
+    `;
+    document.head.appendChild(styleSheet)
+    
     async function initPlugin() {
-        var styleSheet = document.createElement("style")
-        styleSheet.textContent = `
-            .modifier-separator {
-                border-bottom: 1px solid var(--background-color3);
-                margin-bottom: 15px;
-                padding-bottom: 15px;
-                margin-right: 15px;
-            }
-    
-            #modifierBackupLinks {
-                margin: 4px 0 0 0;
-            }
-            
-            #modifierBackupLinks a {
-                cursor: pointer;
-            }
-            
-            #modifier-settings-config textarea {
-                width: 100%;
-                height: 40vh;
-            }
-    
-            #modifier-settings-config {
-                transition: none;
-            }
-    
-            #image-modifier-filter {
-                box-sizing: border-box;
-                width: 98%;
-                margin-top: 4px;
-                padding: 10px;
-            }
-
-            div.modifier-card.hide {
-                display: none;
-            }
-
-            div.modifier-category.hide {
-                display: none;
-            }
-        `;
-        document.head.appendChild(styleSheet)
-
         let customModifiers
         let imageModifierFilter
         let customSection = false
