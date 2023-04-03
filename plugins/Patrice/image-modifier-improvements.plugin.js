@@ -704,6 +704,7 @@
     // reload image modifiers at start
     document.addEventListener("loadImageModifiers", function(e) {
         let savedTags = JSON.parse(localStorage.getItem('image_modifiers'))
+        savedTags = savedTags.filter(tag => tag !== null);
         let active_tags = savedTags == null ? [] : savedTags.map(x => x.name)
 
         // restore inactive tags in memory
