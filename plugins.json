@@ -346,5 +346,17 @@
         "version": "",
         "minEDVersion": "2.5.27",
         "compatIssueIds": []
+    },
+    {
+        "id": "file-folder-format",
+        "icon": "fa-keyboard",
+        "name": "Filename & Folder Format",
+        "author": "ogmaresca",
+        "description": "Adds settings for the filename and folder formats.",
+        "url": "https://raw.githubusercontent.com/ogmaresca/easydiffusion-plugins/main/ui/file-folder-format.plugin.js",
+        "localInstallOnly": false,
+        "version": "",
+        "minEDVersion": "2.5.31",
+        "compatIssueIds": []
     }
 ]
