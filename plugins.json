@@ -156,6 +156,18 @@
         "compatIssueIds": []
     },
     {
+        "id": "toggle-spellcheck",
+        "icon": "fa-spell-check",
+        "name": "Toggle Spellcheck",
+        "author": "Patrice",
+        "description": "Adds a system setting to turn the spell check on and off for the prompt, negative prompt, and image modifiers text areas.",
+        "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/toggle-spellcheck.plugin.js",
+        "localInstallOnly": false,
+        "version": "1.0",
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
+    },
+    {
         "id": "new_ui",
         "icon": "",
         "name": "Rabbit Hole UI",
