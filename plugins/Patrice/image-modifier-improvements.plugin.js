@@ -62,6 +62,50 @@
         div.modifier-category.hide {
             display: none;
         }
+        
+        .modifier-card-image-container img {
+            width: inherit;
+            height: 100%;
+            border-radius: 5px 5px 0 0;
+            padding: 0px 3px 0 0;
+        }
+
+        .modifier-card {
+            transform: unset;
+        }
+
+        .modifier-card:hover {
+            position: relative;
+            transform: unset;
+        }
+
+        .modifier-card-overlay:hover ~ .modifier-card-container .modifier-card-label.tooltip .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+            z-index: 2000;
+        }
+        .modifier-card-label:hover .tooltip-text {
+            z-index: 2000;
+        }
+        span.tooltip-text:hover {
+            visibility: hidden;
+            opacity: 0;
+        }
+        .tooltip .tooltip-text::after {
+            display: none;
+        }
+        
+        .tooltip .tooltip-text {
+            top: 25%;
+            left: 50%;
+            margin-left: 0;
+            zztransform: translateY(-100%);
+            transform: translateX(-50%);
+        }
+
+        .modifier-card-container .modifier-card-label p {
+          margin-bottom: 4px;
+        }
     `;
     document.head.appendChild(styleSheet)
     
