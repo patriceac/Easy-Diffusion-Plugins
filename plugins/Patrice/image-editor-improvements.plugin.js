@@ -107,6 +107,7 @@
     let canvas = document.createElement('canvas')
     let context = canvas.getContext('2d')
 
+    /*
     imageObj.onload = function() {
         canvas.width = this.width
         canvas.height = this.height
@@ -121,7 +122,29 @@
             heightField.value = this.height
         }
     };
+    */
+    imageObj.onload = function() {
+        // Calculate the maximum cropped dimensions
+        const maxCroppedWidth = Math.floor(this.width / 64) * 64;
+        const maxCroppedHeight = Math.floor(this.height / 64) * 64;
 
+        canvas.width = maxCroppedWidth;
+        canvas.height = maxCroppedHeight;
+
+        // Calculate the x and y coordinates to center the cropped image
+        const x = (maxCroppedWidth - this.width) / 2;
+        const y = (maxCroppedHeight - this.height) / 2;
+
+        // Draw the image with centered coordinates
+        context.drawImage(imageObj, x, y, this.width, this.height);
+
+        initImagePreview.src = canvas.toDataURL('image/png');
+
+        // Set width and height to the cropped dimensions
+        widthField.value = maxCroppedWidth;
+        heightField.value = maxCroppedHeight;
+    };
+    
 	function handlePaste(e) {
 	    for (let i = 0 ; i < e.clipboardData.items.length ; i++) {
 	        const item = e.clipboardData.items[i]
