@@ -300,7 +300,18 @@
 
             // run all templates
             function processTemplates(templateArray) {
-                const templateCopy = [...templateArray]; // Make a copy of the array
+                // Filter the templateArray based on whether the elements are visible or not
+                const visibleTemplates = templateArray.filter(template => {
+                    for (let i of entryList) {
+                        if (i.innerText === template.name && !i.parentNode.classList.contains("hide")) {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
+
+                const templateCopy = [...visibleTemplates]; // Make a copy of the visible templates array
+
                 while (templateCopy.length > 0) {
                     const index = Math.floor(Math.random() * templateCopy.length);
                     const selectedTemplate = templateCopy[index];
@@ -388,14 +399,20 @@
             templateFilter = document.getElementById("template-filter") // search box
             function filterTemplateList() {
                 if (entryList !== undefined) {
-                    let search = templateFilter.value.toLowerCase()
+                    let searchTerms = templateFilter.value.toLowerCase().split(' ');
                     for (let i of entryList) {
-                        let item = i.innerText.toLowerCase()
-                        if (item.indexOf(search) == -1) {
-                            i.parentNode.classList.add("hide")
+                        let item = i.innerText.toLowerCase();
+                        let allTermsMatched = true;
+                        for (let term of searchTerms) {
+                            if (item.indexOf(term) == -1) {
+                                allTermsMatched = false;
+                                break;
+                            }
                         }
-                        else {
-                            i.parentNode.classList.remove("hide")
+                        if (allTermsMatched) {
+                            i.parentNode.classList.remove("hide");
+                        } else {
+                            i.parentNode.classList.add("hide");
                         }
                     }
                 }
@@ -664,6 +681,7 @@
             delete task.reqBody.seed
         }
         restoreTaskToUI(task, TASK_REQ_NO_EXPORT)
+        document.dispatchEvent(new Event('refreshImageModifiers')) // let plugins know the image modifiers have changed
     }
                                           
     function downloadJSON(jsonData, fileName) {
