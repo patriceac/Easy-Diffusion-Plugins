@@ -1,7 +1,7 @@
 (function() {
 //==================== Init =============================
 const GITHUB_PAGE = "TBA"
-const VERSION = "1.0";
+const VERSION = "1.1";
 const ID_PREFIX = "animate-plugin";
 const GITHUB_ID = "T"
 console.log('%s Version: %s', ID_PREFIX, VERSION);
