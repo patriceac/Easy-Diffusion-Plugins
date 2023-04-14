@@ -317,9 +317,9 @@
         "name": "Queue-Counter",
         "author": "FairytaleArtist",
         "description": "Shows in the tab title how many tasks are left to process.\nThis is useful if you render a lot of images and want to browse the internet without needing to check the tab if it's finished.",
-        "url": "https://discord.com/channels/1014774730907209781/1053139194396020826/1053139194396020826",
-        "localInstallOnly": true,
-        "version": "1.0",
+        "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/FairytaleArtist/queue-counter.plugin.js",
+        "localInstallOnly": false,
+        "version": "1.1",
         "minEDVersion": "2.0",
         "compatIssueIds": []
     },
