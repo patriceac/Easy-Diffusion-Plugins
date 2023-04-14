@@ -301,7 +301,7 @@
     },
     {
         "id": "animate",
-        "icon": "",
+        "icon": "fa-film",
         "name": "Animate",
         "author": "FairytaleArtist",
         "description": "Allows you to upload a series of images and render them in SD UI. Basically, you can create animations with it or apply the same effect to multiple images.\n*To use click browse and select a sequence of images. Then click the Animate button (under Make Images button) and the plugin will output a modified version of each frame.\nFor example: load a sequence of images of a wolf walking->write in the prompt area \"tiger walking\"-> click Animate button->watch the magic happen",
@@ -313,7 +313,7 @@
     },
     {
         "id": "queue-counter",
-        "icon": "",
+        "icon": "fa-hashtag",
         "name": "Queue-Counter",
         "author": "FairytaleArtist",
         "description": "Shows in the tab title how many tasks are left to process.\nThis is useful if you render a lot of images and want to browse the internet without needing to check the tab if it's finished.",
