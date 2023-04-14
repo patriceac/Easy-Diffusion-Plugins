@@ -1,7 +1,7 @@
 (function() {
 //==================== Init =============================
 const GITHUB_PAGE = "TBA"
-const VERSION = "1.1";
+const VERSION = "1.2";
 const ID_PREFIX = "animate-plugin";
 const GITHUB_ID = "T"
 console.log('%s Version: %s', ID_PREFIX, VERSION);
@@ -28,6 +28,9 @@ const animateButton = document.createElement('button');
 animateButton.addEventListener('click',function(evnt){	
 	let origRequest = getCurrentUserRequest().reqBody;
 
+    // start the auto task cleanup
+    const removeExtraTasksInterval = setInterval(removeExtraTasks, task_removal_frequency);
+    
 	for(let i = 0; i < fileRead.length; i++ ){
 		let newTaskRequest = getCurrentUserRequest()
 			newTaskRequest.reqBody = Object.assign({}, origRequest, {
@@ -42,6 +45,9 @@ animateButton.addEventListener('click',function(evnt){
 		  })
 		  createTask(newTaskRequest)
 	}
+    
+    // stop the auto task cleanup
+    clearInterval(removeExtraTasksInterval);
 });
 
 file_input.addEventListener('change',function(evnt){
@@ -102,7 +108,4 @@ function removeExtraTasks(){
 	}
 }
 
-setInterval(removeExtraTasks,task_removal_frequency);
-})();
-
-
+})()
