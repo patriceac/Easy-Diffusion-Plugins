@@ -12,6 +12,18 @@
         "compatIssueIds": []
     },
     {
+        "id": "daily-folders",
+        "icon": "fa-calendar",
+        "name": "Daily Folders",
+        "author": "Patrice",
+        "description": "Format folder names as YYYY-MM-DD for saving images (one folder per day).",
+        "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/daily-folders-1.0.plugin.js",
+        "localInstallOnly": false,
+        "version": "1.0",
+        "minEDVersion": "2.0",
+        "compatIssueIds": ["file-folder-format"]
+    },
+    {
         "id": "disable-source-image-zoom",
         "icon": "fa-magnifying-glass-minus",
         "name": "Disable Source Image Zoom",
