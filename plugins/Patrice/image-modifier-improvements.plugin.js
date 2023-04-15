@@ -716,6 +716,9 @@
                     editorModifiers.classList.remove("active");
                     editorModifiersPopup.classList.remove("popup", "active");
                     e.stopPropagation()
+                } else if (event.ctrlKey && event.key === 'Enter') {
+                    // Ctrl+Enter key combination. Hide the dialog and let the event bubble up, which will trigger the image generation.
+                    editorModifiersPopup.classList.remove("popup", "active");
                 }
             })
 
