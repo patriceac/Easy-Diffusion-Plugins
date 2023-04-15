@@ -127,7 +127,7 @@
         "description": "Allows editor and preview panes to scroll independently and adds a toggle to hide the editor pane.",
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/scrolling-panes.plugin.js",
         "localInstallOnly": false,
-        "version": "2.4",
+        "version": "2.5",
         "minEDVersion": "2.0",
         "compatIssueIds": ["new_ui"]
     },
