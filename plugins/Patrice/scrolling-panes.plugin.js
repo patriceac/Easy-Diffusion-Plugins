@@ -140,6 +140,13 @@
             .popup {
                 position: fixed;
             }
+            
+            .model-list {
+                width: 100%;
+                width: -moz-available;          /* WebKit-based browsers will ignore this. */
+                width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+                width: fill-available;
+            }
         }
 
         @media (max-width: 700px) {
