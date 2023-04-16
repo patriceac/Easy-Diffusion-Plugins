@@ -12,15 +12,22 @@
     let file_input = document.getElementById('init_image');
     file_input.multiple = true; // enables the browse file to load multiple images
 
-    const task_count_limit = 50; // reduce this if SD UI crashes after X amount of images
+    let task_count_limit;
     const task_removal_frequency = 5000; // how often to check if we have to many images
 
     const editorInputs = document.getElementById("editor-inputs");
     const animateButton = document.createElement('button');
-        animateButton.id = `${ID_PREFIX}-animateButton`;
-        animateButton.innerHTML = "Animate";
-        editorInputs.appendChild(animateButton);
-        
+    animateButton.id = `${ID_PREFIX}-animateButton`;
+    animateButton.innerHTML = "Animate";
+    editorInputs.appendChild(animateButton);
+    animateButton.insertAdjacentHTML('afterend', '<br /><small>Max queue size while Animating (0 = unlimited):</small> <input id="max_animate_queue_size" name="max_animate_queue_size" value="0" size="4" onkeypress="preventNonNumericalInput(event)">');
+
+    const maxAnimateQueueSize = document.getElementById("max_animate_queue_size")
+    maxAnimateQueueSize.addEventListener('input', (e) => {
+        localStorage.setItem('max_animate_queue_size', maxAnimateQueueSize.value)
+    })
+    maxAnimateQueueSize.value = localStorage.getItem('max_animate_queue_size') >= '0' ? localStorage.getItem('max_animate_queue_size') : '0'
+
     //==================== Listeners =============================
     /**
      Add all images as tasks
@@ -28,8 +35,10 @@
     let removeExtraTasksInterval
     animateButton.addEventListener('click',function(evnt){	
         // start the auto task cleanup
+        task_count_limit = maxAnimateQueueSize.value > '0' ? maxAnimateQueueSize.value : 0
         removeExtraTasksInterval = setInterval(removeExtraTasks, task_removal_frequency);
-        
+
+        // queue the tasks
         for(let i = 0; i < fileRead.length; i++ ){
             if (typeof performance == "object" && performance.mark) {
                 performance.mark('click-makeImage')
@@ -122,6 +131,9 @@
 
     //Prevents the images and DOM from crashing the browser when processing a large number of images
     function removeExtraTasks(){
+        if (task_count_limit <= 0) {
+            return            
+        }
         try{
             let number_of_tasks =  $("div.taskStatusLabel:hidden").length;
             console.log("number of tasks:", number_of_tasks)
