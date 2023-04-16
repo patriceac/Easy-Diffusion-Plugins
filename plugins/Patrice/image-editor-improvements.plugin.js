@@ -141,8 +141,8 @@
         initImagePreview.src = canvas.toDataURL('image/png');
 
         // Set width and height to the cropped dimensions
-        widthField.value = maxCroppedWidth;
-        heightField.value = maxCroppedHeight;
+        widthField.value = Math.max(maxCroppedWidth, 128);
+        heightField.value = Math.max(maxCroppedHeight, 128);
     };
     
 	function handlePaste(e) {
