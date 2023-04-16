@@ -107,23 +107,8 @@
     let canvas = document.createElement('canvas')
     let context = canvas.getContext('2d')
 
-    /*
     imageObj.onload = function() {
-        canvas.width = this.width
-        canvas.height = this.height
-        context.drawImage(imageObj, 0, 0)
-        initImagePreview.src = canvas.toDataURL('image/png')
-        
-        // set width and height if possible
-        let optionW = widthField.querySelector('[value="' + this.width + '"]');
-        let optionH = heightField.querySelector('[value="' + this.height + '"]');
-        if (optionW && optionH) {
-            widthField.value = this.width
-            heightField.value = this.height
-        }
-    };
-    */
-    imageObj.onload = function() {
+        /*
         // Calculate the maximum cropped dimensions
         const maxCroppedWidth = Math.floor(this.width / 64) * 64;
         const maxCroppedHeight = Math.floor(this.height / 64) * 64;
@@ -143,6 +128,50 @@
         // Set width and height to the cropped dimensions
         widthField.value = Math.max(maxCroppedWidth, 128);
         heightField.value = Math.max(maxCroppedHeight, 128);
+        */
+        // Calculate the maximum cropped dimensions
+        const maxCroppedWidth = Math.floor(this.width / 64) * 64;
+        const maxCroppedHeight = Math.floor(this.height / 64) * 64;
+
+        canvas.width = maxCroppedWidth;
+        canvas.height = maxCroppedHeight;
+
+        // Calculate the x and y coordinates to center the cropped image
+        const x = (maxCroppedWidth - this.width) / 2;
+        const y = (maxCroppedHeight - this.height) / 2;
+
+        // Draw the image with centered coordinates
+        context.drawImage(imageObj, x, y, this.width, this.height);
+
+        initImagePreview.src = canvas.toDataURL('image/png');
+
+        // Get the options from widthField and heightField
+        const widthOptions = Array.from(widthField.options).map(option => parseInt(option.value));
+        const heightOptions = Array.from(heightField.options).map(option => parseInt(option.value));
+
+        // Find the closest aspect ratio and closest to original dimensions
+        let bestWidth = widthOptions[0];
+        let bestHeight = heightOptions[0];
+        let minDifference = Math.abs(maxCroppedWidth / maxCroppedHeight - bestWidth / bestHeight);
+        let minDistance = Math.abs(maxCroppedWidth - bestWidth) + Math.abs(maxCroppedHeight - bestHeight);
+
+        for (const width of widthOptions) {
+            for (const height of heightOptions) {
+                const difference = Math.abs(maxCroppedWidth / maxCroppedHeight - width / height);
+                const distance = Math.abs(maxCroppedWidth - width) + Math.abs(maxCroppedHeight - height);
+
+                if (difference < minDifference || (difference === minDifference && distance < minDistance)) {
+                    minDifference = difference;
+                    minDistance = distance;
+                    bestWidth = width;
+                    bestHeight = height;
+                }
+            }
+        }
+
+        // Set the width and height to the closest aspect ratio and closest to original dimensions
+        widthField.value = bestWidth;
+        heightField.value = bestHeight;
     };
     
 	function handlePaste(e) {
