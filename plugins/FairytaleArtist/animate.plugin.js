@@ -1,7 +1,7 @@
 (function() {
     //==================== Init =============================
     const GITHUB_PAGE = "TBA"
-    const VERSION = "1.3";
+    const VERSION = "1.4";
     const ID_PREFIX = "animate-plugin";
     const GITHUB_ID = "T"
     console.log('%s Version: %s', ID_PREFIX, VERSION);
@@ -27,24 +27,50 @@
     **/
     let removeExtraTasksInterval
     animateButton.addEventListener('click',function(evnt){	
-        let origRequest = getCurrentUserRequest().reqBody;
-
         // start the auto task cleanup
         removeExtraTasksInterval = setInterval(removeExtraTasks, task_removal_frequency);
         
         for(let i = 0; i < fileRead.length; i++ ){
-            let newTaskRequest = getCurrentUserRequest()
-                newTaskRequest.reqBody = Object.assign({}, origRequest, {
-                init_image: fileRead[i],			
-                "prompt":  getVal("prompt"),
-                "negative_prompt": getVal("negative_prompt"),
-                "num_outputs": 1, // assume user only wants one at a time to evaluate, if selecting one out of a batch
-                "numOutputsTotal": 1, // assume user only wants one at a time to evaluate, if selecting one out of a batch
-                "batchCount": 1, // assume user only wants one at a time to evaluate, if selecting one out of a batch
-            //  "sampler": "ddim",
-                seed: getVal("seed")  //Remove or comment-out this line to retain original seed when resizing
-              })
-              createTask(newTaskRequest)
+            if (typeof performance == "object" && performance.mark) {
+                performance.mark('click-makeImage')
+            }
+            
+            if (!SD.isServerAvailable()) {
+                alert('The server is not available.')
+                return
+            }
+            if (!randomSeedField.checked && seedField.value == '') {
+                alert('The "Seed" field must not be empty.')
+                return
+            }
+            if (numInferenceStepsField.value == '') {
+                alert('The "Inference Steps" field must not be empty.')
+                return
+            }
+            if (numOutputsTotalField.value == '' || numOutputsTotalField.value == 0) {
+                numOutputsTotalField.value = 1
+            }
+            if (numOutputsParallelField.value == '' || numOutputsParallelField.value == 0) {
+                numOutputsParallelField.value = 1
+            }
+            if (guidanceScaleField.value == '') {
+                guidanceScaleField.value = guidanceScaleSlider.value / 10
+            }
+            const taskTemplate = getCurrentUserRequest()
+
+            // overrides
+            taskTemplate.numOutputsTotal = 1
+            taskTemplate.batchCount = 1
+            taskTemplate.reqBody.num_outputs = 1
+            taskTemplate.reqBody.init_image = fileRead[i]
+
+            // create the tasks
+            const newTaskRequests = getPrompts().map((prompt) => Object.assign({}, taskTemplate, {
+                reqBody: Object.assign({ prompt: prompt }, taskTemplate.reqBody)
+            }))
+            newTaskRequests.forEach(createTask)
+            
+            updateInitialText()
         }
     });
 
