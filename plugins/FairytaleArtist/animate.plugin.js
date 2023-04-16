@@ -68,9 +68,9 @@
             const taskTemplate = getCurrentUserRequest()
 
             // overrides
-            taskTemplate.numOutputsTotal = 1
-            taskTemplate.batchCount = 1
-            taskTemplate.reqBody.num_outputs = 1
+            //taskTemplate.numOutputsTotal = 1
+            //taskTemplate.batchCount = 1
+            //taskTemplate.reqBody.num_outputs = 1
             taskTemplate.reqBody.init_image = fileRead[i]
 
             // create the tasks
