@@ -193,7 +193,7 @@
     },
     {
         "id": "OutpaintIt",
-        "icon": "arrows",
+        "icon": "fa-arrows",
         "name": "OutpaintIt",
         "author": "Avidgamefan",
         "description": "Add-on to your image by \"Outpainting\" in any of the 4 directions, or all sides at once, with just one click.  Click on the label to produce multiple images in a batch run.\n\nCurrently, it will limit itself to the maximum capacity of an 8GB VRAM video card.  If you need to change the limits higher or lower, you will need to edit the file.",
@@ -205,7 +205,7 @@
     },
     {
         "id": "ScaleUp",
-        "icon": "expand",
+        "icon": "fa-expand",
         "name": "ScaleUp",
         "author": "Avidgamefan",
         "description": "Modest scaling up, maintaining close ratio, with img2img to increase resolution of output while adding minor details.  Click on the label to switch between normal and preserve-details.\n\nCurrently, it will limit itself to the maximum capacity of an 8GB VRAM video card.  If you need to change the limits higher or lower, you will need to edit the file.",
