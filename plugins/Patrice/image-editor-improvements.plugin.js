@@ -108,27 +108,6 @@
     let context = canvas.getContext('2d')
 
     imageObj.onload = function() {
-        /*
-        // Calculate the maximum cropped dimensions
-        const maxCroppedWidth = Math.floor(this.width / 64) * 64;
-        const maxCroppedHeight = Math.floor(this.height / 64) * 64;
-
-        canvas.width = maxCroppedWidth;
-        canvas.height = maxCroppedHeight;
-
-        // Calculate the x and y coordinates to center the cropped image
-        const x = (maxCroppedWidth - this.width) / 2;
-        const y = (maxCroppedHeight - this.height) / 2;
-
-        // Draw the image with centered coordinates
-        context.drawImage(imageObj, x, y, this.width, this.height);
-
-        initImagePreview.src = canvas.toDataURL('image/png');
-
-        // Set width and height to the cropped dimensions
-        widthField.value = Math.max(maxCroppedWidth, 128);
-        heightField.value = Math.max(maxCroppedHeight, 128);
-        */
         // Calculate the maximum cropped dimensions
         const maxCroppedWidth = Math.floor(this.width / 64) * 64;
         const maxCroppedHeight = Math.floor(this.height / 64) * 64;
@@ -183,6 +162,27 @@
 	    }
 	}
     document.addEventListener('paste', handlePaste)
+
+    // replace the default file open listener
+    initImageSelector.removeEventListener('change', loadImg2ImgFromFile);
+    function ieiLoadImg2ImgFromFile() {
+        if (initImageSelector.files.length === 0) {
+            return
+        }
+
+        let reader = new FileReader()
+        let file = initImageSelector.files[0]
+
+        reader.addEventListener('load', function(event) {
+            imageObj.src = reader.result
+        })
+
+        if (file) {
+            reader.readAsDataURL(file)
+        }
+    }
+    initImageSelector.addEventListener('change', ieiLoadImg2ImgFromFile)
+
 
     /* ADD SUPPORT FOR DRAG-AND-DROPPING SOURCE IMAGE (from file or straight from UI) */
     document.querySelector('#editor-inputs-init-image label').insertAdjacentHTML('beforeEnd', ` <i class="fa-solid fa-circle-question help-btn"><span class="simple-tooltip top">Add img2img source image using the Browse button, via drag & drop from external file or browser image (incl. rendered image) or by pasting an image from the clipboard using Ctrl+V.<br /><br />You may also reload the metadata embedded in a PNG or JPEG image (enable embedding from the Settings).</span></i>`)
