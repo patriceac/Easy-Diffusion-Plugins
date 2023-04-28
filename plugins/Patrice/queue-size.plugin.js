@@ -18,9 +18,13 @@
     `;
     document.head.appendChild(styleSheet);
 
+    const serverStatusColor2 = serverStatusColor.cloneNode()
     const serverStatusMsg2 = serverStatusMsg.cloneNode()
-    serverStatusMsg.style.display = 'none'
+    serverStatusColor2.innerHTML = serverStatusColor.innerHTML
+    serverStatusColor.after(serverStatusColor2)
     serverStatusMsg.after(serverStatusMsg2)
+    serverStatusColor.style.display = 'none'
+    serverStatusMsg.style.display = 'none'
     
     SD.addEventListener('statusChange', setServerStatus2)
     
@@ -45,22 +49,26 @@
                         }
                     }
                     if (imageCount > 0) {
+                        serverStatusColor2.style.color = 'rgb(200, 139, 0)'
                         serverStatusMsg2.style.color = 'rgb(200, 139, 0)'
-                        serverStatusMsg2.innerText = `Stable Diffusion is rendering* (${taskCount} active task${taskCount > 1 ? 's' : ''}, ${imageCount} image${imageCount > 1 ? 's' : ''} left)`
+                        serverStatusMsg2.innerText = `Stable Diffusion is rendering (${taskCount} active task${taskCount > 1 ? 's' : ''}, ${imageCount} image${imageCount > 1 ? 's' : ''} left)`
                     }
                     else
                     {
+                        serverStatusColor2.style.color = 'green'
                         serverStatusMsg2.style.color = 'green'
                         serverStatusMsg2.innerText = 'Stable Diffusion is ' + event.message
                     }
                 }
                 else
                 {
+                    serverStatusColor2.style.color = 'green'
                     serverStatusMsg2.style.color = 'green'
                     serverStatusMsg2.innerText = 'Stable Diffusion is ' + event.message
                 }
                 break
             case 'busy':
+                serverStatusColor2.style.color = 'rgb(200, 139, 0)'
                 serverStatusMsg2.style.color = 'rgb(200, 139, 0)'
                 if (event.message.startsWith('rendering')) {
     				let taskCount = 0
@@ -82,6 +90,7 @@
                 }
                 break
             case 'error':
+                serverStatusColor2.style.color = 'red'
                 serverStatusMsg2.style.color = 'red'
                 serverStatusMsg2.innerText = 'Stable Diffusion has stopped'
                 break
