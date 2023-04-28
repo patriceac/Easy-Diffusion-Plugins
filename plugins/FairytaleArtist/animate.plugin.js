@@ -57,11 +57,11 @@
                 <small>Start frame: </small><input type="number" id="extract-from-frame" min="1" max="250000" value="1" size="6">
                 <small>End frame: </small><input type="number" id="extract-to-frame" min="1" max="250000" size="6"">
             </div>
-            <small>Output format: </small>
+            <small>Animation format: </small>
             <select id="${ID_PREFIX}-output-file-format">
                 <option value="render">(Render only)</option>
-                <option value="video">Video clip</option>
-                <option value="gif" selected="">Animated GIF</option>
+                <option value="video" selected="">Video clip</option>
+                <option value="gif">Animated GIF</option>
             </select>
         </div>
         <div id="${ID_PREFIX}-fps" style="margin: 8px 0 0 16px; display: none;">
@@ -103,7 +103,7 @@
     maxAnimateQueueSize.addEventListener('input', (e) => {
         localStorage.setItem('max_animate_queue_size', maxAnimateQueueSize.value)
     })
-    maxAnimateQueueSize.value = localStorage.getItem('max_animate_queue_size') >= '0' ? localStorage.getItem('max_animate_queue_size') : '0'
+    maxAnimateQueueSize.value = localStorage.getItem('max_animate_queue_size') >= 0 ? localStorage.getItem('max_animate_queue_size') : '0'
 
     function showLoadingScreen() {
         const loader = document.createElement('div');
@@ -195,8 +195,9 @@
         const desiredFPS = parseFloat(fpsInput.value) ? parseFloat(fpsInput.value) : 5;
         const totalFrames = Math.floor(video.duration * desiredFPS);
 
-        setFrameRange(totalFrames)
+        setFrameRange(totalFrames);
         displayNthFrame(3);
+        updateAnimateCount();
     });
 
     function setImageDimensions(width, height) {
@@ -246,7 +247,35 @@
         return timeToSeek
     }
 
-    function displayNthFrame(n) {
+    function debounce(func, wait) {
+        let timeout;
+        let lastCallTime;
+    
+        return function (...args) {
+            const context = this;
+            const now = Date.now();
+    
+            const later = () => {
+                lastCallTime = now;
+                timeout = null;
+                func.apply(context, args);
+            };
+    
+            if (!lastCallTime) {
+                lastCallTime = now;
+            }
+    
+            if (now - lastCallTime >= wait) {
+                clearTimeout(timeout);
+                later();
+            } else {
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait - (now - lastCallTime));
+            }
+        };
+    }
+
+    function debouncedDisplayNthFrame(n) {
         const desiredFPS = parseFloat(fpsInput.value) ? parseFloat(fpsInput.value) : 5;
         const totalFrames = Math.floor(video.duration * desiredFPS);
         const frameIndex = Math.min(Math.max(n - 1, 0), totalFrames - 1); // first frame is index 0
@@ -267,6 +296,7 @@
             initImagePreview.src = frame.src;
         }, { once: true });
     }
+    const displayNthFrame = debounce(debouncedDisplayNthFrame, 200);
     
     stopExtractionButton.addEventListener('click', () => {
         extractionInProgress = false;
