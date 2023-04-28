@@ -17,6 +17,10 @@
         console.log('Plugin Manager already running, do not reload.')
         return
     }
+    else
+    {
+        setTimeout(initPlugins, 0);
+    }
     
     var styleSheet = document.createElement("style")
     styleSheet.textContent = `
@@ -917,7 +921,6 @@
 
     async function initPlugins(refreshPlugins = false) {
         let pluginsLoaded
-
         if(initPluginsInProgress === true) {
             return
         }
@@ -933,6 +936,20 @@
         }
         
         if (refreshPlugins === false) {
+            // load the notifications
+            pluginNotifications = await getStorageData('notifications')
+            if (pluginNotifications !== undefined) {
+                pluginNotifications = JSON.parse(pluginNotifications)
+                if (pluginNotifications.lastUpdated <= pluginNotifications.entries[0].date) {
+                    notificationPill.style.display = "block";
+                }
+            }
+            else
+            {
+                pluginNotifications = {};
+                pluginNotifications.entries = [];
+            }
+            
             // try and load plugins from local cache
             plugins = await getStorageData('plugins')
             if (plugins !== undefined) {
@@ -956,20 +973,6 @@
             {
                 plugins = []
                 pluginsLoaded = false
-            }
-            
-            // load the notifications
-            pluginNotifications = await getStorageData('notifications')
-            if (pluginNotifications !== undefined) {
-                pluginNotifications = JSON.parse(pluginNotifications)
-                if (pluginNotifications.lastUpdated <= pluginNotifications.entries[0].date) {
-                    notificationPill.style.display = "block";
-                }
-            }
-            else
-            {
-                pluginNotifications = {};
-                pluginNotifications.entries = [];
             }
         }
 
@@ -1026,7 +1029,6 @@
         }
         initPluginsInProgress = false
     }
-    setTimeout(initPlugins, 1000);
 
     function updateCompatIssueIds() {
         // Loop through each plugin
