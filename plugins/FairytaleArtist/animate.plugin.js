@@ -409,13 +409,25 @@
     }
 
     // observe for changes in the preview pane
-    const batchImageObserver = new MutationObserver(function (mutations) {
-        mutations.forEach(function (mutation) {
-            if (mutation.target.className == 'img-batch') {
-                lookupImage(mutation.target)
+    const batchImageObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.addedNodes[0] !== undefined && mutation.addedNodes[0].className == 'imageTaskContainer') {
+                const task = htmlTaskMap.get(mutation.addedNodes[0])
+                if (task.reqBody.imageGuid !== undefined) {
+                    const stopTask = mutation.addedNodes[0]?.querySelector(".stopTask");
+                    if (stopTask) {
+                        stopTask.style.visibility = "hidden";
+                    }
+                }
+            } else if (mutation.target.classList.contains('img-batch')) {
+                lookupImage(mutation.target);
+                const stopTask = mutation.target.closest('.imageTaskContainer').querySelector(".stopTask")
+                if (stopTask) {
+                    stopTask.style.visibility = "visible";
+                }
             }
-        })
-    })
+        });
+    });
 
     function addImageToGuidArray(guid, image, guidArray) {
         const guidObject = guidArray.find(obj => obj.imageGuid === guid);
@@ -495,7 +507,7 @@
                 height: canvas.height,
                 workerScript: workerBlobURL,
             });
-    
+
             for (const image of images) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(image, 0, 0);
@@ -697,9 +709,9 @@
         }
         try{
             let number_of_tasks =  $("div.taskStatusLabel:hidden").length;
-            console.log("number of tasks:", number_of_tasks)
+            //console.log("number of tasks:", number_of_tasks)
             while (number_of_tasks > task_count_limit) {
-                console.log("clicking:", $(".stopTask").last())
+                //console.log("clicking:", $(".stopTask").last())
                 if (processOrder.checked) {
                     // remove first image
                     const matchedElements = $('.imageTaskContainer').filter(function() {
@@ -724,9 +736,9 @@
         // stop the auto task cleanup when the queue is empty
         try{
             let number_of_tasks = $("div.taskStatusLabel:not(:hidden)").length;
-            console.log("number of tasks:", number_of_tasks)
+            //console.log("number of tasks:", number_of_tasks)
             if(number_of_tasks === 0){ 
-                console.log("stopping the scheduled cleanup")
+                //console.log("stopping the scheduled cleanup")
                 clearInterval(removeExtraTasksInterval);
             }
         }catch (e){
