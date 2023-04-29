@@ -458,7 +458,7 @@
     }
 
     async function processAnimation(imageBatchGuids, fpsInputValue, animationType, renderType) {
-        showLoadingScreen();
+        //showLoadingScreen();
 
         try {
             await createAndSaveAnimation(imageBatchGuids, fpsInputValue, animationType, renderType);
@@ -466,7 +466,7 @@
             console.error('Error processing animation:', error);
         }
 
-        hideLoadingScreen();
+        //hideLoadingScreen();
     }
 
     batchImageObserver.observe(document.getElementById('preview'), {
@@ -475,6 +475,7 @@
     })
     
     async function createAndSaveAnimation(imageDataObjects, fps, filename, fileType) {
+console.log("starting image processing")
         const images = await Promise.all(
             imageDataObjects.map(
                 ({ image: dataURL }) =>
@@ -485,6 +486,7 @@
                     })
             )
         );
+console.log("images loaded")
     
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
@@ -496,10 +498,12 @@
         canvas.height = images[0].height;
     
         if (fileType === 'gif') {
+console.log("exporting gif")
             // Create a Blob URL for the worker script
             const workerBlob = new Blob([gifWorkerScript], { type: 'application/javascript' });
             const workerBlobURL = URL.createObjectURL(workerBlob);
     
+console.log("worker created")
             const gif = new GIF({
                 workers: 2,
                 quality: 10,
@@ -508,13 +512,16 @@
                 workerScript: workerBlobURL,
             });
 
+console.log("adding frames")
             for (const image of images) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(image, 0, 0);
                 gif.addFrame(ctx, { delay: frameDelay, copy: true }); // Add 'copy: true' to force copying the canvas data
             }
+console.log("frames added")
     
             gif.on('finished', function (blob) {
+console.log("creating download link")
                 const url = URL.createObjectURL(blob);
     
                 const tempLink = document.createElement('a');
@@ -524,14 +531,19 @@
                 document.body.appendChild(tempLink);
                 tempLink.click();
     
+console.log("download link clicked")
                 setTimeout(() => {
+console.log("cleaning up download link")
                     document.body.removeChild(tempLink);
                     URL.revokeObjectURL(url);
                 }, 100);
             });
     
+console.log("rendering gif")
             gif.render();
+console.log("gif rendered")
         } else {
+console.log("exporting video")
             const recordedChunks = [];
             const mimeType = fileType === 'mp4' ? 'video/mp4' : 'video/webm';
             const mediaStream = canvas.captureStream(fps);
