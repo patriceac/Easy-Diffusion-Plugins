@@ -23,6 +23,57 @@
             .animate-loader h1 {
                 color: white;
             }
+            
+            /* TOASTS */
+            .plugin-toast {
+                position: fixed;
+                bottom: 10px;
+                right: -300px;
+                width: 300px;
+                background-color: #333;
+                color: #fff;
+                padding: 10px 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                z-index: 9999;
+                animation: slideInRight 0.5s ease forwards;
+                transition: bottom 0.5s ease; // Add a transition to smoothly reposition the toasts
+            }
+
+            .plugin-toast-error {
+                color: red;
+            }
+
+            @keyframes slideInRight {
+                from {
+                    right: -300px;
+                }
+                to {
+                    right: 10px;
+                }
+            }
+
+            .plugin-toast.hide {
+                animation: slideOutRight 0.5s ease forwards;
+            }
+
+            @keyframes slideOutRight {
+                from {
+                    right: 10px;
+                }
+                to {
+                    right: -300px;
+                }
+            }
+
+            @keyframes slideDown {
+                from {
+                    bottom: 10px;
+                }
+                to {
+                    bottom: 0;
+                }
+            }
         `;
 
         const styleElement = document.createElement('style');
@@ -164,24 +215,31 @@
             const fileURL = URL.createObjectURL(e.target.files[0]);
             video.src = fileURL;
             video.onloadedmetadata = () => {
-                const desiredFPS = parseFloat(fpsInput.value) ? parseFloat(fpsInput.value) : 5;
-                const totalFrames = Math.floor(video.duration * desiredFPS);
+                if (video.videoWidth > 0 && video.videoHeight > 0) {
+                    const desiredFPS = parseFloat(fpsInput.value) ? parseFloat(fpsInput.value) : 5;
+                    const totalFrames = Math.floor(video.duration * desiredFPS);
 
-                setFrameRange(totalFrames)
-                displayNthFrame(3);
-                colorCorrectionSetting.style.display = "none";
-                animateButton.style.display = "block";
-                animateOutputFormat.style.display = "block";
-                animateFps.style.display = "block";
-                frameWrapper.style.display = "block"
-                maxQueueSize.style.display = "block"
-                setImageDimensions(video.videoWidth, video.videoHeight);
-                //promptStrengthContainer.style.display = 'table-row'
-                if (!testDiffusers.checked) {
-                    samplerSelectionContainer.style.display = "none"
+                    setFrameRange(totalFrames)
+                    displayNthFrame(3);
+                    colorCorrectionSetting.style.display = "none";
+                    animateButton.style.display = "block";
+                    animateOutputFormat.style.display = "block";
+                    animateFps.style.display = "block";
+                    frameWrapper.style.display = "block"
+                    maxQueueSize.style.display = "block"
+                    setImageDimensions(video.videoWidth, video.videoHeight);
+                    //promptStrengthContainer.style.display = 'table-row'
+                    if (!testDiffusers.checked) {
+                        samplerSelectionContainer.style.display = "none"
+                    }
+                    // update frames
+                    updateAnimateCount()
                 }
-                // update frames
-                updateAnimateCount()
+                else
+                {
+                    console.error('Error: The video stream is not readable.');
+                    showToast('The video stream is not readable. Please choose a different video file.', 5000, true);
+                }
             };
         }
     });
@@ -756,5 +814,67 @@ console.log("exporting video")
         }catch (e){
             console.log(e);
         }
+    }
+
+    function showToast(message, duration = 5000, error = false) {
+        if (duration === null || duration === undefined) {
+            duration = 5000
+        }
+        const toast = document.createElement("div");
+        toast.classList.add("plugin-toast");
+        if (error === true) {
+            toast.classList.add("plugin-toast-error");
+        }
+        toast.innerHTML = message;
+        document.body.appendChild(toast);
+
+        // Set the position of the toast on the screen
+        const toastCount = document.querySelectorAll(".plugin-toast").length;
+        const toastHeight = toast.offsetHeight;
+        const previousToastsHeight = Array.from(document.querySelectorAll(".plugin-toast"))
+            .slice(0, -1) // exclude current toast
+            .reduce((totalHeight, toast) => totalHeight + toast.offsetHeight + 10, 0); // add 10 pixels for spacing
+        toast.style.bottom = `${10 + previousToastsHeight}px`;
+        toast.style.right = "10px";
+
+        // Delay the removal of the toast until animation has completed
+        let removeTimeoutId = null;
+        const removeToast = () => {
+            toast.classList.add("hide");
+            removeTimeoutId = setTimeout(() => {
+                toast.remove();
+                // Adjust the position of remaining toasts
+                const remainingToasts = document.querySelectorAll(".plugin-toast");
+                const removedToastBottom = toast.getBoundingClientRect().bottom;
+            
+                remainingToasts.forEach((toast) => {
+                    if (toast.getBoundingClientRect().bottom < removedToastBottom) {
+                        toast.classList.add("slide-down");
+                    }
+                });
+            
+                // Wait for the slide-down animation to complete
+                setTimeout(() => {
+                    // Remove the slide-down class after the animation has completed
+                    const slidingToasts = document.querySelectorAll(".slide-down");
+                    slidingToasts.forEach((toast) => {
+                        toast.classList.remove("slide-down");
+                    });
+            
+                    // Adjust the position of remaining toasts again, in case there are multiple toasts being removed at once
+                    const remainingToastsDown = document.querySelectorAll(".plugin-toast");
+                    let heightSoFar = 0;
+                    remainingToastsDown.forEach((toast) => {
+                        toast.style.bottom = `${10 + heightSoFar}px`;
+                        heightSoFar += toast.offsetHeight + 10; // add 10 pixels for spacing
+                    });
+                }, 0); // The duration of the slide-down animation (in milliseconds)
+            }, 500);
+        };
+
+        // Remove the toast after specified duration
+        setTimeout(() => {
+            removeToast();
+        }, duration);
     }
 })()
