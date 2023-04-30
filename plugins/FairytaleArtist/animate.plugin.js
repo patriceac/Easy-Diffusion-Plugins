@@ -594,7 +594,7 @@ console.log("download link clicked")
 console.log("cleaning up download link")
                     document.body.removeChild(tempLink);
                     URL.revokeObjectURL(url);
-                }, 100);
+                }, 10000);
             });
     
 console.log("rendering gif")
