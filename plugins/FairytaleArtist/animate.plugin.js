@@ -690,8 +690,8 @@
                     taskTemplate.numOutputsTotal = 1
                     taskTemplate.batchCount = 1
                     taskTemplate.reqBody.num_outputs = 1
-                    taskTemplate.reqBody.stream_image_progress = false
-                    taskTemplate.reqBody.show_only_filtered_image = true
+                    //taskTemplate.reqBody.stream_image_progress = false
+                    //taskTemplate.reqBody.show_only_filtered_image = true
                 }
                 taskTemplate.reqBody.init_image = fileRead[i]
     
