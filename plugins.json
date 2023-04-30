@@ -127,7 +127,7 @@
         "description": "Shows the count of active tasks and outstanding images in the Easy Diffusion status.",
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/queue-size.plugin.js",
         "localInstallOnly": false,
-        "version": "1.0",
+        "version": "1.1",
         "minEDVersion": "2.0",
         "compatIssueIds": []
     },
