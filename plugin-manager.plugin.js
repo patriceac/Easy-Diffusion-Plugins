@@ -183,57 +183,6 @@
             padding: 0;
         }
 
-        /* TOASTS */
-        .plugin-toast {
-            position: fixed;
-            bottom: 10px;
-            right: -300px;
-            width: 300px;
-            background-color: #333;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            z-index: 9999;
-            animation: slideInRight 0.5s ease forwards;
-            transition: bottom 0.5s ease; // Add a transition to smoothly reposition the toasts
-        }
-
-        .plugin-toast-error {
-            color: red;
-        }
-
-        @keyframes slideInRight {
-            from {
-                right: -300px;
-            }
-            to {
-                right: 10px;
-            }
-        }
-
-        .plugin-toast.hide {
-            animation: slideOutRight 0.5s ease forwards;
-        }
-
-        @keyframes slideOutRight {
-            from {
-                right: 10px;
-            }
-            to {
-                right: -300px;
-            }
-        }
-
-        @keyframes slideDown {
-            from {
-                bottom: 10px;
-            }
-            to {
-                bottom: 0;
-            }
-        }
-
         /* MODAL DIALOG */
         #pluginDialog-input-dialog {
             position: fixed;
@@ -571,9 +520,6 @@
     })
 
     function showToast(message, duration = 5000, error = false) {
-        if (duration === null || duration === undefined) {
-            duration = 5000
-        }
         const toast = document.createElement("div");
         toast.classList.add("plugin-toast");
         if (error === true) {
@@ -581,7 +527,6 @@
         }
         toast.innerHTML = message;
         document.body.appendChild(toast);
-        addPluginNotification(pluginNotifications, message, error)
 
         // Set the position of the toast on the screen
         const toastCount = document.querySelectorAll(".plugin-toast").length;
@@ -593,10 +538,9 @@
         toast.style.right = "10px";
 
         // Delay the removal of the toast until animation has completed
-        let removeTimeoutId = null;
         const removeToast = () => {
             toast.classList.add("hide");
-            removeTimeoutId = setTimeout(() => {
+            const removeTimeoutId = setTimeout(() => {
                 toast.remove();
                 // Adjust the position of remaining toasts
                 const remainingToasts = document.querySelectorAll(".plugin-toast");
@@ -628,9 +572,7 @@
         };
 
         // Remove the toast after specified duration
-        setTimeout(() => {
-            removeToast();
-        }, duration);
+        setTimeout(removeToast, duration);
     }
 
     function matchPluginFileNames(fileName1, fileName2) {
