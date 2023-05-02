@@ -105,8 +105,8 @@
         </div>
         <div id="${ID_PREFIX}-output-format" style="margin: 8px 0 0 16px; display: none;">
             <div style="margin-bottom: 8px;">
-                <small>Start time (s): </small><input type="number" id="extract-from-time" min="0" max="14400" step="0.1" value="0" size="6">
-                <small>End time (s): </small><input type="number" id="extract-to-time" min="0" max="14400" step="0.1" size="6"">
+                <small>Start time:</small> <input type="number" id="extract-from-time" min="0" max="14400" step="0.1" value="0" size="6" style="text-align: right;">
+                <small>End time:</small> <input type="number" id="extract-to-time" min="0" max="14400" step="0.1" size="6" style="text-align: right;">
             </div>
             <small>Animation format: </small>
             <select id="${ID_PREFIX}-output-file-format">
@@ -220,7 +220,7 @@
                     const desiredFPS = parseFloat(fpsInput.value) ? parseFloat(fpsInput.value) : 5;
 
                     setTimeRange(video.duration)
-                    displayTimePosition(desiredFPS * 3);
+                    displayTimePosition(3);
                     colorCorrectionSetting.style.display = "none";
                     animateButton.style.display = "block";
                     animateOutputFormat.style.display = "block";
@@ -254,8 +254,7 @@
     fpsInput.addEventListener('input', () => {
         const desiredFPS = parseFloat(fpsInput.value) ? parseFloat(fpsInput.value) : 5;
 
-        setTimeRange(video.duration);
-        displayTimePosition(desiredFPS * 3);
+        displayTimePosition(3);
         updateAnimateCount();
     });
 
@@ -325,15 +324,10 @@
         };
     }
 
-    function debouncedDisplayTimePosition(n) {
-        const desiredFPS = parseFloat(fpsInput.value) ? parseFloat(fpsInput.value) : 5;
-        const totalFrames = Math.floor(video.duration * desiredFPS);
-        const frameIndex = Math.min(Math.max(n - 1, 0), totalFrames - 1); // first frame is index 0
-        const timeToSeek = frameIndex / desiredFPS;
-    
+    function debouncedDisplayTimePosition(timeToSeek) {
         if (timeToSeek > video.duration) {
             // Seek to the end of the video and capture the last available frame
-            video.currentTime = video.duration - (1 / desiredFPS);
+            video.currentTime = video.duration;
         } else if (timeToSeek < 0) {
             // Seek to the beginning of the video and capture the first available frame
             video.currentTime = 0;
