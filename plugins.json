@@ -163,7 +163,7 @@
         "description": "A simple template library manager. Save/restore metadata as templates without having to mess with .txt or .json files. If you found a prompt/model/sampler/etc. combination that you really like, this is an easy way to save it so you can create more of the same later.\n\nFeatures:\n- Save/reload task *templates*\n- Search box for easy access\n- Supports template renaming and deletion\n- Export/import function to back up and restore your templates\n- Can restore seeds (optional)",
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/template-manager.plugin.js",
         "localInstallOnly": false,
-        "version": "1.7",
+        "version": "1.8",
         "minEDVersion": "2.0",
         "compatIssueIds": []
     },
