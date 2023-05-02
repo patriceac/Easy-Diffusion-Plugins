@@ -105,8 +105,8 @@
         </div>
         <div id="${ID_PREFIX}-output-format" style="margin: 8px 0 0 16px; display: none;">
             <div style="margin-bottom: 8px;">
-                <small>Start frame: </small><input type="number" id="extract-from-frame" min="1" max="250000" value="1" size="6">
-                <small>End frame: </small><input type="number" id="extract-to-frame" min="1" max="250000" size="6"">
+                <small>Start time (s): </small><input type="number" id="extract-from-time" min="0" max="14400" step="0.1" value="0" size="6">
+                <small>End time (s): </small><input type="number" id="extract-to-time" min="0" max="14400" step="0.1" size="6"">
             </div>
             <small>Animation format: </small>
             <select id="${ID_PREFIX}-output-file-format">
@@ -133,8 +133,8 @@
     const clearButton = document.querySelector('button.video-clear-btn');
     const maxAnimateQueueSize = document.getElementById("max_animate_queue_size")
     const fpsInput = document.getElementById('extract-fps');
-    const extractFromFrame = document.getElementById('extract-from-frame');
-    const extractToFrame = document.getElementById('extract-to-frame');
+    const extractFromTime = document.getElementById('extract-from-time');
+    const extractToTime = document.getElementById('extract-to-time');
 
     // save settings
     // output file format
@@ -187,27 +187,28 @@
         document.getElementById('video-file-selector').click();
     });
 
-    extractFromFrame.addEventListener('change', (e) => {
-        if (parseInt(extractFromFrame.value) > parseInt(extractToFrame.value)) {
-            extractToFrame.value = extractFromFrame.value;
+    extractFromTime.addEventListener('change', (e) => {
+        if (parseInt(extractFromTime.value) > parseInt(extractToTime.value)) {
+            extractToTime.value = extractFromTime.value;
         }
         updateAnimateCount()
-        displayNthFrame(extractFromFrame.value);
+        displayTimePosition(extractFromTime.value);
     })
     
-    extractToFrame.addEventListener('change', (e) => {
-        if (parseInt(extractToFrame.value) < parseInt(extractFromFrame.value)) {
-            extractFromFrame.value = extractToFrame.value;
+    extractToTime.addEventListener('change', (e) => {
+        if (parseInt(extractToTime.value) < parseInt(extractFromTime.value)) {
+            extractFromTime.value = extractToTime.value;
         }
         updateAnimateCount()
-        displayNthFrame(extractToFrame.value);
+        displayTimePosition(extractToTime.value);
     })
 
-    function setFrameRange(totalFrames) {
-        extractFromFrame.setAttribute('max', totalFrames);
-        extractToFrame.setAttribute('max', totalFrames);
-        extractFromFrame.value = 1;
-        extractToFrame.value = totalFrames;
+    function setTimeRange(totalDuration) {
+        const duration = totalDuration.toFixed(1)
+        extractFromTime.setAttribute('max', duration);
+        extractToTime.setAttribute('max', duration);
+        extractFromTime.value = 0;
+        extractToTime.value = duration;
     }
 
     document.getElementById('video-file-selector').addEventListener('change', (e) => {
@@ -217,10 +218,9 @@
             video.onloadedmetadata = () => {
                 if (video.videoWidth > 0 && video.videoHeight > 0) {
                     const desiredFPS = parseFloat(fpsInput.value) ? parseFloat(fpsInput.value) : 5;
-                    const totalFrames = Math.floor(video.duration * desiredFPS);
 
-                    setFrameRange(totalFrames)
-                    displayNthFrame(3);
+                    setTimeRange(video.duration)
+                    displayTimePosition(desiredFPS * 3);
                     colorCorrectionSetting.style.display = "none";
                     animateButton.style.display = "block";
                     animateOutputFormat.style.display = "block";
@@ -246,15 +246,16 @@
 
     function updateAnimateCount() {
         // show the user how many images will be generated
-        animateButton.innerHTML = "Animate (" + (extractToFrame.value - extractFromFrame.value + 1) + " images)";
+        const desiredFPS = parseFloat(fpsInput.value) ? parseFloat(fpsInput.value) : 5;
+        
+        animateButton.innerHTML = "Animate (" + Math.round((extractToTime.value - extractFromTime.value) * desiredFPS + 1) + " images)";
     }
 
     fpsInput.addEventListener('input', () => {
         const desiredFPS = parseFloat(fpsInput.value) ? parseFloat(fpsInput.value) : 5;
-        const totalFrames = Math.floor(video.duration * desiredFPS);
 
-        setFrameRange(totalFrames);
-        displayNthFrame(3);
+        setTimeRange(video.duration);
+        displayTimePosition(desiredFPS * 3);
         updateAnimateCount();
     });
 
@@ -296,15 +297,6 @@
         heightField.value = bestHeight;
     }
 
-    function frameToTime(frame) {
-        const desiredFPS = parseFloat(fpsInput.value) ? parseFloat(fpsInput.value) : 5;
-        const totalFrames = Math.floor(video.duration * desiredFPS);
-        const frameIndex = Math.min(Math.max(frame - 1, 0), totalFrames - 1); // first frame is index 0
-        const timeToSeek = frameIndex / desiredFPS;
-        
-        return timeToSeek
-    }
-
     function debounce(func, wait) {
         let timeout;
         let lastCallTime;
@@ -333,7 +325,7 @@
         };
     }
 
-    function debouncedDisplayNthFrame(n) {
+    function debouncedDisplayTimePosition(n) {
         const desiredFPS = parseFloat(fpsInput.value) ? parseFloat(fpsInput.value) : 5;
         const totalFrames = Math.floor(video.duration * desiredFPS);
         const frameIndex = Math.min(Math.max(n - 1, 0), totalFrames - 1); // first frame is index 0
@@ -354,7 +346,7 @@
             initImagePreview.src = frame.src;
         }, { once: true });
     }
-    const displayNthFrame = debounce(debouncedDisplayNthFrame, 200);
+    const displayTimePosition = debounce(debouncedDisplayTimePosition, 200);
     
     stopExtractionButton.addEventListener('click', () => {
         extractionInProgress = false;
@@ -712,8 +704,8 @@
             // extract frames from video
             const desiredFPS = parseFloat(fpsInput.value) ? parseFloat(fpsInput.value) : 5;
             const interval = 1 / desiredFPS;
-            const fromTime = frameToTime(extractFromFrame.value)
-            const toTime = frameToTime(extractToFrame.value)
+            const fromTime = extractFromTime.value
+            const toTime = extractToTime.value
             extractionInProgress = true;
             animateButton.disabled = true;
             stopExtractionButton.style.display = 'block';
