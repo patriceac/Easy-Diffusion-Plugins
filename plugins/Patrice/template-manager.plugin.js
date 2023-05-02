@@ -681,7 +681,17 @@
             delete task.reqBody.seed
         }
         restoreTaskToUI(task, TASK_REQ_NO_EXPORT)
-        document.dispatchEvent(new Event('refreshImageModifiers')) // let plugins know the image modifiers have changed
+        // save the settings
+        SETTINGS_IDS_LIST.forEach((id) => {
+            var element = document.getElementById(id);
+            if (element) {
+                element.dispatchEvent(new Event('change'));
+            } else {
+                console.error(`Missing settings element ${id}`);
+            }
+        });
+        // let plugins know the image modifiers have changed
+        document.dispatchEvent(new Event('refreshImageModifiers'))
     }
                                           
     function downloadJSON(jsonData, fileName) {
