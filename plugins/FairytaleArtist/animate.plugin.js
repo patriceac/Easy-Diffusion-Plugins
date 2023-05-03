@@ -685,9 +685,9 @@
     
                 // overrides
                 if (animateOutputFileFormat.value !== "render") {
-                    taskTemplate.numOutputsTotal = 1
-                    taskTemplate.batchCount = 1
-                    taskTemplate.reqBody.num_outputs = 1
+                    //taskTemplate.numOutputsTotal = 1
+                    //taskTemplate.batchCount = 1
+                    //taskTemplate.reqBody.num_outputs = 1
                     //taskTemplate.reqBody.stream_image_progress = false
                     //taskTemplate.reqBody.show_only_filtered_image = true
                 }
@@ -729,10 +729,15 @@
             //console.log(file);
         }
         animateButton.innerHTML = "Animate (" + file_input.files.length + " images)"; // show the user how many files we loaded
-
+        if (file_input.files.length > 1) {
+            animateButton.style.display = "block";
+        }
+        else
+        {
+            animateButton.style.display = "none";
+        }
         readFiles();
     })
-
 
     //==================== Functions ============================
 
