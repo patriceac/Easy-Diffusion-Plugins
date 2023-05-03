@@ -394,13 +394,14 @@
         unloadVideoSource()
     })
 
-
     function extractImagesFromVideo(video, fromTime, toTime, interval) {
         if (!video || !interval) return;
         video.currentTime = fromTime;
-    
+
+        const timeThreshold = 0.1; // Time threshold in seconds
+
         const captureImage = () => {
-            if (video.currentTime > toTime || !extractionInProgress) {
+            if (video.currentTime > toTime - timeThreshold || !extractionInProgress) {
                 extractionInProgress = false;
                 animateButton.disabled = false;
                 stopExtractionButton.style.display = 'none';
@@ -413,7 +414,7 @@
                 captureImage();
             }, { once: true });
         };
-    
+
         captureImage();
     }
 
