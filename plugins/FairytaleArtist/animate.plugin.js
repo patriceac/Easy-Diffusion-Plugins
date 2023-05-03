@@ -512,15 +512,11 @@
     }
     
     async function processAnimation(imageBatchGuids, fpsInputValue, animationType, renderType) {
-        //showLoadingScreen();
-    
         try {
             await createAndSaveAnimation(imageBatchGuids, fpsInputValue, animationType, renderType);
         } catch (error) {
             console.error('Error processing animation:', error);
         }
-    
-        //hideLoadingScreen();
     }
     
     batchImageObserver.observe(document.getElementById('preview'), {
@@ -532,8 +528,9 @@
         if (imageDataObjects.length === 0) {
             console.error("No images to process.");
             return;
-        }
-    
+        }   
+        showToast("Creating the final animation")
+        
         const firstImageBitmap = await createImageBitmap(imageDataObjects[0].image);
     
         const canvas = document.createElement('canvas');
@@ -580,6 +577,7 @@
                     document.body.removeChild(tempLink);
                     URL.revokeObjectURL(url);
                 }, 100);
+                showToast("Final animation creation completed ")
             });
     
             gif.render();
@@ -588,23 +586,24 @@
             const mimeType = fileType === 'mp4' ? 'video/mp4' : 'video/webm';
             const mediaStream = canvas.captureStream(fps);
             const mediaRecorder = new MediaRecorder(mediaStream, { mimeType, bitsPerSecond: 2500000 });
-    
+            
             mediaRecorder.ondataavailable = (e) => recordedChunks.push(e.data);
             mediaRecorder.onstop = () => {
                 const blob = new Blob(recordedChunks, { type: mimeType });
                 const url = URL.createObjectURL(blob);
-    
+            
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = filename;
                 a.click();
-    
+            
                 URL.revokeObjectURL(url);
             };
-    
+            
             mediaRecorder.start();
-    
+            
             let currentFrame = 0;
+            const videoStartTime = performance.now();
             const drawImages = async () => {
                 if (currentFrame < imageDataObjects.length) {
                     const startTime = performance.now();
@@ -613,23 +612,28 @@
             
                     currentFrame++;
             
-                    // Adjust the frameDelay based on processing time
-                    const adjustedFrameDelay = Math.max(0, frameDelay - processingTime);
+                    // Calculate the elapsed time since the video started
+                    const elapsedTime = performance.now() - videoStartTime;
+                    
+                    // Calculate the ideal time for the current frame
+                    const idealFrameTime = currentFrame * frameDelay;
+            
+                    // Calculate the adjustedFrameDelay based on idealFrameTime and elapsedTime
+                    const adjustedFrameDelay = Math.max(0, idealFrameTime - elapsedTime);
             
                     // Use setTimeout with the adjustedFrameDelay to control the frame rate
                     setTimeout(drawImages, adjustedFrameDelay);
                 } else {
                     mediaRecorder.stop();
+                    showToast("Final animation creation completed ")
                 }
             };
-    
+            
             // Start the drawImages loop
             drawImages();
             
             // free up the memory
             imageBatchGuids = [];
-            
-            showToast("Animation task completed")
         }
     }
 
