@@ -679,6 +679,7 @@
                             window.scrollTo(0, currentPosition);
                             warningElement?.classList.remove("hide");
                             plugin.code = pluginSource
+                            loadPlugins([plugin])
                             console.log(`Plugin ${plugin.name} installed`);
                             showToast("Plugin " + plugin.name + " installed");
                         }
