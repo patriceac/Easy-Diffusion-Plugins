@@ -631,10 +631,10 @@
             
             // Start the drawImages loop
             drawImages();
-            
-            // free up the memory
-            imageBatchGuids = [];
         }
+            
+        // free up the memory
+        imageBatchGuids = [];
     }
 
     // gif.worker.js 0.2.0 - https://github.com/jnordberg/gif.js
