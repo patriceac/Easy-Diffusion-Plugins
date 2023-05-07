@@ -372,6 +372,30 @@
         "compatIssueIds": []
     },
     {
+        "id": "Mads-render-tasks",
+        "icon": "cubes-stacked",
+        "name": "Mad's Render Tasks",
+        "author": "Madrang",
+        "description": "Mad wouldn't tell. The legend says there are certain plugins that change the way you work, and that is one of those. 🤷\n\n<b>Beta is untested and is still WIP. Main has more testing but may not have all features available while they are still under test.</b>",
+        "url": "https://raw.githubusercontent.com/madrang/sd-ui-plugins/master/mads-render_tasks.plugin.js",
+        "localInstallOnly": false,
+        "version": "",
+        "minEDVersion": "2.0",
+        "compatIssueIds": ["Mads-render-tasks-beta"]
+    },
+    {
+        "id": "Mads-render-tasks-beta",
+        "icon": "cubes-stacked",
+        "name": "Mad's Render Tasks (Beta)",
+        "author": "Madrang",
+        "description": "Mad wouldn't tell. The legend says there are certain plugins that change the way you work, and that is one of those. 🤷\n\n<b>Beta is untested and is still WIP. Main has more testing but may not have all features available while they are still under test.</b>",
+        "url": "https://raw.githubusercontent.com/madrang/sd-ui-plugins/beta/mads-render_tasks.plugin.js",
+        "localInstallOnly": false,
+        "version": "",
+        "minEDVersion": "2.0",
+        "compatIssueIds": ["Mads-render-tasks"]
+    },
+    {
         "id": "prompt-help-button",
         "icon": "fa-circle-question",
         "name": "Prompt Help Button",
