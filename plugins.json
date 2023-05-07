@@ -245,9 +245,9 @@
         "name": "Advanced Prompt Plugin",
         "author": "3V1LXD",
         "description": "Adds an optional collapsible advanced prompt table below the prompt field.\nAllows you to specify the emphasis for each prompt.\nEmphasis can be changed by hovering over it in the first cell of a row and scrolling with the alt key held.\nCan be reordered by dragging a row by its emphasis.\nDelete prompts by clearing the advanced prompt fields.\nAdd prompts by typing a comma at the beginning or end of the advanced prompt fields.",
-        "url": "https://raw.githubusercontent.com/3V1LXD/sd-ui-plugin-advanced-prompt/main/AdvancedPrompt.plugin.js",
+        "url": "https://raw.githubusercontent.com/3V1LXD/ed-ui-plugin-advanced-prompt/main/src/AdvancedPrompt.plugin.js",
         "localInstallOnly": false,
-        "version": "",
+        "version": "0.2",
         "minEDVersion": "2.0",
         "compatIssueIds": []
     },
