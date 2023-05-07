@@ -546,10 +546,11 @@
     
             const gif = new GIF({
                 workers: 2,
-                quality: 10,
+                quality: 20,
                 width: canvas.width,
                 height: canvas.height,
                 workerScript: workerBlobURL,
+                dither: true,
             });
     
             for (const imageDataObject of imageDataObjects) {
@@ -577,9 +578,9 @@
             gif.render();
         } else {
             const recordedChunks = [];
-            const mimeType = fileType === 'mp4' ? 'video/mp4' : 'video/webm';
+            const mimeType = fileType === 'mp4' ? 'video/mp4' : 'video/webm;codecs=vp9';
             const mediaStream = canvas.captureStream(fps);
-            const mediaRecorder = new MediaRecorder(mediaStream, { mimeType, bitsPerSecond: 2500000 });
+            const mediaRecorder = new MediaRecorder(mediaStream, { mimeType, bitsPerSecond: 5000000 });
             
             mediaRecorder.ondataavailable = (e) => recordedChunks.push(e.data);
             mediaRecorder.onstop = () => {
