@@ -15,7 +15,7 @@
 
     if (document.querySelector("#plugin-manager .plugins-table") !== null) {
         console.log('Plugin Manager already running, do not reload.')
-        return
+        //return
     }
     else
     {
@@ -527,7 +527,8 @@
         }
         toast.innerHTML = message;
         document.body.appendChild(toast);
-
+        addPluginNotification(pluginNotifications, message, error)
+        
         // Set the position of the toast on the screen
         const toastCount = document.querySelectorAll(".plugin-toast").length;
         const toastHeight = toast.offsetHeight;
