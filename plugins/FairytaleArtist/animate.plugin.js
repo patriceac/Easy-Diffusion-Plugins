@@ -242,7 +242,7 @@
         // show the user how many images will be generated
         const desiredFPS = parseFloat(fpsInput.value) ? parseFloat(fpsInput.value) : 5;
         
-        animateButton.innerHTML = "Animate (" + Math.round((extractToTime.value - extractFromTime.value) * desiredFPS + 1) + " images)";
+        animateButton.innerHTML = "Animate (" + Math.ceil((extractToTime.value - extractFromTime.value) * desiredFPS) + " images)";
     }
 
     fpsInput.addEventListener('input', () => {
