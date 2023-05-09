@@ -17,11 +17,10 @@
         console.log('Plugin Manager already running, do not reload.')
         //return
     }
-    else
-    {
+    else {
         setTimeout(initPlugins, 0);
     }
-    
+
     var styleSheet = document.createElement("style")
     styleSheet.textContent = `
         .plugins-table {
@@ -366,14 +365,14 @@
     let pluginNotifications;
 
     // Add event listener to show/hide the action center
-    pluginNotificationButton.addEventListener("click", function() {
+    pluginNotificationButton.addEventListener("click", function () {
         // Hide the notification pill when the action center is opened
         notificationPill.style.display = "none"
         pluginNotifications.lastUpdated = Date.now()
 
         // save the notifications
         setStorageData('notifications', JSON.stringify(pluginNotifications))
-        
+
         renderPluginNotifications()
 
         if (pluginNotificationList.style.display === "none") {
@@ -391,7 +390,7 @@
             pluginManagerSection.style.display = "block"
         }
     })
-    
+
     async function addPluginNotification(pluginNotifications, messageText, error) {
         const now = Date.now()
         pluginNotifications.entries.unshift({ date: now, text: messageText, error: error }); // add new entry to the beginning of the array
@@ -435,8 +434,7 @@
             pluginNoNotification.style.display = "none"
             pluginNotificationTable.style.display = "block"
         }
-        else
-        {
+        else {
             pluginNoNotification.style.display = "block"
             pluginNotificationTable.style.display = "none"
         }
@@ -445,13 +443,13 @@
             const text = pluginNotifications.entries[i].text
             const error = pluginNotifications.entries[i].error
             const newRow = document.createElement('div')
-            
+
             newRow.innerHTML = `
                 <div${error === true ? ' class="notification-error"' : ''}>${text}</div>
                 <div><small>${timeAgo(date)}</small></div>
             `;
             pluginNotificationTable.appendChild(newRow)
-         }
+        }
     }
 
     /* search box */
@@ -491,12 +489,12 @@
     pluginFilter.addEventListener('keyup', debouncedFilterPlugins);
 
     // select the text on focus
-    pluginFilter.addEventListener('focus', function(event) {
+    pluginFilter.addEventListener('focus', function (event) {
         pluginFilter.select()
     });
 
     // empty the searchbox on escape                
-    pluginFilter.addEventListener('keydown', function(event) {
+    pluginFilter.addEventListener('keydown', function (event) {
         if (event.key === 'Escape') {
             pluginFilter.value = '';
             filterPlugins();
@@ -514,7 +512,7 @@
     pluginsTable.insertAdjacentHTML('afterend', `<p id="refresh-plugins"><small><a id="refresh-plugins-link">Refresh plugins</a></small></p>
         <p><small>(Plugin developers, add your plugins to <a href='${PLUGIN_CATALOG_GITHUB}' target='_blank'>plugins.json</a>)</small></p>`)
     const refreshPlugins = document.getElementById("refresh-plugins")
-    refreshPlugins.addEventListener("click", async function(event) {
+    refreshPlugins.addEventListener("click", async function (event) {
         event.preventDefault()
         await initPlugins(true)
     })
@@ -528,7 +526,7 @@
         toast.innerHTML = message;
         document.body.appendChild(toast);
         addPluginNotification(pluginNotifications, message, error)
-        
+
         // Set the position of the toast on the screen
         const toastCount = document.querySelectorAll(".plugin-toast").length;
         const toastHeight = toast.offsetHeight;
@@ -546,13 +544,13 @@
                 // Adjust the position of remaining toasts
                 const remainingToasts = document.querySelectorAll(".plugin-toast");
                 const removedToastBottom = toast.getBoundingClientRect().bottom;
-            
+
                 remainingToasts.forEach((toast) => {
                     if (toast.getBoundingClientRect().bottom < removedToastBottom) {
                         toast.classList.add("slide-down");
                     }
                 });
-            
+
                 // Wait for the slide-down animation to complete
                 setTimeout(() => {
                     // Remove the slide-down class after the animation has completed
@@ -560,7 +558,7 @@
                     slidingToasts.forEach((toast) => {
                         toast.classList.remove("slide-down");
                     });
-            
+
                     // Adjust the position of remaining toasts again, in case there are multiple toasts being removed at once
                     const remainingToastsDown = document.querySelectorAll(".plugin-toast");
                     let heightSoFar = 0;
@@ -593,7 +591,7 @@
         const normalizedFilePath = filepath.replace(/\\/g, "/").toLowerCase();
 
         // Strip off the path from the file name
-        const fileName = normalizedFilePath.substring(normalizedFilePath.lastIndexOf("/") + 1);    
+        const fileName = normalizedFilePath.substring(normalizedFilePath.lastIndexOf("/") + 1);
 
         return fileName
     }
@@ -630,7 +628,7 @@
 
     async function initPluginTable(plugins) {
         pluginsTable.innerHTML = ''
-        plugins.sort((a, b) => a.name.localeCompare(b.name, undefined, {sensitivity: 'base'}))
+        plugins.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }))
         plugins.forEach(plugin => {
             const name = plugin.name
             const author = plugin.author ? ', by ' + plugin.author : ''
@@ -640,26 +638,26 @@
             const icon = plugin.icon ? `<i class="fa ${plugin.icon}"></i>` : '<i class="fa fa-puzzle-piece"></i>';
             const newRow = document.createElement('div')
             const localPluginFound = checkFileNameInArray(localPlugins, plugin.url)
-            
+
             newRow.innerHTML = `
                 <div>${icon}</div>
                 <div><label class="plugin-name">${name}${author}${version}</label>${warning}${note}<span class='plugin-source'>Source: <a href="${plugin.url}" target="_blank">${extractFilename(plugin.url)}</a><span></div>
                 <div>
                     ${localPluginFound ? "<span class='plugin-installed-locally'>Installed locally</span>" :
-                        (plugin.localInstallOnly ? '<span class="plugin-installed-locally">Download and<br />install manually</span>' :
-                            (isGitHub(plugin.url) ?
-                                '<input id="plugin-' + plugin.id + '" name="plugin-' + plugin.id + '" type="checkbox">' :
-                                '<button id="plugin-' + plugin.id + '-install" class="tertiaryButton"></button>'
-                            )
+                    (plugin.localInstallOnly ? '<span class="plugin-installed-locally">Download and<br />install manually</span>' :
+                        (isGitHub(plugin.url) ?
+                            '<input id="plugin-' + plugin.id + '" name="plugin-' + plugin.id + '" type="checkbox">' :
+                            '<button id="plugin-' + plugin.id + '-install" class="tertiaryButton"></button>'
                         )
-                    }
+                    )
+                }
                 </div>`;
             newRow.classList.add('plugin-container')
             //console.log(plugin.id, plugin.localInstallOnly)
             pluginsTable.appendChild(newRow)
             const pluginManualInstall = pluginsTable.querySelector('#plugin-' + plugin.id + '-install')
             updateManualInstallButtonCaption()
-            
+
             // checkbox event handler
             const pluginToggle = pluginsTable.querySelector('#plugin-' + plugin.id)
             if (pluginToggle !== null) {
@@ -667,7 +665,7 @@
                 pluginToggle.addEventListener('change', async () => {
                     const container = pluginToggle.closest(".plugin-container");
                     const warningElement = container.querySelector(".plugin-warning");
-                    
+
                     // if the plugin got enabled, download the plugin's code
                     plugin.enabled = pluginToggle.checked
                     if (plugin.enabled) {
@@ -684,8 +682,7 @@
                             console.log(`Plugin ${plugin.name} installed`);
                             showToast("Plugin " + plugin.name + " installed");
                         }
-                        else
-                        {
+                        else {
                             plugin.enabled = false
                             pluginToggle.checked = false
                             console.error(`Couldn't download plugin ${plugin.name}`);
@@ -704,7 +701,7 @@
                     await setStorageData('plugins', JSON.stringify(plugins))
                 })
             }
-            
+
             // manual install event handler
             if (pluginManualInstall !== null) {
                 pluginManualInstall.addEventListener('click', async () => {
@@ -724,14 +721,13 @@
                     console.log(`Plugin ${plugin.name} installed`);
                     showToast("Plugin " + plugin.name + " installed");
                 }
-                else
-                {
+                else {
                     plugin.enabled = false
                     console.log(`No code provided for plugin ${plugin.name}, disabling the plugin`);
                     showToast("No code provided for plugin " + plugin.name + ", disabling the plugin");
                 }
                 updateManualInstallButtonCaption()
-                await setStorageData('plugins', JSON.stringify(plugins))                    
+                await setStorageData('plugins', JSON.stringify(plugins))
             }
             // Dialog Cancel
             async function inputCancel() {
@@ -751,7 +747,7 @@
     }
 
     /* version management. Thanks Madrang! */
-    const parseVersion = function(versionString, options = {}) {
+    const parseVersion = function (versionString, options = {}) {
         if (typeof versionString === "undefined") {
             throw new Error("versionString is undefined.");
         }
@@ -781,7 +777,7 @@
         return versionParts;
     };
 
-    const versionCompare = function(v1, v2, options = {}) {
+    const versionCompare = function (v1, v2, options = {}) {
         if (typeof v1 == "undefined") {
             throw new Error("vi is undefined.");
         }
@@ -794,7 +790,7 @@
             v1parts = parseVersion(v1, options);
         } else if (Array.isArray(v1)) {
             v1parts = [...v1];
-            if (!v1parts.every (p => typeof p === "number" && p !== NaN)) {
+            if (!v1parts.every(p => typeof p === "number" && p !== NaN)) {
                 throw new Error("v1 part array does not only contains numbers.");
             }
         } else {
@@ -842,7 +838,7 @@
             }
             return true;
         });
-        
+
         return filteredPlugins;
     }
 
@@ -865,20 +861,19 @@
 
     async function initPlugins(refreshPlugins = false) {
         let pluginsLoaded
-        if(initPluginsInProgress === true) {
+        if (initPluginsInProgress === true) {
             return
         }
         initPluginsInProgress = true
-        
+
         const res = await fetch('/get/ui_plugins')
         if (!res.ok) {
             console.error(`Error HTTP${res.status} while loading plugins list. - ${res.statusText}`)
         }
-        else
-        {
+        else {
             localPlugins = await res.json()
         }
-        
+
         if (refreshPlugins === false) {
             // load the notifications
             pluginNotifications = await getStorageData('notifications')
@@ -888,12 +883,11 @@
                     notificationPill.style.display = "block";
                 }
             }
-            else
-            {
+            else {
                 pluginNotifications = {};
                 pluginNotifications.entries = [];
             }
-            
+
             // try and load plugins from local cache
             plugins = await getStorageData('plugins')
             if (plugins !== undefined) {
@@ -901,10 +895,10 @@
 
                 // remove duplicate entries if any (should not happen)
                 plugins = deduplicatePluginsById(plugins)
-                
+
                 // remove plugins that don't meet the min ED version requirement
                 plugins = filterPluginsByMinEDVersion(plugins, EasyDiffusionVersion)
-                
+
                 // remove from plugins the entries that don't have mandatory fields (id, name, url)
                 plugins = plugins.filter((plugin) => { return plugin.id !== '' && plugin.name !== '' && plugin.url !== ''; });
 
@@ -913,15 +907,14 @@
                 await loadPlugins(plugins)
                 pluginsLoaded = true
             }
-            else
-            {
+            else {
                 plugins = []
                 pluginsLoaded = false
             }
         }
 
         // update plugins asynchronously (updated versions will be available next time the UI is loaded)
-        if(refreshAllowed()) {
+        if (refreshAllowed()) {
             let pluginCatalog = await getDocument(PLUGIN_CATALOG)
             if (pluginCatalog !== null) {
                 try {
@@ -933,21 +926,21 @@
                 } catch (error) {
                     console.error('Error parsing plugin catalog:', error);
                 }
-                
+
                 await downloadPlugins(pluginCatalog, plugins, refreshPlugins)
 
                 // update compatIssueIds
                 updateCompatIssueIds()
-                
+
                 // remove plugins that don't meet the min ED version requirement
                 plugins = filterPluginsByMinEDVersion(plugins, EasyDiffusionVersion)
-                
+
                 // remove from plugins the entries that don't have mandatory fields (id, name, url)
                 plugins = plugins.filter((plugin) => { return plugin.id !== '' && plugin.name !== '' && plugin.url !== ''; });
-                
+
                 // remove from plugins the entries that no longer exist in the catalog
                 plugins = plugins.filter((plugin) => { return pluginCatalog.find((p) => p.id === plugin.id) });
-                
+
                 // save the remaining plugins            
                 await setStorageData('plugins', JSON.stringify(plugins))
 
@@ -957,16 +950,14 @@
                     loadPlugins(plugins)
                 }
             }
-            else
-            {
+            else {
                 console.error('Could not download the plugin catalog from ' + PLUGIN_CATALOG)
             }
             if (refreshPlugins) {
                 showToast('Plugins refreshed')
             }
         }
-        else
-        {
+        else {
             if (refreshPlugins) {
                 showToast('Plugins have been refreshed recently, refresh will be available within 1 hour', 5000, true)
             }
@@ -1033,6 +1024,9 @@
                         const indirectEval = { eval };
                         indirectEval.eval(plugin.code)
                         console.log("Plugin " + plugin.name + " loaded");
+                        // add plugin.id to comment in DOM for plugin detection
+                        const pluginLoaded = document.createComment(plugin.id)
+                        document.head.appendChild(pluginLoaded)
                     } catch (err) {
                         showToast("Error loading plugin " + plugin.name + " (" + err.message + ")", null, true)
                         console.error("Error loading plugin " + plugin.name + ": " + err.message);
@@ -1056,10 +1050,10 @@
         const branch = match.groups.branch;
         const filePath = match.groups.filePath;
         const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
-        
+
         const response = await fetch(apiUrl);
         const data = await response.json();
-        
+
         // Store the new sha value for future reference
         return data.sha;
     }
@@ -1137,8 +1131,7 @@
                 const pluginIndex = plugins.indexOf(existingPlugin);
                 plugins.splice(pluginIndex, 1, updatedPlugin);
             }
-            else
-            {
+            else {
                 plugins.push(plugin);
             }
         }
@@ -1240,8 +1233,8 @@
     // Request persistent storage
     async function requestPersistentStorage() {
         if (navigator.storage && navigator.storage.persist) {
-          const isPersisted = await navigator.storage.persist();
-          console.log(`Persisted storage granted: ${isPersisted}`);
+            const isPersisted = await navigator.storage.persist();
+            console.log(`Persisted storage granted: ${isPersisted}`);
         }
     }
     requestPersistentStorage()
@@ -1250,14 +1243,14 @@
     async function openDB() {
         return new Promise((resolve, reject) => {
             let request = indexedDB.open("EasyDiffusionSettingsDatabase", 1);
-            request.addEventListener("upgradeneeded", function() {
+            request.addEventListener("upgradeneeded", function () {
                 let db = request.result;
-                db.createObjectStore("EasyDiffusionSettings", {keyPath: "id"});
+                db.createObjectStore("EasyDiffusionSettings", { keyPath: "id" });
             });
-            request.addEventListener("success", function() {
+            request.addEventListener("success", function () {
                 resolve(request.result);
             });
-            request.addEventListener("error", function() {
+            request.addEventListener("error", function () {
                 reject(request.error);
             });
         });
@@ -1268,13 +1261,13 @@
         return openDB().then(db => {
             let tx = db.transaction("EasyDiffusionSettings", "readwrite");
             let store = tx.objectStore("EasyDiffusionSettings");
-            let data = {id: key, value: value};
+            let data = { id: key, value: value };
             return new Promise((resolve, reject) => {
                 let request = store.put(data);
-                request.addEventListener("success", function() {
+                request.addEventListener("success", function () {
                     resolve(request.result);
                 });
-                request.addEventListener("error", function() {
+                request.addEventListener("error", function () {
                     reject(request.error);
                 });
             });
@@ -1288,7 +1281,7 @@
             let store = tx.objectStore("EasyDiffusionSettings");
             return new Promise((resolve, reject) => {
                 let request = store.get(key);
-                request.addEventListener("success", function() {
+                request.addEventListener("success", function () {
                     if (request.result) {
                         resolve(request.result.value);
                     } else {
@@ -1296,7 +1289,7 @@
                         resolve();
                     }
                 });
-                request.addEventListener("error", function() {
+                request.addEventListener("error", function () {
                     reject(request.error);
                 });
             });
@@ -1310,7 +1303,7 @@
             let store = tx.objectStore("EasyDiffusionSettings");
             let keys = [];
             return new Promise((resolve, reject) => {
-                store.openCursor().onsuccess = function(event) {
+                store.openCursor().onsuccess = function (event) {
                     let cursor = event.target.result;
                     if (cursor) {
                         keys.push(cursor.key);
@@ -1345,7 +1338,7 @@
                 let tx = db.transaction("EasyDiffusionSettings", "readwrite");
                 let store = tx.objectStore("EasyDiffusionSettings");
                 return new Promise((resolve, reject) => {
-                    store.openCursor().onsuccess = function(event) {
+                    store.openCursor().onsuccess = function (event) {
                         let cursor = event.target.result;
                         if (cursor) {
                             if (!keyToDelete || cursor.key === keyToDelete) {
