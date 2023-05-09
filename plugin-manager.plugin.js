@@ -904,6 +904,7 @@
 
                 // populate the table
                 initPluginTable(plugins)
+                updateMetaTagPlugins(plugins)
                 await loadPlugins(plugins)
                 pluginsLoaded = true
             }
@@ -965,6 +966,18 @@
         initPluginsInProgress = false
     }
 
+    function updateMetaTagPlugins(plugins) {
+        // Update the meta tag with the list of loaded plugins
+        let metaTag = document.querySelector('meta[name="plugins"]');
+        if (metaTag === null) {
+            metaTag = document.createElement('meta');
+            metaTag.name = 'plugins';
+            document.head.appendChild(metaTag);
+        }
+        const pluginArray = plugins.filter(plugin => plugin.enabled).map(plugin => plugin.id);
+        metaTag.content = pluginArray.join(',');
+    }
+
     function updateCompatIssueIds() {
         // Loop through each plugin
         plugins.forEach(plugin => {
@@ -1024,9 +1037,6 @@
                         const indirectEval = { eval };
                         indirectEval.eval(plugin.code)
                         console.log("Plugin " + plugin.name + " loaded");
-                        // add plugin.id to comment in DOM for plugin detection
-                        const pluginLoaded = document.createComment(plugin.id)
-                        document.head.appendChild(pluginLoaded)
                     } catch (err) {
                         showToast("Error loading plugin " + plugin.name + " (" + err.message + ")", null, true)
                         console.error("Error loading plugin " + plugin.name + ": " + err.message);
