@@ -15,7 +15,7 @@
 
     if (document.querySelector("#plugin-manager .plugins-table") !== null) {
         console.log('Plugin Manager already running, do not reload.')
-        //return
+        return
     }
     else {
         setTimeout(initPlugins, 0);
@@ -427,6 +427,31 @@
         return 'just now';
     }
 
+    function convertSeconds(seconds) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+
+        let timeParts = [];
+        if (hours === 1) {
+            timeParts.push(`${hours} hour`);
+        } else if (hours > 1) {
+            timeParts.push(`${hours} hours`);
+        }
+        if (minutes === 1) {
+            timeParts.push(`${minutes} minute`);
+        } else if (minutes > 1) {
+            timeParts.push(`${minutes} minutes`);
+        }
+        if (remainingSeconds === 1) {
+            timeParts.push(`${remainingSeconds} second`);
+        } else if (remainingSeconds > 1) {
+            timeParts.push(`${remainingSeconds} seconds`);
+        }
+
+        return timeParts.join(', and ');
+    }
+
     function renderPluginNotifications() {
         pluginNotificationTable.innerHTML = ''
 
@@ -517,61 +542,11 @@
         await initPlugins(true)
     })
 
-    function showToast(message, duration = 5000, error = false) {
-        const toast = document.createElement("div");
-        toast.classList.add("plugin-toast");
-        if (error === true) {
-            toast.classList.add("plugin-toast-error");
+    function showPluginToast(message, duration = 5000, error = false, addNotification = true) {
+        if (addNotification === true) {
+            addPluginNotification(pluginNotifications, message, error)
         }
-        toast.innerHTML = message;
-        document.body.appendChild(toast);
-        addPluginNotification(pluginNotifications, message, error)
-
-        // Set the position of the toast on the screen
-        const toastCount = document.querySelectorAll(".plugin-toast").length;
-        const toastHeight = toast.offsetHeight;
-        const previousToastsHeight = Array.from(document.querySelectorAll(".plugin-toast"))
-            .slice(0, -1) // exclude current toast
-            .reduce((totalHeight, toast) => totalHeight + toast.offsetHeight + 10, 0); // add 10 pixels for spacing
-        toast.style.bottom = `${10 + previousToastsHeight}px`;
-        toast.style.right = "10px";
-
-        // Delay the removal of the toast until animation has completed
-        const removeToast = () => {
-            toast.classList.add("hide");
-            const removeTimeoutId = setTimeout(() => {
-                toast.remove();
-                // Adjust the position of remaining toasts
-                const remainingToasts = document.querySelectorAll(".plugin-toast");
-                const removedToastBottom = toast.getBoundingClientRect().bottom;
-
-                remainingToasts.forEach((toast) => {
-                    if (toast.getBoundingClientRect().bottom < removedToastBottom) {
-                        toast.classList.add("slide-down");
-                    }
-                });
-
-                // Wait for the slide-down animation to complete
-                setTimeout(() => {
-                    // Remove the slide-down class after the animation has completed
-                    const slidingToasts = document.querySelectorAll(".slide-down");
-                    slidingToasts.forEach((toast) => {
-                        toast.classList.remove("slide-down");
-                    });
-
-                    // Adjust the position of remaining toasts again, in case there are multiple toasts being removed at once
-                    const remainingToastsDown = document.querySelectorAll(".plugin-toast");
-                    let heightSoFar = 0;
-                    remainingToastsDown.forEach((toast) => {
-                        toast.style.bottom = `${10 + heightSoFar}px`;
-                        heightSoFar += toast.offsetHeight + 10; // add 10 pixels for spacing
-                    });
-                }, 0); // The duration of the slide-down animation (in milliseconds)
-            }, 500);
-        };
-
-        // Remove the toast after specified duration
-        setTimeout(removeToast, duration);
+        showToast(message, duration, error)
     }
 
     function matchPluginFileNames(fileName1, fileName2) {
@@ -680,13 +655,13 @@
                             plugin.code = pluginSource
                             loadPlugins([plugin])
                             console.log(`Plugin ${plugin.name} installed`);
-                            showToast("Plugin " + plugin.name + " installed");
+                            showPluginToast("Plugin " + plugin.name + " installed");
                         }
                         else {
                             plugin.enabled = false
                             pluginToggle.checked = false
                             console.error(`Couldn't download plugin ${plugin.name}`);
-                            showToast("Failed to install " + plugin.name + " (Couldn't fetch " + extractFilename(plugin.url) + ")", 5000, true);
+                            showPluginToast("Failed to install " + plugin.name + " (Couldn't fetch " + extractFilename(plugin.url) + ")", 5000, true);
                         }
                     } else {
                         warningElement?.classList.add("hide");
@@ -696,7 +671,7 @@
                         // When returning to the page, set the scroll position to the stored value
                         window.scrollTo(0, currentPosition);
                         console.log(`Plugin ${plugin.name} uninstalled`);
-                        showToast("Plugin " + plugin.name + " uninstalled");
+                        showPluginToast("Plugin " + plugin.name + " uninstalled");
                     }
                     await setStorageData('plugins', JSON.stringify(plugins))
                 })
@@ -719,12 +694,12 @@
                 if (pluginSource.trim() !== '') {
                     plugin.enabled = true
                     console.log(`Plugin ${plugin.name} installed`);
-                    showToast("Plugin " + plugin.name + " installed");
+                    showPluginToast("Plugin " + plugin.name + " installed");
                 }
                 else {
                     plugin.enabled = false
                     console.log(`No code provided for plugin ${plugin.name}, disabling the plugin`);
-                    showToast("No code provided for plugin " + plugin.name + ", disabling the plugin");
+                    showPluginToast("No code provided for plugin " + plugin.name + ", disabling the plugin");
                 }
                 updateManualInstallButtonCaption()
                 await setStorageData('plugins', JSON.stringify(plugins))
@@ -733,7 +708,7 @@
             async function inputCancel() {
                 plugin.enabled = false
                 console.log(`Installation of plugin ${plugin.name} cancelled`);
-                showToast("Cancelled installation of " + plugin.name);
+                showPluginToast("Cancelled installation of " + plugin.name);
             }
             // update button caption
             function updateManualInstallButtonCaption() {
@@ -904,7 +879,6 @@
 
                 // populate the table
                 initPluginTable(plugins)
-                updateMetaTagPlugins(plugins)
                 await loadPlugins(plugins)
                 pluginsLoaded = true
             }
@@ -918,55 +892,70 @@
         if (refreshAllowed()) {
             let pluginCatalog = await getDocument(PLUGIN_CATALOG)
             if (pluginCatalog !== null) {
+                let parseError = false;
                 try {
                     pluginCatalog = JSON.parse(pluginCatalog);
                     console.log('Plugin catalog successfully downloaded');
-                    if (pluginCatalog.length > plugins.length) {
-                        showToast("New plugins are available");
-                    }
                 } catch (error) {
                     console.error('Error parsing plugin catalog:', error);
+                    parseError = true;
                 }
 
-                await downloadPlugins(pluginCatalog, plugins, refreshPlugins)
+                if (!parseError) {
+                    await downloadPlugins(pluginCatalog, plugins, refreshPlugins)
 
-                // update compatIssueIds
-                updateCompatIssueIds()
+                    // update compatIssueIds
+                    updateCompatIssueIds()
 
-                // remove plugins that don't meet the min ED version requirement
-                plugins = filterPluginsByMinEDVersion(plugins, EasyDiffusionVersion)
+                    // remove plugins that don't meet the min ED version requirement
+                    plugins = filterPluginsByMinEDVersion(plugins, EasyDiffusionVersion)
 
-                // remove from plugins the entries that don't have mandatory fields (id, name, url)
-                plugins = plugins.filter((plugin) => { return plugin.id !== '' && plugin.name !== '' && plugin.url !== ''; });
+                    // remove from plugins the entries that don't have mandatory fields (id, name, url)
+                    plugins = plugins.filter((plugin) => { return plugin.id !== '' && plugin.name !== '' && plugin.url !== ''; });
 
-                // remove from plugins the entries that no longer exist in the catalog
-                plugins = plugins.filter((plugin) => { return pluginCatalog.find((p) => p.id === plugin.id) });
+                    // remove from plugins the entries that no longer exist in the catalog
+                    plugins = plugins.filter((plugin) => { return pluginCatalog.some((p) => p.id === plugin.id) });
 
-                // save the remaining plugins            
-                await setStorageData('plugins', JSON.stringify(plugins))
+                    if (pluginCatalog.length > plugins.length) {
+                        const newPlugins = pluginCatalog.filter((plugin) => {
+                            return !plugins.some((p) => p.id === plugin.id);
+                        });
 
-                // refresh the display of the plugins table
-                initPluginTable(plugins)
-                if (pluginsLoaded && pluginsLoaded === false) {
-                    loadPlugins(plugins)
+                        newPlugins.forEach((plugin, index) => {
+                            setTimeout(() => {
+                                showPluginToast(`New plugin "${plugin.name}" is available.`);
+                            }, (index + 1) * 1000);
+                        });
+                    }
+
+                    let pluginsJson;
+                    try {
+                        pluginsJson = JSON.stringify(plugins); // attempt to parse plugins to JSON
+                    } catch (error) {
+                        console.error('Error converting plugins to JSON:', error);
+                    }
+
+                    if (pluginsJson) { // only store the data if pluginsJson is not null or undefined
+                        await setStorageData('plugins', pluginsJson)
+                    }
+
+                    // refresh the display of the plugins table
+                    initPluginTable(plugins)
+                    if (pluginsLoaded && pluginsLoaded === false) {
+                        loadPlugins(plugins)
+                    }
                 }
-            }
-            else {
-                console.error('Could not download the plugin catalog from ' + PLUGIN_CATALOG)
-            }
-            if (refreshPlugins) {
-                showToast('Plugins refreshed')
             }
         }
         else {
             if (refreshPlugins) {
-                showToast('Plugins have been refreshed recently, refresh will be available within 1 hour', 5000, true)
+                showPluginToast('Plugins have been refreshed recently, refresh will be available in ' + convertSeconds(getTimeUntilNextRefresh()), 5000, true, false)
             }
         }
         initPluginsInProgress = false
     }
 
-    function updateMetaTagPlugins(plugins) {
+    function updateMetaTagPlugins(plugin) {
         // Update the meta tag with the list of loaded plugins
         let metaTag = document.querySelector('meta[name="plugins"]');
         if (metaTag === null) {
@@ -974,7 +963,7 @@
             metaTag.name = 'plugins';
             document.head.appendChild(metaTag);
         }
-        const pluginArray = plugins.filter(plugin => plugin.enabled).map(plugin => plugin.id);
+        const pluginArray = [...(metaTag.content ? metaTag.content.split(',') : []), plugin.id];
         metaTag.content = pluginArray.join(',');
     }
 
@@ -1028,24 +1017,26 @@
     }
 
     async function loadPlugins(plugins) {
-        plugins.forEach((plugin) => {
+        for (let i = 0; i < plugins.length; i++) {
+            const plugin = plugins[i];
             if (plugin.enabled === true && plugin.localInstallOnly !== true) {
                 const localPluginFound = checkFileNameInArray(localPlugins, plugin.url);
                 if (!localPluginFound) {
                     try {
                         // Indirect eval to work around sloppy plugin implementations
                         const indirectEval = { eval };
-                        indirectEval.eval(plugin.code)
+                        indirectEval.eval(plugin.code);
                         console.log("Plugin " + plugin.name + " loaded");
+                        await updateMetaTagPlugins(plugin); // add plugin to the meta tag
                     } catch (err) {
-                        showToast("Error loading plugin " + plugin.name + " (" + err.message + ")", null, true)
+                        showPluginToast("Error loading plugin " + plugin.name + " (" + err.message + ")", null, true);
                         console.error("Error loading plugin " + plugin.name + ": " + err.message);
                     }
                 } else {
                     console.log("Skipping plugin " + plugin.name + " (installed locally)");
                 }
             }
-        });
+        }
     }
 
     async function getFileHash(url) {
@@ -1069,16 +1060,28 @@
     }
 
     // only allow two refresh per hour
-    function refreshAllowed() {
+    function getTimeUntilNextRefresh() {
         const lastRuns = JSON.parse(localStorage.getItem('lastRuns') || '[]');
         const currentTime = new Date().getTime();
         const numRunsLast60Min = lastRuns.filter(run => currentTime - run <= 60 * 60 * 1000).length;
 
         if (numRunsLast60Min >= 2) {
-            console.log(`Next refresh available in ${3600 - Math.round((currentTime - lastRuns[lastRuns.length - 1]) / 1000)} seconds`)
+            return 3600 - Math.round((currentTime - lastRuns[lastRuns.length - 1]) / 1000);
+        }
+
+        return 0;
+    }
+    
+    function refreshAllowed() {
+        const timeUntilNextRefresh = getTimeUntilNextRefresh();
+
+        if (timeUntilNextRefresh > 0) {
+            console.log(`Next refresh available in ${timeUntilNextRefresh} seconds`);
             return false;
         }
 
+        const lastRuns = JSON.parse(localStorage.getItem('lastRuns') || '[]');
+        const currentTime = new Date().getTime();
         lastRuns.push(currentTime);
         localStorage.setItem('lastRuns', JSON.stringify(lastRuns));
         return true;
@@ -1098,7 +1101,7 @@
                 const pluginSource = await getDocument(plugin.url);
                 if (pluginSource !== null && pluginSource !== existingPlugin.code) {
                     console.log(`Plugin ${plugin.name} updated`);
-                    showToast("Plugin " + plugin.name + " updated", 5000);
+                    showPluginToast("Plugin " + plugin.name + " updated", 5000);
                     // Update the corresponding plugin
                     const updatedPlugin = {
                         ...existingPlugin,
@@ -1156,7 +1159,7 @@
             let document = await response.text();
             return document;
         } catch (error) {
-            showToast("Couldn't fetch " + extractFilename(url) + " (" + error + ")", null, true);
+            showPluginToast("Couldn't fetch " + extractFilename(url) + " (" + error + ")", null, true);
             console.error(error);
             return null;
         }
