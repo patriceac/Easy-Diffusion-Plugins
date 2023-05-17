@@ -489,7 +489,7 @@
     function lookupImage(target) {
         if (target !== null) {
             const img = target.querySelector('img');
-            img.addEventListener('load', async function () {
+            img?.addEventListener('load', async function () {
                 const task0 = htmlTaskMap.get(img.closest('.imageTaskContainer'));
                 const guid = task0?.reqBody?.imageGuid;
                 if (guid) {
