@@ -1024,6 +1024,7 @@
                 if (!localPluginFound) {
                     try {
                         // Indirect eval to work around sloppy plugin implementations
+                        console.log("Loading plugin " + plugin.name);
                         const indirectEval = { eval };
                         indirectEval.eval(plugin.code);
                         console.log("Plugin " + plugin.name + " loaded");
