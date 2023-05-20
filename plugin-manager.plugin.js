@@ -546,7 +546,11 @@
         if (addNotification === true) {
             addPluginNotification(pluginNotifications, message, error)
         }
-        showToast(message, duration, error)
+        try {
+            showToast(message, duration, error)
+        } catch (error) {
+            console.error('Error while trying to show toast:', error);
+        }
     }
 
     function matchPluginFileNames(fileName1, fileName2) {
@@ -1024,7 +1028,6 @@
                 if (!localPluginFound) {
                     try {
                         // Indirect eval to work around sloppy plugin implementations
-                        console.log("Loading plugin " + plugin.name);
                         const indirectEval = { eval };
                         indirectEval.eval(plugin.code);
                         console.log("Plugin " + plugin.name + " loaded");
