@@ -1029,6 +1029,7 @@
                     try {
                         // Indirect eval to work around sloppy plugin implementations
                         const indirectEval = { eval };
+                        console.log("Loading plugin " + plugin.name);
                         indirectEval.eval(plugin.code);
                         console.log("Plugin " + plugin.name + " loaded");
                         await updateMetaTagPlugins(plugin); // add plugin to the meta tag
