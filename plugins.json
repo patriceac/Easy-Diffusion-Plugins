@@ -360,6 +360,18 @@
         "compatIssueIds": []
     },
     {
+        "id": "story-teller",
+        "icon": "fa-dragon",
+        "name": "Story Teller",
+        "author": "FairytaleArtist",
+        "description": "This plugin helps you to create stories using Generative-AI. It helps to select photos of stories you generate and add subtitles to them.\nExample for usage flow:\nAsk Chat-GPT to create a short story.\nCopy the text into the prompt area\nChoose your image-modifiers, styles and settings.\nSet number of images to 4 and click \'Make Images\'\nMouse over  each image you would like to keep and click \'Add to Storyteller\' - the image will be added to a list at the top right\nClick save on each image - this will store the new images with appropriate names",
+        "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/FairytaleArtist/storyteller.plugin.js",
+        "localInstallOnly": false,
+        "version": "",
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
+    },
+    {
         "id": "spell-tokenizer",
         "icon": "fa-terminal",
         "name": "Spell Tokenizer",
