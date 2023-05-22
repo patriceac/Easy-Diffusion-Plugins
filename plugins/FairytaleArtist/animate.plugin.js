@@ -101,7 +101,7 @@
 
     const editorInputs = document.getElementById("editor-inputs");
     document.getElementById('editor-inputs-init-image').insertAdjacentHTML('beforeend', `
-        <label for="video-file-selector" class="${ID_PREFIX}-video-label">Extract Images from Video/GIF</label>
+        <label class="${ID_PREFIX}-video-label">Extract Images from Video/GIF</label>
         <button id="${ID_PREFIX}-upload-video-btn" type="button" class="${ID_PREFIX}-btn-primary"><i class="fa fa-photo-film"></i> Select a video/GIF<input type="file" id="video-file-selector" accept="video/mp4, video/webm, video/ogg, image/gif" class="${ID_PREFIX}-file-input"></button>
         <div id="${ID_PREFIX}-video-frame-wrapper" class="${ID_PREFIX}-video-frame-wrapper">
             <img id="${ID_PREFIX}-extracted-image-frame" alt="Latest Frame" class="${ID_PREFIX}-frame-image">
