@@ -185,7 +185,8 @@
         .deleteTemplate {
             background: none;
             border: none;
-            padding: 10px 6px 10px 6px;
+            padding: 10px 0px 10px 0px;
+            margin: 0 12px 0 10px;
         }
         
         .deleteTemplate:hover {
