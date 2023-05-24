@@ -855,14 +855,21 @@
 
         if (refreshPlugins === false) {
             // load the notifications
-            pluginNotifications = await getStorageData('notifications')
-            if (pluginNotifications !== undefined) {
-                pluginNotifications = JSON.parse(pluginNotifications)
-                if (pluginNotifications.lastUpdated <= pluginNotifications.entries[0].date) {
-                    notificationPill.style.display = "block";
+            pluginNotifications = await getStorageData('notifications')            
+            if (typeof pluginNotifications === "string") {
+                try {
+                    pluginNotifications = JSON.parse(pluginNotifications)
+                } catch (e) {
+                    console.error("Failed to parse pluginNotifications", e);
+                    pluginNotifications = {};
+                    pluginNotifications.entries = [];
                 }
             }
-            else {
+            if (pluginNotifications !== undefined) {
+                if (pluginNotifications.entries && pluginNotifications.entries.length > 0 && pluginNotifications.entries[0].date && pluginNotifications.lastUpdated <= pluginNotifications.entries[0].date) {
+                    notificationPill.style.display = "block";
+                }
+            } else {
                 pluginNotifications = {};
                 pluginNotifications.entries = [];
             }
