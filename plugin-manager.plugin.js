@@ -1064,11 +1064,17 @@
         const filePath = match.groups.filePath;
         const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
 
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-
-        // Store the new sha value for future reference
-        return data.sha;
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}, url: ${apiUrl}`);
+            }
+            const data = await response.json();
+            return data.sha;
+        } catch (error) {
+            console.error('Error fetching data from url:', apiUrl, 'Error:', error);
+            return null;
+        }
     }
 
     // only allow two refresh per hour
@@ -1109,7 +1115,7 @@
             if (isGitHub(plugin.url) && existingPlugin?.enabled === true) {
                 sha = await getFileHash(plugin.url)
             }
-            if (plugin.localInstallOnly !== true && isGitHub(plugin.url) && existingPlugin?.enabled === true && (refreshPlugins || (existingPlugin.sha !== undefined && existingPlugin.sha !== sha) || existingPlugin?.code === undefined)) {
+            if (plugin.localInstallOnly !== true && isGitHub(plugin.url) && existingPlugin?.enabled === true && (refreshPlugins || (existingPlugin.sha !== undefined && existingPlugin.sha !== null && existingPlugin.sha !== sha) || existingPlugin?.code === undefined)) {
                 const pluginSource = await getDocument(plugin.url);
                 if (pluginSource !== null && pluginSource !== existingPlugin.code) {
                     console.log(`Plugin ${plugin.name} updated`);
