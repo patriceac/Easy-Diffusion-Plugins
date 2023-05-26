@@ -18,7 +18,15 @@
     5. Adds import/export capabilities to the custom category editor (also exports/imports custom visuals).
     6. Collapses other categories when selecting a new one.
     7. Search box for quick search through custom and predefined modifiers.
+    8. Supports assigning LoRA's to image modifiers, including optional multipliers. Adding/removing LoRA tags preserves the existing images as long as the syntax is respected.
+        Syntax:
+        #Custom category 1
+        Custom modifier 1<lora:filename1>
+        Custom modifier 2<lora:filename2:multiplier>
+        ...    
 */
+let isRefreshImageModifiersListenerAdded = false;
+
 (function() {
     "use strict"
     
@@ -106,6 +114,11 @@
         .modifier-card-container .modifier-card-label p {
           margin-bottom: 4px;
         }
+
+        .beta-banner {
+            border-radius: 5px 5px 5px 5px;
+            box-shadow: 0px 0px 5px 1px darkgoldenrod;
+        }
     `;
     document.head.appendChild(styleSheet)
     
@@ -119,6 +132,7 @@
         if (inputCustomModifiers !== null) {
             customModifiersTextBox.value = inputCustomModifiers
             inputCustomModifiers = inputCustomModifiers.replace(/^\s*$(?:\r\n?|\n)/gm, "") // remove empty lines
+            inputCustomModifiers = inputCustomModifiers.replace(/ +/g, " "); // replace multiple spaces with a single space
         }
         if (inputCustomModifiers !== null && inputCustomModifiers !== '') {
             inputCustomModifiers = importCustomModifiers(inputCustomModifiers)
@@ -314,31 +328,76 @@
             }
         }
 
+        // extract LoRA tags from strings
+        function extractLoraTags(imageTag) {
+            // Define the regular expression for the tags
+            const regex = /<lora:([^:]+?)(?::([^>]+?))?>/g;
+
+            // Initialize an array to hold the matches
+            let matches = [];
+
+            // Iterate over the string, finding matches
+            let match;
+            while ((match = regex.exec(imageTag)) !== null) {
+                // If multiplier not provided, use 0.5 as the default value
+                let multiplier = match[2] !== undefined ? parseFloat(match[2]) : 0.5;
+
+                // Add the match to the array, as an object
+                matches.push({
+                    filename: match[1],
+                    multiplier: multiplier
+                });
+            }
+
+            // Clean up the imageTag string
+            let cleanedImageTag = imageTag.replace(regex, '').trim();
+
+            // Return the array of matches and cleaned imageTag string
+            return {
+                LoRA: matches,
+                imageTag: cleanedImageTag
+            };
+        }
+
         // transform custom modifiers from flat format to structured object
         function importCustomModifiers(input) {
-            let res = []
-            let lines = input.split("\n")
-            let currentCategory = "Custom Modifiers"
-            let currentModifiers = []
+            let res = [];
+            let lines = input.split("\n");
+            let currentCategory = "Custom Modifiers";
+            let currentModifiers = [];
             for (let line of lines) {
                 if (line.startsWith("#")) {
                     if (currentModifiers.length > 0) {
-                        res.push({ category: currentCategory, modifiers: currentModifiers })
+                        res.push({ category: currentCategory, modifiers: currentModifiers });
                     }
-                    currentCategory = line.substring(1)
-                    currentModifiers = []
+                    currentCategory = line.substring(1);
+                    currentModifiers = [];
                 } else {
-                    currentModifiers.push({
-                        modifier: line,
-                        previews: [
-                            { name: "portrait", image: "" },
-                            { name: "landscape", image: "" }
-                        ]
-                    })
+                    const dropAnImageHere = "data:image/png;base64,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"
+                    
+                    let { LoRA, imageTag } = extractLoraTags(line);
+                    if (LoRA.length > 0) {
+                        currentModifiers.push({
+                            modifier: imageTag,
+                            LoRA: LoRA,
+                            previews: [
+                                { name: "portrait", image: dropAnImageHere },
+                                { name: "landscape", image: "" }
+                            ]
+                        });
+                    } else {
+                        currentModifiers.push({
+                            modifier: line,
+                            previews: [
+                                { name: "portrait", image: dropAnImageHere },
+                                { name: "landscape", image: "" }
+                            ]
+                        });
+                    }
                 }
             }
-            res.push({ category: currentCategory, modifiers: currentModifiers })
-            return res
+            res.push({ category: currentCategory, modifiers: currentModifiers });
+            return res;
         }
         
         // transform custom modifiers from structured object to flat format
@@ -358,28 +417,47 @@
 
         // update entries. add and remove categories/modifiers as needed.
         function updateEntries(newEntries, existingEntries) {
-            let updated = false
+            let updated = false;
             
             // loop through each category in existingEntries
             for (let i = 0; i < existingEntries.length; i++) {
-                let existingCategory = existingEntries[i]
-                let newCategory = newEntries.find(entry => entry.category === existingCategory.category)
+                let existingCategory = existingEntries[i];
+                let newCategory = newEntries.find(entry => entry.category === existingCategory.category);
             
                 if (newCategory) {
                     // if category exists in newEntries, update its modifiers
-                    let newModifiers = newCategory.modifiers
-                    let existingModifiers = existingCategory.modifiers
+                    let newModifiers = newCategory.modifiers;
+                    let existingModifiers = existingCategory.modifiers;
             
                     // loop through each modifier in existingModifiers
                     for (let j = 0; j < existingModifiers.length; j++) {
-                        let existingModifier = existingModifiers[j]
-                        let existingModifierIndex = newModifiers.findIndex(mod => mod.modifier === existingModifier.modifier)
+                        let existingModifier = existingModifiers[j];
+                        const newModifier = newModifiers.find(mod => mod.modifier === existingModifier.modifier);
             
-                        if (existingModifierIndex === -1) {
+                        if (newModifier) {
+                            if (existingModifier.LoRA || newModifier.LoRA) {
+                                // if modifier exists in newModifiers, completely replace existingModifier with newModifier
+                                // Check if LoRA arrays exist and if they are different
+                                if (existingModifier.LoRA && newModifier.LoRA) {
+                                    // Overwrite LoRA in existingModifiers
+                                    existingModifier.LoRA = newModifier.LoRA;
+                                    updated = true;
+                                } else if (existingModifier.LoRA && !newModifier.LoRA) {
+                                    // Remove LoRA from existingModifier if it doesn't exist in newModifier
+                                    delete existingModifier.LoRA;
+                                    updated = true;
+                                } else if (!existingModifier.LoRA && newModifier.LoRA) {
+                                    // Add LoRA to existingModifier if it exists in newModifier
+                                    existingModifier.LoRA = newModifier.LoRA;
+                                    updated = true;
+                                }
+                                //console.log(existingModifier.LoRA, newModifier.LoRA)
+                            }
+                        } else {
                             // if modifier doesn't exist in newModifiers, remove it from existingModifiers
-                            existingModifiers.splice(j, 1)
-                            j--
-                            updated = true
+                            existingModifiers.splice(j, 1);
+                            j--;
+                            updated = true;
                         }
                     }
             
@@ -387,7 +465,7 @@
                     for (let j = 0; j < newModifiers.length; j++) {
                         let newModifier = newModifiers[j];
                         let existingIndex = existingModifiers.findIndex(mod => mod.modifier === newModifier.modifier);
-                        
+            
                         if (existingIndex === -1) {
                             // Modifier doesn't exist in existingModifiers, so insert it at the same index in existingModifiers
                             existingModifiers.splice(j, 0, newModifier);
@@ -396,25 +474,25 @@
                     }
                 } else {
                     // if category doesn't exist in newEntries, remove it from existingEntries
-                    existingEntries.splice(i, 1)
-                    i--
-                    updated = true
+                    existingEntries.splice(i, 1);
+                    i--;
+                    updated = true;
                 }
             }
             
             // loop through each category in newEntries
             for (let i = 0; i < newEntries.length; i++) {
-                let newCategory = newEntries[i]
-                let existingCategoryIndex = existingEntries.findIndex(entry => entry.category === newCategory.category)
+                let newCategory = newEntries[i];
+                let existingCategoryIndex = existingEntries.findIndex(entry => entry.category === newCategory.category);
             
                 if (existingCategoryIndex === -1) {
                     // if category doesn't exist in existingEntries, insert it at the same position
                     existingEntries.splice(i, 0, newCategory)
-                    updated = true
+                    updated = true;
                 }
             }
             
-            return updated
+            return updated;
         }
 
         async function handleImage(img, imageElement) {
@@ -432,7 +510,7 @@
                 saveCustomCategories()
             } catch (error) {
                 // Log the error message to the console
-                console.log(error);
+                console.error(error);
             }
         }
 
@@ -445,7 +523,6 @@
                     e.dataTransfer.dropEffect = 'copy';
                 });
                 overlay.addEventListener('drop', e => {
-                    e.stopPropagation();
                     e.preventDefault();
                     
                     // Find the first image file, uri, or moz-url in the items list
@@ -730,8 +807,141 @@
                 }
             })
         }
+        
+        function getLoRAFromActiveTags(activeTags, imageModifiers) {
+            // Prepare a result array
+            let result = [];
+        
+            // Iterate over activeTags
+            for (let tag of activeTags) {
+                // Check if the tag is marked active
+                if (!tag.inactive) {
+                    // Iterate over the categories in imageModifiers
+                    for (let category of imageModifiers) {
+                        // Iterate over the modifiers in the current category
+                        for (let modifier of category.modifiers) {
+                            // Check if the tag name matches the modifier
+                            if (trimModifiers(tag.name) === trimModifiers(modifier.modifier)) {
+                                // If there's a LoRA value, add it to the result array
+                                if (modifier.LoRA && modifier.LoRA.length > 0) {
+                                    result.push(modifier.LoRA);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // If no LoRA tags were found, return null
+            if (result.length === 0) {
+                return null;
+            }
+        
+            // Return the result array
+            return result.flat();
+        }
+
+        function isLoRAInActiveTags(activeTags, imageModifiers, givenLoRA) {
+            // Iterate over activeTags
+            for (let tag of activeTags) {
+                // Iterate over the categories in imageModifiers
+                for (let category of imageModifiers) {
+                    // Iterate over the modifiers in the current category
+                    for (let modifier of category.modifiers) {
+                        // Check if the tag name matches the modifier
+                        if (trimModifiers(tag.name) === trimModifiers(modifier.modifier)) {
+                            // Check if there's a LoRA value
+                            if (modifier.LoRA) {
+                                // Iterate over each LoRA object
+                                for(let loraObject of modifier.LoRA) {
+                                    // Check if the filename matches the given LoRA
+                                    if(loraObject.filename === givenLoRA) {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        
+            // If the given LoRA was not found in activeTags, return false
+            return false;
+        }
+
+        function isLoRAInImageModifiers(imageModifiers, givenModifier) {
+            for (let category of imageModifiers) {
+                for (let modifier of category.modifiers) {
+                    // Check if the given modifier matches and if it has a LoRA property
+                    if (modifier.modifier === givenModifier && modifier.LoRA) {
+                        // If the modifier has any LoRA object associated, return true
+                        if(modifier.LoRA.length > 0) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        
+            // If the given modifier was not found or it doesn't have a LoRA, return false
+            return false;
+        }
+
+        function showLoRAs() {
+            let overlays = document.querySelectorAll(".modifier-card-overlay")
+            overlays.forEach((card) => {
+                let modifierName = card.parentElement.getElementsByClassName("modifier-card-label")[0].getElementsByTagName("p")[0].dataset.fullName
+                modifierName = trimModifiers(modifierName)
+                if (isLoRAInImageModifiers(customModifiers, modifierName)) {
+                    //console.log("LoRA modifier:", modifierName)
+                    card.parentElement.classList.add('beta-banner')
+                }
+                else
+                {
+                    card.classList.remove('beta-banner')
+                }
+            })
+
+        }
+
+        let previousLoRA = "";
+        function handleRefreshImageModifiers(e) {
+            let LoRA = getLoRAFromActiveTags(activeTags, customModifiers); // find active LoRA
+            if (LoRA !== null && LoRA.length > 0 && testDiffusers?.checked) {
+                // If the current LoRA is not in activeTags, save it
+                if (!isLoRAInActiveTags(activeTags, customModifiers, loraModelField.value)) {
+                    previousLoRA = loraModelField.value;
+                }
+                // Set the new LoRA value
+                loraModelField.value = LoRA[0].filename;
+                loraAlphaSlider.value = LoRA[0].multiplier * 100;
+                loraAlphaField.value = LoRA[0].multiplier;
+            } else {
+                // Check if the current loraModelField.value is in activeTags
+                if (isLoRAInActiveTags(activeTags, customModifiers, loraModelField.value)) {
+                    // This LoRA is inactive. Restore the previous LoRA value.
+                    //console.log("Current LoRA in activeTags:", loraModelField.value, previousLoRA);
+                    loraModelField.value = previousLoRA;
+                }
+                else
+                {
+                    //console.log("Current LoRA not in activeTags:", loraModelField.value);
+                }
+            }
+            
+            showLoRAs()
+            
+            return true;
+        }
+
+        // Add the event listener only if it hasn't been added before
+        if (!isRefreshImageModifiersListenerAdded) {
+            document.addEventListener("refreshImageModifiers", handleRefreshImageModifiers);
+            isRefreshImageModifiersListenerAdded = true;
+        }
+
+        showLoRAs()
     }
-    initPlugin()
+    //initPlugin()
 
     PLUGINS['MODIFIERS_LOAD'] = []
 
@@ -795,7 +1005,7 @@
         return true
     })
 
-    /* STORAGE MANAGEMENT */
+    /* PERSISTENT STORAGE MANAGEMENT */
     // Request persistent storage
     async function requestPersistentStorage() {
         if (navigator.storage && navigator.storage.persist) {
