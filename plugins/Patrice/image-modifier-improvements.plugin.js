@@ -941,7 +941,7 @@ let isRefreshImageModifiersListenerAdded = false;
 
         showLoRAs()
     }
-    //initPlugin()
+    initPlugin()
 
     PLUGINS['MODIFIERS_LOAD'] = []
 
