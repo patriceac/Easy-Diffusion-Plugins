@@ -904,12 +904,14 @@ let isRefreshImageModifiersListenerAdded = false;
         }
 
         let previousLoRA = "";
+        let previousLoRAMultiplier = "";
         function handleRefreshImageModifiers(e) {
             let LoRA = getLoRAFromActiveTags(activeTags, customModifiers); // find active LoRA
             if (LoRA !== null && LoRA.length > 0 && testDiffusers?.checked) {
                 // If the current LoRA is not in activeTags, save it
                 if (!isLoRAInActiveTags(activeTags, customModifiers, loraModelField.value)) {
                     previousLoRA = loraModelField.value;
+                    previousLoRAMultiplier = loraAlphaField.value
                 }
                 // Set the new LoRA value
                 loraModelField.value = LoRA[0].filename;
@@ -921,6 +923,8 @@ let isRefreshImageModifiersListenerAdded = false;
                     // This LoRA is inactive. Restore the previous LoRA value.
                     //console.log("Current LoRA in activeTags:", loraModelField.value, previousLoRA);
                     loraModelField.value = previousLoRA;
+                    loraAlphaSlider.value = previousLoRAMultiplier * 100;
+                    loraAlphaField.value = previousLoRAMultiplier
                 }
                 else
                 {
