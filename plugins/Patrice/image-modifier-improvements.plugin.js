@@ -422,7 +422,7 @@ let isRefreshImageModifiersListenerAdded = false;
             // loop through each category in existingEntries
             for (let i = 0; i < existingEntries.length; i++) {
                 let existingCategory = existingEntries[i];
-                let newCategory = newEntries.find(entry => entry.category === existingCategory.category);
+                let newCategory = newEntries.find(entry => entry.category.toLowerCase() === existingCategory.category.toLowerCase());
             
                 if (newCategory) {
                     // if category exists in newEntries, update its modifiers
@@ -432,7 +432,7 @@ let isRefreshImageModifiersListenerAdded = false;
                     // loop through each modifier in existingModifiers
                     for (let j = 0; j < existingModifiers.length; j++) {
                         let existingModifier = existingModifiers[j];
-                        const newModifier = newModifiers.find(mod => mod.modifier === existingModifier.modifier);
+                        const newModifier = newModifiers.find(mod => mod.modifier.toLowerCase() === existingModifier.modifier.toLowerCase());
             
                         if (newModifier) {
                             if (existingModifier.LoRA || newModifier.LoRA) {
@@ -464,7 +464,7 @@ let isRefreshImageModifiersListenerAdded = false;
                     // loop through each modifier in newModifiers
                     for (let j = 0; j < newModifiers.length; j++) {
                         let newModifier = newModifiers[j];
-                        let existingIndex = existingModifiers.findIndex(mod => mod.modifier === newModifier.modifier);
+                        let existingIndex = existingModifiers.findIndex(mod => mod.modifier.toLowerCase() === newModifier.modifier.toLowerCase());
             
                         if (existingIndex === -1) {
                             // Modifier doesn't exist in existingModifiers, so insert it at the same index in existingModifiers
@@ -821,7 +821,7 @@ let isRefreshImageModifiersListenerAdded = false;
                         // Iterate over the modifiers in the current category
                         for (let modifier of category.modifiers) {
                             // Check if the tag name matches the modifier
-                            if (trimModifiers(tag.name) === trimModifiers(modifier.modifier)) {
+                            if (trimModifiers(tag.name.toLowerCase()) === trimModifiers(modifier.modifier.toLowerCase())) {
                                 // If there's a LoRA value, add it to the result array
                                 if (modifier.LoRA && modifier.LoRA.length > 0) {
                                     result.push(modifier.LoRA);
@@ -855,7 +855,7 @@ let isRefreshImageModifiersListenerAdded = false;
                                 // Iterate over each LoRA object
                                 for(let loraObject of modifier.LoRA) {
                                     // Check if the filename matches the given LoRA
-                                    if(loraObject.filename === givenLoRA) {
+                                    if(loraObject.filename.toLowerCase() === givenLoRA.toLowerCase()) {
                                         return true;
                                     }
                                 }
@@ -873,7 +873,7 @@ let isRefreshImageModifiersListenerAdded = false;
             for (let category of imageModifiers) {
                 for (let modifier of category.modifiers) {
                     // Check if the given modifier matches and if it has a LoRA property
-                    if (modifier.modifier === givenModifier && modifier.LoRA) {
+                    if (modifier.modifier.toLowerCase() === givenModifier.toLowerCase() && modifier.LoRA) {
                         // If the modifier has any LoRA object associated, return true
                         if(modifier.LoRA.length > 0) {
                             return true;
