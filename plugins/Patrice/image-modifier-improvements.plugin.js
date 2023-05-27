@@ -915,15 +915,17 @@ let isRefreshImageModifiersListenerAdded = false;
             let LoRA = getLoRAFromActiveTags(activeTags, customModifiers); // find active LoRA
             if (LoRA !== null && LoRA.length > 0 && testDiffusers?.checked) {
                 if (isStringInArray(modelsCache.options.lora, LoRA[0].filename)) {
-                    // If the current LoRA is not in activeTags, save it
-                    if (!isLoRAInActiveTags(activeTags, customModifiers, loraModelField.value)) {
-                        previousLoRA = loraModelField.value;
-                        previousLoRAMultiplier = loraAlphaField.value
+                    if (loraModelField.value !== LoRA[0].filename) {
+                        // If the current LoRA is not in activeTags, save it
+                        if (!isLoRAInActiveTags(activeTags, customModifiers, loraModelField.value)) {
+                            previousLoRA = loraModelField.value;
+                            previousLoRAMultiplier = loraAlphaField.value
+                        }
+                        // Set the new LoRA value
+                        loraModelField.value = LoRA[0].filename;
+                        loraAlphaSlider.value = LoRA[0].multiplier * 100;
+                        loraAlphaField.value = LoRA[0].multiplier;
                     }
-                    // Set the new LoRA value
-                    loraModelField.value = LoRA[0].filename;
-                    loraAlphaSlider.value = LoRA[0].multiplier * 100;
-                    loraAlphaField.value = LoRA[0].multiplier;
                 }
                 else
                 {
@@ -932,7 +934,7 @@ let isRefreshImageModifiersListenerAdded = false;
             } else {
                 // Check if the current loraModelField.value is in activeTags
                 if (isLoRAInActiveTags(activeTags, customModifiers, loraModelField.value)) {
-                    if (isStringInArray(modelsCache.options.lora, previousLoRA)) {
+                    if (previousLoRA === "" || isStringInArray(modelsCache.options.lora, previousLoRA)) {
                         // This LoRA is inactive. Restore the previous LoRA value.
                         //console.log("Current LoRA in activeTags:", loraModelField.value, previousLoRA);
                         loraModelField.value = previousLoRA;
