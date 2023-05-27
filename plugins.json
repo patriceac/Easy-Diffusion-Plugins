@@ -454,5 +454,17 @@
         "version": "1.6",
         "minEDVersion": "2.0",
         "compatIssueIds": []
+    },
+    {
+        "id": "lora-controls",
+        "icon": "fa-sparkles",
+        "name": "LoRA Controls",
+        "author": "The Stig",
+        "description": "Controls the strength of the current LoRA.\nIcon guide as follows.\n- Set LoRA strength to minimum.\n- Reduce LoRA strength.\n- Set LoRA strength to mid point.\n- Increase LoRA strength.\n- Set LoRA strength to maximum.\n- Create images based on a range of LoRA strength from minimum to maximum.",
+        "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/The_Stig/stigs-lora-shuttle-controls.plugin.js",
+        "localInstallOnly": false,
+        "version": "1.3",
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     }
 ]
