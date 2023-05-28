@@ -1,6 +1,6 @@
 /**
  * Image Utilities
- * v.1.6, last updated: 26/05/2023
+ * v.1.7, last updated: 28/05/2023
  * By The Stig
  * 
  * 
@@ -68,7 +68,7 @@
 		{ html: '<i class="' + imgUtilsSettings.imgUtils1 + '"></i>', on_click: onRotate90CCW},
 		{ html: '<i class="' + imgUtilsSettings.imgUtils2 + '"></i>', on_click: onRotate90CW},
 		{ html: '<i class="' + imgUtilsSettings.imgUtils3 + '"></i>', on_click: onTileImage},
-		{ html: '<i class="' + imgUtilsSettings.imgUtils4 + '"></i>', on_click: onSaveMask},  // onInvertMask
+		//{ html: '<i class="' + imgUtilsSettings.imgUtils4 + '"></i>', on_click: onSaveMask},  // onInvertMask
 		{ html: '<i class="' + imgUtilsSettings.imgUtils5 + '"></i>', on_click: onDownloadMeta},
 		{ html: '<i class="' + imgUtilsSettings.imgUtils6 + '"></i>', on_click: onDisplayInfo}
 	])
@@ -182,22 +182,50 @@
 	}
 
 	function onRotate90CW(origRequest, image) {
-		rotate(image,90);
+		switch (origRequest.showInfoBar) {
+			case undefined:
+				rotate(image,90);
+				break;
+			case true:
+				alert('Please turn off information before you rotate the image.');
+				break;
+			case false:
+				rotate(image,90);
+				break;
+			default:
+				rotate(image,90);
+				break;
+		}
+				
 		//console.log('**Image rotated 90deg Clockwise**');
 	}
 
 	function onRotate90CCW(origRequest, image) {
-		rotate(image,-90);
+		switch (origRequest.showInfoBar) {
+			case undefined:
+				rotate(image,-90);
+				break;
+			case true:
+				alert('Please turn off information before you rotate the image.');
+				break;
+			case false:
+				rotate(image,-90);
+				break;
+			default:
+				rotate(image,-90);
+		}
+			
 		//console.log('**Image rotated 90deg Counter Clockwise**');
 	}
+	
 
 	function onFlipHoriz(origRequest, image) {
-		mirror(image,0,0,true,false);
+		mirror(origRequest,image,0,0,true,false);
 		//console.log('*** Image Flipped Horizontally***');
 	}
 
 	function onFlipVert(origRequest, image) {
-		mirror(image,0,0,false,true);
+		mirror(origRequest,image,0,0,false,true);
 		//console.log('*** Image Flipped Vertically***');
 	}
 
@@ -216,8 +244,8 @@
 			const context = canvas.getContext("2d");
   
 			// Make canvas the same size as img inverted
-			const cw = img.naturalHeight;
-			const ch = img.naturalWidth;
+			var cw = img.naturalHeight;
+			var ch = img.naturalWidth;
 
 			canvas.width = cw;
 			canvas.height = ch;
@@ -246,8 +274,8 @@
 			const context = canvas.getContext("2d");
   
 			// Make canvas the same size as img
-			const cw = img.naturalWidth;
-			const ch = img.naturalHeight;
+			var cw = img.naturalWidth;
+			var ch = img.naturalHeight;
 			
 			canvas.width = cw;
 			canvas.height = ch;
@@ -295,51 +323,125 @@
 		// Get variables from prompt
 		var imgInfSteps = origRequest.num_inference_steps;
 		var imgGuideStr = origRequest.guidance_scale;
+		var imgClipSkip = 'No';
+		var imgTiled = 'No';
+		switch (origRequest.clip_skip) {
+			case false:
+				imgClipSkip='No';
+				break;
+			case true:
+				imgClipSkip='Yes';
+				break;
+			default:
+				imgClipSkip='No';
+				break;
+		}
+		
+		switch (origRequest.tiling) {
+			case "none":
+				imgTiled = 'No';
+				break;
+			case "x":
+				imgTiled = 'Horiz';
+				break;
+			case "y":
+				imgTiled = 'Vert';
+				break;
+			case "xy":
+				imgTiled = 'Both';
+				break;
+			default:
+				imgTiled = 'No';
+				break;
+		}
+			
+			
+		
 		var LoraAlphaValue = origRequest.lora_alpha;
 		var checkWidth = image.naturalWidth;
 		var proceedFlag=false;
+		var toggleInfo=null;
+		var cw = 0;
+		var ch = 0;
+		
+		toggleInfo=origRequest.showInfoBar;
+		switch (toggleInfo) {
+			case undefined:
+				toggleInfo=true;
+				break;
+			case true:
+				toggleInfo=false;
+				break;
+			case false:
+				toggleInfo=true;
+				break;
+			default:
+				toggleInfo=false;
+				break;
+		}
+		
+		origRequest.showInfoBar = toggleInfo;
+			
 		if (typeof checkWidth === 'string') {
 			checkWidth=parse(checkWidth);
 		}
 		if (checkWidth >448) {
 			proceedFlag=true;
 		}
+		
 		switch (proceedFlag) {
 			case false:
+				alert('Image is too small to display information');
 				break;
 			default:
 				//Create the canvas to work with
 				const img = image;
 				const canvas = document.createElement("canvas");
 				const context = canvas.getContext("2d");
+				cw = img.naturalWidth;
 		
 				// Make the canvas slightly larger than the original image
 				// to accomodate the information bar
-				const cw = img.naturalWidth;
-				const ch = img.naturalHeight+40;
+				//const cw = img.naturalWidth;
+				switch (toggleInfo) {
+					case true:
+						ch = img.naturalHeight+40;
+						break;
+					case false:
+						ch = img.naturalHeight-40;
+						break;
+				}
 				canvas.width = cw;
 				canvas.height = ch;
 			
 				// Display the canvas	
 				context.save();
 				context.drawImage(img,0,0);
+				
+				switch (toggleInfo) {
+					case true:
+						// Add rectangle to base of canvas
+						context.beginPath();
+						context.rect(0, ch-40, cw,40 );
+						context.fillStyle = 'white';
+						context.fill();
+						context.lineWidth = 7;
+						context.strokeStyle = 'black';
+						context.stroke();
 		
-				// Add rectangle to base of canvas
-				context.beginPath();
-				context.rect(0, ch-40, cw,40 );
-				context.fillStyle = 'white';
-				context.fill();
-				context.lineWidth = 7;
-				context.strokeStyle = 'black';
-				context.stroke();
-		
-				// Add text info to the rectangle
-				context.fillStyle = 'black';
-				context.font = '20px serif';
-				context.fillText('Inference Steps: ' + imgInfSteps, 20, ch-20);
-				context.fillText('Guidance Scale: ' + imgGuideStr, (cw/2)-40, ch-20);
-				context.fillText('Lora: ' + LoraAlphaValue, cw-120, ch-20);
-				context.restore();
+						// Add text info to the rectangle
+						context.fillStyle = 'black';
+						context.font = '20px serif';
+						context.fillText('IS: ' + imgInfSteps, 20, ch-20);
+						context.fillText('GS: ' + imgGuideStr, 80, ch-20);
+						context.fillText('Clip: ' + imgClipSkip, 160, ch-20);
+						context.fillText('Tile: ' + imgTiled, 280, ch-20);
+						context.fillText('Lora: ' + LoraAlphaValue, cw-120, ch-20);
+						context.restore();
+						break;
+					case false:
+						break;
+				}
   
 				// Replace img with canvas contents
 				img.src = canvas.toDataURL();
@@ -348,12 +450,32 @@
 	}
 	
 	function onTileImage(origRequest,image) {
+		switch (origRequest.showInfoBar) {
+			case undefined:
+				onTileTheImage(origRequest,image);
+				break;
+			case true:
+				alert('Please turn off information before you tile the image.');
+				break;
+			case false:
+				onTileTheImage(origRequest,image);
+				break;
+			default:
+				onTileTheImage(origRequest,image);
+				break;
+		}
+		
+	}
+	
+	
+	
+	function onTileTheImage(origRequest,image) {
 		var myTileDir = origRequest.tiling;
 		const img = image;
 		const canvas = document.createElement("canvas");
 		const context = canvas.getContext("2d");
-		const cw = img.naturalWidth;
-		const ch = img.naturalHeight;
+		var cw = img.naturalWidth;
+		var ch = img.naturalHeight;
 		
 		switch (myTileDir) {
 			case 'x':
@@ -391,9 +513,7 @@
 		}
 			
 	}
-	
-	
-	
+		
 	function onSaveMask(origRequest, image) {
 		
 	}
