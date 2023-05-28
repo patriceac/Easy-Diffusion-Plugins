@@ -426,7 +426,7 @@ let sharedCustomModifiers
                             let loraname = lora.loraname || lora.filename; // ensure backward compatibility
                             let weight = lora.weight || lora.multiplier; // ensure backward compatibility
         
-                            modifierString += ' <LoRA:' + loraname;
+                            modifierString += ' <lora:' + loraname;
                             // Check if loraTag has a weight/multiplier
                             if (weight) {
                                 modifierString += ':' + weight;
