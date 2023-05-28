@@ -74,7 +74,7 @@
     {
         "id": "lora-prompt-parser",
         "icon": "fa-terminal",
-        "name": "LoRA prompt parser",
+        "name": "LoRA Prompt Parser",
         "author": "Patrice",
         "description": "Copying and pasting a prompt with a LoRA tag (e.g. from <a href=\"https://www.civitai.com\" target=\"_blank\">CivitAI.com</a> will automatically select the corresponding LoRA in the Easy Diffusion dropdown, adjust the weight, and remove the LoRA tag from the prompt. The LoRA must be already available in the corresponding Easy Diffusion dropdown (this is not a LoRA downloader).",
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/lora-prompt-parser.plugin.js",
