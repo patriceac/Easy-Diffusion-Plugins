@@ -34,7 +34,7 @@
             color: var(--accent-text-color);
         }
         
-        .tertiaryButton:not(#random_seed_btn):not(#process_order_btn):not(#auto_scroll_btn):hover {
+        .tertiaryButton:not(#random_seed_btn):not(#process_order_btn):not(#auto_scroll_btn):not(#gpu_mode_btn):hover {
           background: hsl(var(--accent-hue), 100%, calc(var(--accent-lightness) + 6%));
           color: var(--accent-text-color);
         }
