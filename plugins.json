@@ -36,6 +36,18 @@
         "compatIssueIds": []
     },
     {
+        "id": "gpu-mode-quick-toggle",
+        "icon": "fa-forward",
+        "name": "GPU Mode Quick Toggle",
+        "author": "Patrice",
+        "description": "Adds a toggle to the preview toolbar to quickly toggle the GPU mode between \"low\" and \"balanced\" setting.",
+        "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/Patrice/gpu-mode-quick-toggle.plugin.js",
+        "localInstallOnly": false,
+        "version": "1.0",
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
+    },
+    {
         "id": "image-editor-improvements",
         "icon": "fa-pen-to-square",
         "name": "Image Editor Improvements",
