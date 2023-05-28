@@ -25,7 +25,7 @@
                 if (loraModelField.value !== LoRA[0].loraname) {
                     // Set the new LoRA value
                     loraModelField.value = LoRA[0].loraname;
-                    loraAlphaField.value = (LoRA[0].weight / 3.0).toFixed(2) || 0.5;
+                    loraAlphaField.value = (LoRA[0].weight / 1.0).toFixed(2) || 0.5;
                     loraAlphaSlider.value = loraAlphaField.value * 100;
                     //TBD.value = LoRA[0].blockweights; // block weights not supported by ED at this time
                     showToast("Prompt successfully processed")
