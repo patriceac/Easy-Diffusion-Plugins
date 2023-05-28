@@ -469,7 +469,7 @@
     },
     {
         "id": "lora-controls",
-        "icon": "fa-sparkles",
+        "icon": "fa-wand-sparkles",
         "name": "LoRA Controls",
         "author": "The Stig",
         "description": "Controls the strength of the current LoRA.\nIcon guide as follows.\n- Set LoRA strength to minimum.\n- Reduce LoRA strength.\n- Set LoRA strength to mid point.\n- Increase LoRA strength.\n- Set LoRA strength to maximum.\n- Create images based on a range of LoRA strength from minimum to maximum.",
