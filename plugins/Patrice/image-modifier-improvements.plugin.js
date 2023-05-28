@@ -963,7 +963,7 @@ let sharedCustomModifiers
                 }
                 else
                 {
-                    showToast("Tried to set an inexistent LoRA: " + LoRA[0].filename, 5000, true)
+                    showToast("LoRA not found: " + LoRA[0].loraname, 5000, true)
                 }
             } else {
                 // Check if the current loraModelField.value is in activeTags
@@ -978,7 +978,7 @@ let sharedCustomModifiers
                     }
                     else
                     {
-                        showToast("Tried to set an inexistent LoRA: " + previousLoRA, 5000, true)
+                        showToast("LoRA not found: " + previousLoRA, 5000, true)
                     }
                 }
                 else
