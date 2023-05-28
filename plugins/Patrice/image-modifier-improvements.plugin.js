@@ -120,7 +120,7 @@ let sharedCustomModifiers
             margin-left: -2px;
         }
         
-        .beta-banner {
+        .lora-card {
             border-radius: 5px 5px 5px 5px;
             box-shadow: 0px 0px 5px 1px darkgoldenrod;
         }
@@ -335,27 +335,35 @@ let sharedCustomModifiers
         // extract LoRA tags from strings
         function extractLoraTags(imageTag) {
             // Define the regular expression for the tags
-            const regex = /<lora:([^:]+?)(?::([^>]+?))?>/g;
-
+            const regex = /<lora:([^:>]+)(?::([^:>]*))?(?::([^:>]*))?>/gi;
+        
             // Initialize an array to hold the matches
             let matches = [];
-
+        
             // Iterate over the string, finding matches
-            let match;
-            while ((match = regex.exec(imageTag)) !== null) {
-                // If multiplier not provided, use 0.5 as the default value
-                let multiplier = match[2] !== undefined ? parseFloat(match[2]) : 0.5;
-
-                // Add the match to the array, as an object
-                matches.push({
-                    filename: match[1],
-                    multiplier: multiplier
-                });
+            for (const match of imageTag.matchAll(regex)) {
+                // Initialize an object to hold a match
+                let loraTag = {
+                    loraname: match[1],
+                };
+        
+                // If weight is provided, add it to the loraTag object
+                if (match[2] !== undefined && match[2] !== '') {
+                    loraTag.weight = parseFloat(match[2]);
+                }
+        
+                // If blockweights are provided, add them to the loraTag object
+                if (match[3] !== undefined && match[3] !== '') {
+                    loraTag.blockweights = match[3];
+                }
+        
+                // Add the loraTag object to the array of matches
+                matches.push(loraTag);
             }
-
+        
             // Clean up the imageTag string
             let cleanedImageTag = imageTag.replace(regex, '').trim();
-
+        
             // Return the array of matches and cleaned imageTag string
             return {
                 LoRA: matches,
@@ -411,7 +419,26 @@ let sharedCustomModifiers
             json.forEach(item => {
                 result += '#' + item.category + '\n';
                 item.modifiers.forEach(modifier => {
-                    result += modifier.modifier + '\n';
+                    let modifierString = modifier.modifier;
+                    // Check if modifier has a LoRA array and it is not empty
+                    if (modifier.LoRA && modifier.LoRA.length > 0) {
+                        modifier.LoRA.forEach(lora => {
+                            let loraname = lora.loraname || lora.filename; // ensure backward compatibility
+                            let weight = lora.weight || lora.multiplier; // ensure backward compatibility
+        
+                            modifierString += ' <LoRA:' + loraname;
+                            // Check if loraTag has a weight/multiplier
+                            if (weight) {
+                                modifierString += ':' + weight;
+                                // Check if loraTag has blockweights (only if there's a weight/multiplier)
+                                if (lora.blockweights) {
+                                    modifierString += ':' + lora.blockweights;
+                                }
+                            }
+                            modifierString += '>';
+                        });
+                    }
+                    result += modifierString + '\n';
                 });
                 result += '\n'; // Add a new line after each category
             });
@@ -859,7 +886,7 @@ let sharedCustomModifiers
                                 // Iterate over each LoRA object
                                 for(let loraObject of modifier.LoRA) {
                                     // Check if the filename matches the given LoRA
-                                    if(loraObject.filename.toLowerCase() === givenLoRA.toLowerCase()) {
+                                    if(loraObject.loraname.toLowerCase() === givenLoRA.toLowerCase()) {
                                         return true;
                                     }
                                 }
@@ -897,11 +924,11 @@ let sharedCustomModifiers
                 modifierName = trimModifiers(modifierName)
                 if (isLoRAInImageModifiers(sharedCustomModifiers, modifierName)) {
                     //console.log("LoRA modifier:", modifierName)
-                    card.parentElement.classList.add('beta-banner')
+                    card.parentElement.classList.add('lora-card')
                 }
                 else
                 {
-                    card.classList.remove('beta-banner')
+                    card.classList.remove('lora-card')
                 }
             })
 
@@ -914,21 +941,24 @@ let sharedCustomModifiers
         }
 
         let previousLoRA = "";
-        let previousLoRAMultiplier = "";
+        let previousLoRAWeight = "";
+        //let previousLoRABlockWeights = ""; // block weights not supported by ED at this time
         function handleRefreshImageModifiers(e) {
             let LoRA = getLoRAFromActiveTags(activeTags, sharedCustomModifiers); // find active LoRA
             if (LoRA !== null && LoRA.length > 0 && testDiffusers?.checked) {
-                if (isStringInArray(modelsCache.options.lora, LoRA[0].filename)) {
-                    if (loraModelField.value !== LoRA[0].filename) {
+                if (isStringInArray(modelsCache.options.lora, LoRA[0].loraname)) {
+                    if (loraModelField.value !== LoRA[0].loraname) {
                         // If the current LoRA is not in activeTags, save it
                         if (!isLoRAInActiveTags(activeTags, sharedCustomModifiers, loraModelField.value)) {
                             previousLoRA = loraModelField.value;
-                            previousLoRAMultiplier = loraAlphaField.value
+                            previousLoRAWeight = loraAlphaField.value
+                            //previousLoRABlockWeights = TBD // block weights not supported by ED at this time
                         }
                         // Set the new LoRA value
-                        loraModelField.value = LoRA[0].filename;
-                        loraAlphaSlider.value = LoRA[0].multiplier * 100;
-                        loraAlphaField.value = LoRA[0].multiplier;
+                        loraModelField.value = LoRA[0].loraname;
+                        loraAlphaField.value = LoRA[0].weight || 0.5;
+                        loraAlphaSlider.value = loraAlphaField.value * 100;
+                        //TBD.value = LoRA[0].blockweights; // block weights not supported by ED at this time
                     }
                 }
                 else
@@ -942,8 +972,9 @@ let sharedCustomModifiers
                         // This LoRA is inactive. Restore the previous LoRA value.
                         //console.log("Current LoRA in activeTags:", loraModelField.value, previousLoRA);
                         loraModelField.value = previousLoRA;
-                        loraAlphaSlider.value = previousLoRAMultiplier * 100;
-                        loraAlphaField.value = previousLoRAMultiplier
+                        loraAlphaSlider.value = previousLoRAWeight * 100;
+                        loraAlphaField.value = previousLoRAWeight
+                        //TBD.value = previousLoRABlockWeights // block weights not supported by ED at this time
                     }
                     else
                     {
