@@ -463,7 +463,7 @@
         "description": "Adds various functions for use with generated images.\n- Rotate left and right.\n- Expand image based on Seamless Tiling setting.\n- Download image and datafile using EDyyyymmdd-hhmmss format for filenames.\n- Display information below generated image",
         "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/The_Stig/stigs-image_utilities.plugin.js",
         "localInstallOnly": false,
-        "version": "1.6",
+        "version": "1.7",
         "minEDVersion": "2.0",
         "compatIssueIds": []
     },
