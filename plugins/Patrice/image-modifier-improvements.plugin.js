@@ -26,6 +26,7 @@
         ...    
 */
 let isRefreshImageModifiersListenerAdded = false;
+let sharedCustomModifiers
 
 (function() {
     "use strict"
@@ -115,6 +116,10 @@ let isRefreshImageModifiersListenerAdded = false;
           margin-bottom: 4px;
         }
 
+        .modifier-card-tiny .modifier-card-container {
+            margin-left: -2px;
+        }
+        
         .beta-banner {
             border-radius: 5px 5px 5px 5px;
             box-shadow: 0px 0px 5px 1px darkgoldenrod;
@@ -123,7 +128,6 @@ let isRefreshImageModifiersListenerAdded = false;
     document.head.appendChild(styleSheet)
     
     async function initPlugin() {
-        let customModifiers
         let imageModifierFilter
         let customSection = false
 
@@ -142,17 +146,17 @@ let isRefreshImageModifiersListenerAdded = false;
             inputCustomModifiers = []
         }
         // pull custom modifiers from persistent storage
-        customModifiers = await getStorageData(CUSTOM_MODIFIERS_KEY)
-        if (customModifiers === undefined) {
-            customModifiers = inputCustomModifiers
+        sharedCustomModifiers = await getStorageData(CUSTOM_MODIFIERS_KEY)
+        if (sharedCustomModifiers === undefined) {
+            sharedCustomModifiers = inputCustomModifiers
             saveCustomCategories()
         }
         else
         {
-            customModifiers = JSON.parse(customModifiers)
+            sharedCustomModifiers = JSON.parse(sharedCustomModifiers)
             
             // update existing entries if something changed
-            if (updateEntries(inputCustomModifiers, customModifiers)) {
+            if (updateEntries(inputCustomModifiers, sharedCustomModifiers)) {
                 saveCustomCategories()
             }
         }
@@ -179,7 +183,7 @@ let isRefreshImageModifiersListenerAdded = false;
                 // export exactly what's shown in the textbox even if it hasn't been saved yet
                 event.preventDefault()
                 let inputCustomModifiers = customModifiersTextBox.value
-                let tempModifiers = JSON.parse(JSON.stringify(customModifiers)); // create a deep copy of customModifiers
+                let tempModifiers = JSON.parse(JSON.stringify(sharedCustomModifiers)); // create a deep copy of sharedCustomModifiers
                 inputCustomModifiers = inputCustomModifiers.replace(/^\s*$(?:\r\n?|\n)/gm, "") // remove empty lines
                 if (inputCustomModifiers !== '') {
                     inputCustomModifiers = importCustomModifiers(inputCustomModifiers)
@@ -188,7 +192,7 @@ let isRefreshImageModifiersListenerAdded = false;
                 }
                 else
                 {
-                    downloadJSON(customModifiers, "Image Modifiers.json")
+                    downloadJSON(sharedCustomModifiers, "Image Modifiers.json")
                 }
             })
                                           
@@ -219,11 +223,11 @@ let isRefreshImageModifiersListenerAdded = false;
                 let reader = new FileReader()
                 
                 reader.onload = function(event) {
-                    customModifiers = JSON.parse(event.target.result)
+                    sharedCustomModifiers = JSON.parse(event.target.result)
                     // save the updated modifier list to persistent storage
                     saveCustomCategories()
                     // refresh the modifiers list
-                    customModifiersTextBox.value = exportCustomModifiers(customModifiers)
+                    customModifiersTextBox.value = exportCustomModifiers(sharedCustomModifiers)
                     saveCustomModifiers()
                     //loadModifierList()
                     input.value = ''
@@ -301,12 +305,12 @@ let isRefreshImageModifiersListenerAdded = false;
             }
             customModifiersGroupElementArray = []
 
-            if (customModifiers && customModifiers.length > 0) {
+            if (sharedCustomModifiers && sharedCustomModifiers.length > 0) {
                 let category = 'Custom Modifiers'
                 let modifiers = []
-                Object.keys(customModifiers).reverse().forEach(item => {
+                Object.keys(sharedCustomModifiers).reverse().forEach(item => {
                     // new custom category
-                    const elem = createModifierGroup(customModifiers[item], false, false)
+                    const elem = createModifierGroup(sharedCustomModifiers[item], false, false)
                     elem.classList.add('custom-modifier-category')
                     customModifiersGroupElementArray.push(elem)
                     createCollapsibles(elem)
@@ -432,7 +436,7 @@ let isRefreshImageModifiersListenerAdded = false;
                     // loop through each modifier in existingModifiers
                     for (let j = 0; j < existingModifiers.length; j++) {
                         let existingModifier = existingModifiers[j];
-                        const newModifier = newModifiers.find(mod => mod.modifier.toLowerCase() === existingModifier.modifier.toLowerCase());
+                        const newModifier = newModifiers.find(mod => mod.modifier.toLowerCase().trim() === existingModifier.modifier.toLowerCase().trim());
             
                         if (newModifier) {
                             if (existingModifier.LoRA || newModifier.LoRA) {
@@ -464,7 +468,7 @@ let isRefreshImageModifiersListenerAdded = false;
                     // loop through each modifier in newModifiers
                     for (let j = 0; j < newModifiers.length; j++) {
                         let newModifier = newModifiers[j];
-                        let existingIndex = existingModifiers.findIndex(mod => mod.modifier.toLowerCase() === newModifier.modifier.toLowerCase());
+                        let existingIndex = existingModifiers.findIndex(mod => mod.modifier.toLowerCase().trim() === newModifier.modifier.toLowerCase().trim());
             
                         if (existingIndex === -1) {
                             // Modifier doesn't exist in existingModifiers, so insert it at the same index in existingModifiers
@@ -576,7 +580,7 @@ let isRefreshImageModifiersListenerAdded = false;
         }
         
         function setPortraitImage(category, modifier, image) {
-            const categoryObject = customModifiers.find(obj => obj.category === category)
+            const categoryObject = sharedCustomModifiers.find(obj => obj.category === category)
             if (!categoryObject) return
         
             const modifierObject = categoryObject.modifiers.find(obj => obj.modifier === modifier)
@@ -627,7 +631,7 @@ let isRefreshImageModifiersListenerAdded = false;
         }
 
         async function saveCustomCategories() {
-            setStorageData(CUSTOM_MODIFIERS_KEY, JSON.stringify(customModifiers))                
+            setStorageData(CUSTOM_MODIFIERS_KEY, JSON.stringify(sharedCustomModifiers))                
         }
 
         // collapsing other categories
@@ -873,7 +877,7 @@ let isRefreshImageModifiersListenerAdded = false;
             for (let category of imageModifiers) {
                 for (let modifier of category.modifiers) {
                     // Check if the given modifier matches and if it has a LoRA property
-                    if (modifier.modifier.toLowerCase() === givenModifier.toLowerCase() && modifier.LoRA) {
+                    if (modifier.modifier.toLowerCase().trim() === givenModifier.toLowerCase().trim() && modifier.LoRA) {
                         // If the modifier has any LoRA object associated, return true
                         if(modifier.LoRA.length > 0) {
                             return true;
@@ -887,11 +891,11 @@ let isRefreshImageModifiersListenerAdded = false;
         }
 
         function showLoRAs() {
-            let overlays = document.querySelectorAll(".modifier-card-overlay")
+            let overlays = document.querySelectorAll(".custom-modifier-category .modifier-card-overlay, .modifier-card-tiny .modifier-card-overlay")
             overlays.forEach((card) => {
                 let modifierName = card.parentElement.getElementsByClassName("modifier-card-label")[0].getElementsByTagName("p")[0].dataset.fullName
                 modifierName = trimModifiers(modifierName)
-                if (isLoRAInImageModifiers(customModifiers, modifierName)) {
+                if (isLoRAInImageModifiers(sharedCustomModifiers, modifierName)) {
                     //console.log("LoRA modifier:", modifierName)
                     card.parentElement.classList.add('beta-banner')
                 }
@@ -912,12 +916,12 @@ let isRefreshImageModifiersListenerAdded = false;
         let previousLoRA = "";
         let previousLoRAMultiplier = "";
         function handleRefreshImageModifiers(e) {
-            let LoRA = getLoRAFromActiveTags(activeTags, customModifiers); // find active LoRA
+            let LoRA = getLoRAFromActiveTags(activeTags, sharedCustomModifiers); // find active LoRA
             if (LoRA !== null && LoRA.length > 0 && testDiffusers?.checked) {
                 if (isStringInArray(modelsCache.options.lora, LoRA[0].filename)) {
                     if (loraModelField.value !== LoRA[0].filename) {
                         // If the current LoRA is not in activeTags, save it
-                        if (!isLoRAInActiveTags(activeTags, customModifiers, loraModelField.value)) {
+                        if (!isLoRAInActiveTags(activeTags, sharedCustomModifiers, loraModelField.value)) {
                             previousLoRA = loraModelField.value;
                             previousLoRAMultiplier = loraAlphaField.value
                         }
@@ -933,7 +937,7 @@ let isRefreshImageModifiersListenerAdded = false;
                 }
             } else {
                 // Check if the current loraModelField.value is in activeTags
-                if (isLoRAInActiveTags(activeTags, customModifiers, loraModelField.value)) {
+                if (isLoRAInActiveTags(activeTags, sharedCustomModifiers, loraModelField.value)) {
                     if (previousLoRA === "" || isStringInArray(modelsCache.options.lora, previousLoRA)) {
                         // This LoRA is inactive. Restore the previous LoRA value.
                         //console.log("Current LoRA in activeTags:", loraModelField.value, previousLoRA);
