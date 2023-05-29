@@ -318,6 +318,7 @@
                     const selectedTemplate = templateCopy[index];
                     templateCopy.splice(index, 1);
                     // render template
+                    loraModelField.value = ""
                     restoreTask(selectedTemplate.task)
                     numOutputsTotalField.value = slideshowImagecount.value > 0 ? slideshowImagecount.value : 256
                     makeImage()
@@ -531,6 +532,7 @@
                 // select template
                 l.addEventListener("click", (event) => {
                     if (!editingTemplate) {
+                        loraModelField.value = ""
                         restoreTask(template.task)
                         document.querySelector('#task-templates-editor.popup').classList.remove("active")
                         event.stopPropagation()
@@ -545,6 +547,7 @@
                     }
                     templateName.classList.add('lastGeneration')
                     lastGeneration = templateName
+                    loraModelField.value = ""
                     restoreTask(template.task)
                     makeImage()
                     event.stopPropagation()
@@ -558,6 +561,7 @@
                     }
                     templateName.classList.add('lastGeneration')
                     lastGeneration = templateName
+                    loraModelField.value = ""
                     restoreTask(template.task)
                     numOutputsTotalField.value = slideshowImagecount.value > 0 ? slideshowImagecount.value : 256
                     makeImage()
