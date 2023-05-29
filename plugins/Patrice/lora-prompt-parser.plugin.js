@@ -58,17 +58,17 @@
         for (const match of prompt.matchAll(regex)) {
             // Initialize an object to hold a match
             let loraTag = {
-                loraname: match[1],
+                loraname: match[1].trim(),
             };
     
             // If weight is provided, add it to the loraTag object
             if (match[2] !== undefined && match[2] !== '') {
-                loraTag.weight = parseFloat(match[2]);
+                loraTag.weight = parseFloat(match[2].trim());
             }
     
             // If blockweights are provided, add them to the loraTag object
             if (match[3] !== undefined && match[3] !== '') {
-                loraTag.blockweights = match[3];
+                loraTag.blockweights = match[3].trim();
             }
     
             // Add the loraTag object to the array of matches
