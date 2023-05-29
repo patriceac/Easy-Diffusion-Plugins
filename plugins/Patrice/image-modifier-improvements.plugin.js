@@ -967,7 +967,7 @@ let sharedCustomModifiers
                 }
             } else {
                 // Check if the current loraModelField.value is in activeTags
-                if (isLoRAInActiveTags(activeTags, sharedCustomModifiers, loraModelField.value)) {
+                //if (isLoRAInActiveTags(activeTags, sharedCustomModifiers, loraModelField.value)) {
                     if (previousLoRA === "" || isStringInArray(modelsCache.options.lora, previousLoRA)) {
                         // This LoRA is inactive. Restore the previous LoRA value.
                         //console.log("Current LoRA in activeTags:", loraModelField.value, previousLoRA);
@@ -980,11 +980,11 @@ let sharedCustomModifiers
                     {
                         showToast("LoRA not found: " + previousLoRA, 5000, true)
                     }
-                }
-                else
-                {
-                    //console.log("Current LoRA not in activeTags:", loraModelField.value);
-                }
+                //}
+                //else
+                //{
+                //    //console.log("Current LoRA not in activeTags:", loraModelField.value);
+                //}
             }
             
             showLoRAs()
