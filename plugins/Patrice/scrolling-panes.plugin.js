@@ -45,6 +45,18 @@
             }
             */
             
+            #save-settings-config > DIV {
+                max-height: 90vh;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+            #save-settings-config > DIV::-webkit-scrollbar-thumb {
+                background: var(--background-color1);
+            }
+            #save-settings-config > DIV::-moz-scrollbar-thumb {
+                background: var(--background-color1);
+            }
+        
             #preview {
                 position:  fixed;
                 overflow-y: auto;
