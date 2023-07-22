@@ -167,7 +167,7 @@ let sharedCustomModifiers
             closeCollapsible(preset.parentElement) // toggle first preset section
         }
         // set up categories auto-collapse
-        autoCollapseCategories()
+        //autoCollapseCategories()
 
         // add the export and import links to the custom modifiers dialog
         const imageModifierDialog = customModifiersTextBox.parentElement
