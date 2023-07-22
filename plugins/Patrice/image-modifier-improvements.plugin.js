@@ -49,7 +49,6 @@ let sharedCustomModifiers
         }
         
         #modifier-settings-config textarea {
-            width: 100%;
             height: 40vh;
         }
 
@@ -739,12 +738,6 @@ let sharedCustomModifiers
               color: var(--accent-text-color);
             }
             
-            #editor-modifiers.active {
-                height: 80vh;
-                overflow-y: auto;
-                top: 10%;
-                text-align: left;
-            }
             
             #editor-modifiers.active::-webkit-scrollbar {
                 width: 10px;
