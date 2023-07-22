@@ -497,7 +497,7 @@
         "name": "Hypernetwork Controls",
         "author": "The Stig",
         "description": "Controls the strength of the current Hypernetwork.\nIcon guide as follows.\n- Set Hypernetwork strength to minimum.\n- Reduce Hypernetwork strength.\n- Set Hypernetwork strength to mid point.\n- Increase Hypernetwork strength.\n- Set Hypernetwork strength to maximum.\n- Create images based on a range of Hypernetwork strength from minimum to maximum.",
-        "url": "https://github.com/Tangent101/Easy-Diffusion-Plugins/blob/main/plugins/stigs-hypernetwork-controls.plugin.js",
+        "url": "https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/main/plugins/stigs-hypernetwork-controls.plugin.js",
         "localInstallOnly": false,
         "version": "1.2",
         "minEDVersion": "2.0",
