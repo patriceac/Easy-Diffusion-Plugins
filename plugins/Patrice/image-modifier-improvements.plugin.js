@@ -947,17 +947,18 @@ let sharedCustomModifiers
             let LoRA = getLoRAFromActiveTags(activeTags, sharedCustomModifiers); // find active LoRA
             if (LoRA !== null && LoRA.length > 0 && testDiffusers?.checked) {
                 if (isStringInArray(modelsCache.options.lora, LoRA[0].loraname)) {
-                    if (loraModelField.value !== LoRA[0].loraname) {
+                    if (lora_model_0.value !== LoRA[0].loraname) {
                         // If the current LoRA is not in activeTags, save it
-                        if (!isLoRAInActiveTags(activeTags, sharedCustomModifiers, loraModelField.value)) {
-                            previousLoRA = loraModelField.value;
-                            previousLoRAWeight = loraAlphaField.value
+                        if (!isLoRAInActiveTags(activeTags, sharedCustomModifiers, lora_model_0.value)) {
+                            previousLoRA = lora_model_0.value;
+                            previousLoRAWeight = lora_alpha_0.value
                             //previousLoRABlockWeights = TBD // block weights not supported by ED at this time
                         }
                         // Set the new LoRA value
-                        loraModelField.value = LoRA[0].loraname;
-                        loraAlphaField.value = LoRA[0].weight || 0.5;
-                        loraAlphaSlider.value = loraAlphaField.value * 100;
+						lora_model_0.setAttribute("data-path", LoRA[0].loraname);
+                        lora_model_0.value = LoRA[0].loraname;
+                        lora_alpha_0.value = LoRA[0].weight || 0.5;
+                        //loraAlphaSlider.value = lora_alpha_0.value * 100;
                         //TBD.value = LoRA[0].blockweights; // block weights not supported by ED at this time
                     }
                 }
@@ -966,14 +967,15 @@ let sharedCustomModifiers
                     showToast("LoRA not found: " + LoRA[0].loraname, 5000, true)
                 }
             } else {
-                // Check if the current loraModelField.value is in activeTags
-                if (isLoRAInActiveTags(activeTags, sharedCustomModifiers, loraModelField.value)) {
+                // Check if the current lora_model_0.value is in activeTags
+                if (isLoRAInActiveTags(activeTags, sharedCustomModifiers, lora_model_0.value)) {
                     if (previousLoRA === "" || isStringInArray(modelsCache.options.lora, previousLoRA)) {
                         // This LoRA is inactive. Restore the previous LoRA value.
-                        //console.log("Current LoRA in activeTags:", loraModelField.value, previousLoRA);
-                        loraModelField.value = previousLoRA;
-                        loraAlphaSlider.value = previousLoRAWeight * 100;
-                        loraAlphaField.value = previousLoRAWeight
+                        //console.log("Current LoRA in activeTags:", lora_model_0.value, previousLoRA);
+						lora_model_0.setAttribute("data-path", previousLoRA);
+                        lora_model_0.value = previousLoRA;
+                        //loraAlphaSlider.value = previousLoRAWeight * 100;
+                        lora_alpha_0.value = previousLoRAWeight
                         //TBD.value = previousLoRABlockWeights // block weights not supported by ED at this time
                     }
                     else
@@ -983,7 +985,7 @@ let sharedCustomModifiers
                 }
                 //else
                 //{
-                //    //console.log("Current LoRA not in activeTags:", loraModelField.value);
+                //    //console.log("Current LoRA not in activeTags:", lora_model_0.value);
                 //}
             }
             
