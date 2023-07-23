@@ -472,10 +472,10 @@
         "icon": "fa-pen-to-square",
         "name": "Image Utilities",
         "author": "The Stig",
-        "description": "Adds various functions for use with generated images.\n- Rotate left and right.\n- Expand image based on Seamless Tiling setting.\n- Download image and datafile using EDyyyymmdd-hhmmss format for filenames.\n- Display information below generated image",
-        "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/The_Stig/stigs-image_utilities.plugin.js",
+        "description": "Adds various functions for use with generated images.\nIcon guide as follows.\n- Rotate Left.\n- Rotate Right.\n- Expand image based on Seamless Tiling setting.\n- Download image and datafile using EDyyyymmdd-hhmmss format for filenames.\n- Display information below generated image",
+        "url": "https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/main/plugins/stigs-image_utilities.plugin.js",
         "localInstallOnly": false,
-        "version": "1.7",
+        "version": "1.11",
         "minEDVersion": "2.0",
         "compatIssueIds": []
     },
@@ -484,10 +484,10 @@
         "icon": "fa-wand-sparkles",
         "name": "LoRA Controls",
         "author": "The Stig",
-        "description": "Controls the strength of the current LoRA.\nIcon guide as follows.\n- Set LoRA strength to minimum.\n- Reduce LoRA strength.\n- Set LoRA strength to mid point.\n- Increase LoRA strength.\n- Set LoRA strength to maximum.\n- Create images based on a range of LoRA strength from minimum to maximum.",
-        "url": "https://raw.githubusercontent.com/patriceac/Easy-Diffusion-Plugins/main/plugins/The_Stig/stigs-lora-shuttle-controls.plugin.js",
+        "description": "Controls the strength of the current LoRA.\nIcon guide as follows.\n- Set LoRA strength to -2.00.\n- Set LoRA strength to -1.00.\n-Reduce LoRA strength.\n- Set LoRA strength to +0.50.\n- Increase LoRA strength.\n- Set LoRA strength to +1.00.\n-Set LoRA strength to +2.00.\n- Create images based on a range of LoRA strength from 0.00 to +1.00.\n\nLoRa Grid Icons\n- Create images based on a range of LoRA strength from -2.00 to -1.00.\n- Create images based on a range of LoRA strength from -1.00 to 0.00.\n- Create images based on a range of LoRA strength from 0.00 to +1.00.\n- Create images based on a range of LoRA strength from +1.00 to +2.00.\n- Create images based on a range of LoRA strength from -2.00 to +2.00.",
+        "url": "https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/main/plugins/stigs-lora-shuttle-controls.plugin.js",
         "localInstallOnly": false,
-        "version": "1.3",
+        "version": "2.4",
         "minEDVersion": "2.0",
         "compatIssueIds": []
     },
@@ -500,6 +500,30 @@
         "url": "https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/main/plugins/stigs-hypernetwork-controls.plugin.js",
         "localInstallOnly": false,
         "version": "1.2",
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
+    },
+    {
+        "id": "models-controls",
+        "icon": "fa-wand-sparkles",
+        "name": "Models Controls",
+        "author": "The Stig",
+        "description": "Allows you to switch through which Model is being used.\nIcon guide as follows.\n- Select the First Model.\n- Select the Previous Model.\n- Select the Next Model.\n- Select the Last Model.\n- Select a Random Model.\n- Create a batch of images based on selected Models.\nTo select your Models click on the Set Favourite Model button above the Image Settings panel.\n\nNB At present the Favourite Model feature doesn't support Models that are stored in sub-folders.",
+        "url": "https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/main/plugins/stigs-models-controls.plugin.js",
+        "localInstallOnly": false,
+        "version": "1.2",
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
+    },
+    {
+        "id": "samplers-controls",
+        "icon": "fa-wand-sparkles",
+        "name": "Samplers Controls",
+        "author": "The Stig",
+        "description": "Allows you to switch through which Sampler is being used.\nIcon guide as follows.\n- Select the First Sampler.\n- Select the Previous Sampler.\n- Select the Next Sampler.\n- Select the Last Sampler.\n- Create a batch of images using all the Samplers.",
+        "url": "https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/main/plugins/stigs-samplers-controls.plugin.js",
+        "localInstallOnly": false,
+        "version": "1.1",
         "minEDVersion": "2.0",
         "compatIssueIds": []
     }
