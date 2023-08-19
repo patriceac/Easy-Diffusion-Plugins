@@ -757,18 +757,14 @@ let sharedCustomModifiers
         document.head.appendChild(styleSheet)
 
         let editorModifiers
-        let editorModifiersPopup
+        
         if (document.querySelector('#imageTagCommands') === null) {
             editorModifierTagsList?.insertAdjacentHTML('beforeBegin', `
                 <div id="imageTagCommands"><button class="secondaryButton clearAllImageTags">Clear all</button><button id='addImageTag' class="secondaryButton">Add modifiers</button></div>
             `)
             
             editorModifiers = document.getElementById("editor-modifiers");
-            editorModifiers?.insertAdjacentHTML('beforeBegin', `
-                <div id="imageTagPopupContainer" tabindex="0"></div>
-            `)
-            editorModifiersPopup = document.getElementById("imageTagPopupContainer");
-            editorModifiersPopup.appendChild(editorModifiers);
+            
 
             document.querySelector('.clearAllImageTags').addEventListener('click', function(e) {
                 e.stopPropagation()
@@ -795,41 +791,12 @@ let sharedCustomModifiers
                 e.stopPropagation()
             
                 editorModifiers.classList.add("active");
-                editorModifiersPopup.classList.add("popup", "active");
+                
                 imageModifierFilter.focus()
                 imageModifierFilter.select()
             })
             
-            editorModifiersPopup.addEventListener('keydown', function(e) {   
-                if (e.key === "Escape") {
-                    /*
-                    if (imageModifierFilter.value !== '') {
-                        imageModifierFilter.value = ''
-                        filterImageModifierList()
-                    }
-                    else
-                    {
-                        editorModifiers.classList.remove("active");
-                        editorModifiersPopup.classList.remove("popup", "active");
-                    }
-                    e.stopPropagation()
-                    */
-                    editorModifiers.classList.remove("active");
-                    editorModifiersPopup.classList.remove("popup", "active");
-                    e.stopPropagation()
-                } else if (event.ctrlKey && event.key === 'Enter') {
-                    // Ctrl+Enter key combination. Hide the dialog and let the event bubble up, which will trigger the image generation.
-                    editorModifiersPopup.classList.remove("popup", "active");
-                }
-            })
-
-            editorModifiersPopup.addEventListener('click', function(e) {
-                if (event.target === editorModifiersPopup) {
-                    editorModifiers.classList.remove("active");
-                    editorModifiersPopup.classList.remove("popup", "active");
-                    e.stopPropagation()
-                }
-            })
+            
         }
         
         function getLoRAFromActiveTags(activeTags, imageModifiers) {
@@ -940,16 +907,16 @@ let sharedCustomModifiers
             let LoRA = getLoRAFromActiveTags(activeTags, sharedCustomModifiers); // find active LoRA
             if (LoRA !== null && LoRA.length > 0 && testDiffusers?.checked) {
                 if (isStringInArray(modelsCache.options.lora, LoRA[0].loraname)) {
-                    if (lora_model_0.value !== LoRA[0].loraname) {
+                    if (lora_0.value !== LoRA[0].loraname) {
                         // If the current LoRA is not in activeTags, save it
-                        if (!isLoRAInActiveTags(activeTags, sharedCustomModifiers, lora_model_0.value)) {
-                            previousLoRA = lora_model_0.value;
+                        if (!isLoRAInActiveTags(activeTags, sharedCustomModifiers, lora_0.value)) {
+                            previousLoRA = lora_0.value;
                             previousLoRAWeight = lora_alpha_0.value
                             //previousLoRABlockWeights = TBD // block weights not supported by ED at this time
                         }
                         // Set the new LoRA value
-						lora_model_0.setAttribute("data-path", LoRA[0].loraname);
-                        lora_model_0.value = LoRA[0].loraname;
+						lora_0.setAttribute("data-path", LoRA[0].loraname);
+                        lora_0.value = LoRA[0].loraname;
                         lora_alpha_0.value = LoRA[0].weight || 0.5;
                         //loraAlphaSlider.value = lora_alpha_0.value * 100;
                         //TBD.value = LoRA[0].blockweights; // block weights not supported by ED at this time
@@ -960,13 +927,13 @@ let sharedCustomModifiers
                     showToast("LoRA not found: " + LoRA[0].loraname, 5000, true)
                 }
             } else {
-                // Check if the current lora_model_0.value is in activeTags
-                if (isLoRAInActiveTags(activeTags, sharedCustomModifiers, lora_model_0.value)) {
+                // Check if the current lora_0.value is in activeTags
+                if (isLoRAInActiveTags(activeTags, sharedCustomModifiers, lora_0.value)) {
                     if (previousLoRA === "" || isStringInArray(modelsCache.options.lora, previousLoRA)) {
                         // This LoRA is inactive. Restore the previous LoRA value.
-                        //console.log("Current LoRA in activeTags:", lora_model_0.value, previousLoRA);
-						lora_model_0.setAttribute("data-path", previousLoRA);
-                        lora_model_0.value = previousLoRA;
+                        //console.log("Current LoRA in activeTags:", lora_0.value, previousLoRA);
+						lora_0.setAttribute("data-path", previousLoRA);
+                        lora_0.value = previousLoRA;
                         //loraAlphaSlider.value = previousLoRAWeight * 100;
                         lora_alpha_0.value = previousLoRAWeight
                         //TBD.value = previousLoRABlockWeights // block weights not supported by ED at this time
@@ -978,7 +945,7 @@ let sharedCustomModifiers
                 }
                 //else
                 //{
-                //    //console.log("Current LoRA not in activeTags:", lora_model_0.value);
+                //    //console.log("Current LoRA not in activeTags:", lora_0.value);
                 //}
             }
             
