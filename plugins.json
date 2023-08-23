@@ -526,5 +526,17 @@
         "version": "1.1",
         "minEDVersion": "2.0",
         "compatIssueIds": []
+    },
+    {
+        "id": "seq2cnet",
+        "icon": "fa-wand-sparkles",
+        "name": "Sequence to ControlNet",
+        "author": "The Stig",
+        "description": "A simple plugin to allow multiple images to be imported and used in ControlNet.\nInstructions as follows.\n- Set up an image in the ControlNet section as per usual.\n- Select which ControlNet model you want to use.\n- Set up your prompt, image size, seed etc as required.\n- Click on the 'Select a sequence' button above the Image Settings panel.\n- Select which images you wish to import.",
+        "url": "https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/main/plugins/stigs-seq2cnet.plugin.js",
+        "localInstallOnly": false,
+        "version": "1.1",
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     }
 ]
