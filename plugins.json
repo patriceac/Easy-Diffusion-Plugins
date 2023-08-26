@@ -487,7 +487,7 @@
         "description": "Controls the strength of the current LoRA.\nIcon guide as follows.\n- Set LoRA strength to -2.00.\n- Set LoRA strength to -1.00.\n-Reduce LoRA strength.\n- Set LoRA strength to +0.50.\n- Increase LoRA strength.\n- Set LoRA strength to +1.00.\n-Set LoRA strength to +2.00.\n- Create images based on a range of LoRA strength from 0.00 to +1.00.\n\nLoRa Grid Icons\n- Create images based on a range of LoRA strength from -2.00 to -1.00.\n- Create images based on a range of LoRA strength from -1.00 to 0.00.\n- Create images based on a range of LoRA strength from 0.00 to +1.00.\n- Create images based on a range of LoRA strength from +1.00 to +2.00.\n- Create images based on a range of LoRA strength from -2.00 to +2.00.",
         "url": "https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/main/plugins/stigs-lora-shuttle-controls.plugin.js",
         "localInstallOnly": false,
-        "version": "2.4",
+        "version": "2.6",
         "minEDVersion": "2.0",
         "compatIssueIds": []
     },
