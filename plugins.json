@@ -475,7 +475,7 @@
         "description": "Adds various functions for use with generated images.\nIcon guide as follows.\n- Rotate Left.\n- Rotate Right.\n- Expand image based on Seamless Tiling setting.\n- Download image and datafile using EDyyyymmdd-hhmmss format for filenames.\n- Display information below generated image",
         "url": "https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/main/plugins/stigs-image_utilities.plugin.js",
         "localInstallOnly": false,
-        "version": "1.11",
+        "version": "1.12",
         "minEDVersion": "2.0",
         "compatIssueIds": []
     },
