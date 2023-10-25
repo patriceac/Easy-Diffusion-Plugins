@@ -550,5 +550,17 @@
         "version": "1.1",
         "minEDVersion": "2.0",
         "compatIssueIds": []
+    },
+    {
+        "id": "build-a-scene",
+        "icon": "fa-wand-sparkles",
+        "name": "Build A Scene",
+        "author": "The Stig",
+        "description": "Plugin to assist with your creativity.\nYou can choose between a wide range of options to help create a scene.",
+        "url": "https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/main/plugins/stig-build-a-scene.plugin.js",
+        "localInstallOnly": false,
+        "version": "1.1",
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     }
 ]
