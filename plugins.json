@@ -562,5 +562,17 @@
         "version": "1.1",
         "minEDVersion": "2.0",
         "compatIssueIds": []
+    },
+    {
+        "id": "text-to-prompt",
+        "icon": "fa-wand-sparkles",
+        "name": "Wildcard Text2Prompt",
+        "author": "The Stig",
+        "description": "Plugin to allow you to import Wildcard Text Files.\nEach Wildcard must be on a seperate line.",
+        "url": "https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/main/plugins/stig-text2prompt.plugin.js",
+        "localInstallOnly": false,
+        "version": "1.1",
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
     }
 ]
