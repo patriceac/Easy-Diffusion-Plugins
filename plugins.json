@@ -581,7 +581,7 @@
         "name": "Image to img Utilities",
         "author": "The Stig",
         "description": "Plugin to assist with automating img2img creation.\nRefer to the thread in Discord for more information.",
-        "url": "https://https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/main/plugins/stig-image-to-img2img.plugin.js",
+        "url": "https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/main/plugins/stig-image-to-img2img.plugin.js",
         "localInstallOnly": false,
         "version": "1.0",
         "minEDVersion": "2.0",
