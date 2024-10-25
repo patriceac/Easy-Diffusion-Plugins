@@ -240,6 +240,18 @@
         "compatIssueIds": []
     },
     {
+        "id": "MakeVerySimilar",
+        "icon": "fa-copy",
+        "name": "Make Very Similar Images",
+        "author": "Avidgamefan",
+        "description": "Make another image similar to the one you have.  Automatically adjusts the number of steps depending upon Turbo (or similar) model or Lora.",
+        "url": "https://raw.githubusercontent.com/AvidGameFan/ed-plugins/master/makeverysimilarimages.plugin.js",
+        "localInstallOnly": false,
+        "version": "",
+        "minEDVersion": "3.0",
+        "compatIssueIds": []
+    },
+    {
         "id": "history",
         "icon": "",
         "name": "History",
