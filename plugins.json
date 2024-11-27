@@ -540,6 +540,30 @@
         "compatIssueIds": []
     },
     {
+        "id": "scheduler-controls",
+        "icon": "fa-wand-sparkles",
+        "name": "Scheduler Controls",
+        "author": "The Stig",
+        "description": "Allows you to switch through which Scheduler is being used.\nIcon guide as follows.\n- Select the First Scheduler.\n- Select the Previous Scheduler.\n- Select the Next Scheduler.\n- Select the Last Scheduler.\n- Create a batch of images using all the Schedulers.",
+        "url": "https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/refs/heads/main/plugins/stigs-scheduler-controls.plugin.js",
+        "localInstallOnly": false,
+        "version": "1.0",
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
+    },
+    {
+        "id": "blend2img",
+        "icon": "fa-wand-sparkles",
+        "name": "Blend to Image",
+        "author": "The Stig",
+        "description": "A simple plugin to allow two prompts to be blended together.",
+        "url": "https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/refs/heads/main/plugins/stig-blend2img.plugin.js",
+        "localInstallOnly": false,
+        "version": "1.1",
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
+    },
+    {
         "id": "seq2cnet",
         "icon": "fa-wand-sparkles",
         "name": "Sequence to ControlNet",
