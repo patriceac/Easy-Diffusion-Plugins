@@ -564,6 +564,18 @@
         "compatIssueIds": []
     },
     {
+        "id": "image-button-manager",
+        "icon": "fa-marker",
+        "name": "Image Button Manager",
+        "author": "The Stig",
+        "description": "Allows you to show/hide hover-over-image items.\n",
+        "url": "https://raw.githubusercontent.com/Tangent101/Easy-Diffusion-Plugins/main/plugins/stigs-Info-Button-Manager.plugin.js",
+        "localInstallOnly": false,
+        "version": "1.2",
+        "minEDVersion": "2.0",
+        "compatIssueIds": []
+    },
+    {
         "id": "lora-controls",
         "icon": "fa-wand-sparkles",
         "name": "LoRA Controls",
